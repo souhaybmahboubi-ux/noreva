@@ -138,16 +138,16 @@ import { map } from 'rxjs/operators';
       </header>
 
       <!-- Liquid Glass Bubble Slider (Announcement) -->
-      <div class="mt-2 hidden md:block relative z-10 animate-in slide-in-from-top-2 fade-in duration-700 max-w-full px-2">
+      <div class="mt-2 relative z-10 animate-in slide-in-from-top-2 fade-in duration-700 max-w-full px-2">
          <div class="bg-white/60 backdrop-blur-2xl border border-white/40 rounded-full py-1.5 px-5 shadow-xl shadow-black/5 flex items-center gap-2.5">
             <div class="w-2 h-2 rounded-full bg-primary-500 animate-pulse flex-shrink-0 shadow-[0_0_8px_rgba(13,148,136,0.5)]"></div>
             
-            <div class="h-5 overflow-hidden w-48 sm:w-64 md:w-80 relative">
+            <div class="h-6 md:h-7 overflow-hidden w-full max-w-[280px] sm:max-w-md relative">
                <div class="flex transition-transform duration-700 ease-out h-full items-center" 
                     [style.transform]="'translateX(' + (activeSlide() * 100) + '%)'">
                   @for (msg of messages; track msg; let i = $index) {
                      <div class="min-w-full text-center flex items-center justify-center">
-                        <span class="text-gray-900 text-[10px] md:text-xs font-black whitespace-nowrap uppercase tracking-wide">{{ msg }}</span>
+                        <span class="text-gray-900 text-xs md:text-sm font-black whitespace-nowrap uppercase tracking-wide">{{ msg }}</span>
                      </div>
                   }
                </div>
