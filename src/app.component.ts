@@ -12,7 +12,7 @@ import { CartDrawerComponent } from './components/cart-drawer/cart-drawer.compon
   imports: [RouterOutlet, HeaderComponent, FooterComponent, CurrencySelectorComponent, CartDrawerComponent],
   template: `
     <app-header></app-header>
-    <main>
+    <main class="pb-20 md:pb-0">
       <router-outlet></router-outlet>
     </main>
     <app-cart-drawer></app-cart-drawer>

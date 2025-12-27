@@ -158,7 +158,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
                                   <span class="absolute -top-3 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md animate-pulse">الأكثر طلباً 🔥</span>
                                }
                                @if (bundle.savings > 0) {
-                                  <span class="absolute -top-3 left-4 bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-md">وفر {{ currencyService.formatPrice(bundle.savings) }}</span>
+                                  <span class="absolute -top-3 left-4 bg-green-500 text-white text-[10px] md:text-xs font-bold px-2 py-0.5 rounded-md whitespace-nowrap">وفر {{ currencyService.formatPrice(bundle.savings) }}</span>
                                }
 
                                <div class="flex items-center gap-3">
@@ -174,10 +174,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
                                   </div>
                                </div>
 
-                               <div class="text-left">
-                                  <div class="font-black text-xl text-primary-700">{{ currencyService.formatPrice(bundle.price) }}</div>
+                               <div class="text-left flex-shrink-0">
+                                  <div class="font-black text-base md:text-xl text-primary-700">{{ currencyService.formatPrice(bundle.price) }}</div>
                                   @if (bundle.savings > 0) {
-                                    <div class="text-xs text-gray-400 line-through">{{ currencyService.formatPrice(currentProduct.price * bundle.quantity) }}</div>
+                                    <div class="text-[10px] md:text-xs text-gray-400 line-through">{{ currencyService.formatPrice(currentProduct.price * bundle.quantity) }}</div>
                                   }
                                </div>
                              </div>
@@ -231,10 +231,9 @@ import { toSignal } from '@angular/core/rxjs-interop';
                       <input type="text" [value]="quantity()" readonly class="w-full h-full text-center font-black text-gray-900 border-none focus:ring-0 p-0 text-lg sm:text-xl">
                       <button (click)="incrementQty()" class="w-10 sm:w-12 h-full flex items-center justify-center text-gray-600 hover:bg-gray-50 hover:text-primary-600 rounded-l-xl text-xl sm:text-2xl transition-colors font-bold">+</button>
                     </div>
-                    
-                    <button 
+                                        <button 
                       (click)="addToCart()"
-                      class="flex-1 font-bold rounded-xl h-16 flex items-center justify-center gap-3 shadow-xl transition-all text-xl overflow-hidden relative active:scale-95"
+                      class="flex-1 font-bold rounded-xl h-16 flex items-center justify-center gap-2 shadow-xl transition-all text-base sm:text-lg md:text-xl overflow-hidden relative active:scale-95"
                       [class.bg-green-600]="addedToCart()"
                       [class.hover:bg-green-700]="addedToCart()"
                       [class.bg-gray-900]="!addedToCart()"
@@ -243,7 +242,7 @@ import { toSignal } from '@angular/core/rxjs-interop';
                     >
                        @if (addedToCart()) {
                          <div class="flex items-center gap-2 animate-in fade-in zoom-in duration-300">
-                             <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                             <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                              </svg>
                              <span>تمت الإضافة!</span>
@@ -254,9 +253,10 @@ import { toSignal } from '@angular/core/rxjs-interop';
                     </button>
                   </div>
                 } @else {
+
                    <button 
                     (click)="addToCart()"
-                    class="w-full font-bold rounded-xl h-16 flex items-center justify-center gap-3 shadow-xl transition-all text-xl overflow-hidden relative active:scale-95"
+                    class="w-full font-bold rounded-xl h-16 flex items-center justify-center gap-2 shadow-xl transition-all text-base sm:text-lg md:text-xl overflow-hidden relative active:scale-95"
                     [class.bg-green-600]="addedToCart()"
                     [class.hover:bg-green-700]="addedToCart()"
                     [class.bg-gray-900]="!addedToCart()"
@@ -265,17 +265,17 @@ import { toSignal } from '@angular/core/rxjs-interop';
                   >
                     @if (addedToCart()) {
                       <div class="flex items-center gap-2 animate-in fade-in zoom-in duration-300">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-8 sm:w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7" />
                          </svg>
                          <span>تمت الإضافة بنجاح!</span>
                       </div>
                     } @else {
-                      <div class="flex items-center gap-3">
-                         <svg xmlns="http://www.w3.org/2000/svg" class="h-7 w-7" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <div class="flex items-center gap-2 px-2 overflow-hidden">
+                         <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 sm:h-7 sm:w-7 flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                          </svg>
-                         <span>أضف للسلة - {{ currencyService.formatPrice(selectedBundle()?.price || currentProduct.price) }}</span>
+                         <span class="truncate">أضف للسلة - {{ currencyService.formatPrice(selectedBundle()?.price || currentProduct.price) }}</span>
                       </div>
                     }
                   </button>
@@ -351,7 +351,7 @@ export class ProductDetailComponent {
 
   // Get ID from route params signal
   private productId = toSignal(this.route.paramMap);
-  
+
   // Computed product based on route ID
   product = computed(() => {
     const id = this.productId()?.get('id');
@@ -360,10 +360,10 @@ export class ProductDetailComponent {
 
   selectedVariant = signal<ProductVariant | undefined>(undefined);
   selectedImage = signal<string>('');
-  
+
   // For standard non-bundle products
   quantity = signal(1);
-  
+
   // For bundle products
   selectedBundle = signal<ProductBundle | undefined>(undefined);
   selectedBundleVariants = signal<ProductVariant[]>([]);
@@ -379,17 +379,17 @@ export class ProductDetailComponent {
         this.selectedImage.set(p.images[0]);
         this.quantity.set(1);
         this.addedToCart.set(false);
-        
+
         // Select best value bundle by default if exists
         if (p.bundles && p.bundles.length > 0) {
-            const bestValue = p.bundles.find(b => b.isBestValue) || p.bundles[0];
-            this.selectBundle(bestValue);
+          const bestValue = p.bundles.find(b => b.isBestValue) || p.bundles[0];
+          this.selectBundle(bestValue);
         } else {
-            this.selectedBundle.set(undefined);
-            this.selectedBundleVariants.set([]);
+          this.selectedBundle.set(undefined);
+          this.selectedBundleVariants.set([]);
         }
 
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
         // Reset scroll position of main image container
         if (this.mainImageContainer?.nativeElement) {
           this.mainImageContainer.nativeElement.scrollTo({ left: 0 });
@@ -409,20 +409,20 @@ export class ProductDetailComponent {
     this.selectedBundle.set(bundle);
     const defaultVariant = this.product()?.variants[0];
     if (defaultVariant) {
-        // Initialize an array with `quantity` elements, all set to default variant
-        this.selectedBundleVariants.set(Array(bundle.quantity).fill(defaultVariant));
+      // Initialize an array with `quantity` elements, all set to default variant
+      this.selectedBundleVariants.set(Array(bundle.quantity).fill(defaultVariant));
     }
   }
 
   updateBundleVariant(index: number, variant: ProductVariant) {
     this.selectedBundleVariants.update(variants => {
-        const newVariants = [...variants];
-        newVariants[index] = variant;
-        return newVariants;
+      const newVariants = [...variants];
+      newVariants[index] = variant;
+      return newVariants;
     });
     // Optional: Scroll to the image of the variant the user just clicked
     if (variant.image) {
-        this.scrollToImage(variant.image);
+      this.scrollToImage(variant.image);
     }
   }
 
@@ -441,22 +441,22 @@ export class ProductDetailComponent {
   addToCart() {
     const p = this.product();
     if (p) {
-        if (p.bundles && p.bundles.length > 0 && this.selectedBundle()) {
-             // Add Bundle Items Separately
-             const bundle = this.selectedBundle()!;
-             const unitPrice = bundle.price / bundle.quantity;
-             const variants = this.selectedBundleVariants();
-             
-             // Add each variant as a separate item with the discounted unit price
-             variants.forEach(variant => {
-                this.cartService.addToCart(p, 1, variant, unitPrice);
-             });
+      if (p.bundles && p.bundles.length > 0 && this.selectedBundle()) {
+        // Add Bundle Items Separately
+        const bundle = this.selectedBundle()!;
+        const unitPrice = bundle.price / bundle.quantity;
+        const variants = this.selectedBundleVariants();
 
-        } else {
-             // Add Single Item (Normal Flow)
-             this.cartService.addToCart(p, this.quantity(), this.selectedVariant());
-        }
-      
+        // Add each variant as a separate item with the discounted unit price
+        variants.forEach(variant => {
+          this.cartService.addToCart(p, 1, variant, unitPrice);
+        });
+
+      } else {
+        // Add Single Item (Normal Flow)
+        this.cartService.addToCart(p, this.quantity(), this.selectedVariant());
+      }
+
       // Visual feedback
       this.addedToCart.set(true);
       setTimeout(() => {
@@ -474,7 +474,7 @@ export class ProductDetailComponent {
   scrollToImage(img: string) {
     const index = this.product()?.images.indexOf(img);
     if (index !== undefined && index > -1) {
-       this.scrollToIndex(index);
+      this.scrollToIndex(index);
     }
   }
 
@@ -501,24 +501,24 @@ export class ProductDetailComponent {
     const container = this.mainImageContainer.nativeElement;
     const currentIndex = Math.round(Math.abs(container.scrollLeft) / container.offsetWidth);
     const total = this.product()?.images.length || 0;
-    
+
     let nextIndex = direction === 'next' ? currentIndex + 1 : currentIndex - 1;
-    
+
     if (nextIndex >= 0 && nextIndex < total) {
       this.scrollToIndex(nextIndex);
     }
   }
 
   onMainScroll() {
-     if (!this.mainImageContainer?.nativeElement) return;
-     const container = this.mainImageContainer.nativeElement;
-     
-     // Simple index calculation based on scroll width
-     const index = Math.round(Math.abs(container.scrollLeft) / container.offsetWidth);
-     
-     const images = this.product()?.images;
-     if (images && images[index]) {
-       this.selectedImage.set(images[index]);
-     }
+    if (!this.mainImageContainer?.nativeElement) return;
+    const container = this.mainImageContainer.nativeElement;
+
+    // Simple index calculation based on scroll width
+    const index = Math.round(Math.abs(container.scrollLeft) / container.offsetWidth);
+
+    const images = this.product()?.images;
+    if (images && images[index]) {
+      this.selectedImage.set(images[index]);
+    }
   }
 }

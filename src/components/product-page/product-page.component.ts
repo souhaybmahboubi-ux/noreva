@@ -144,10 +144,10 @@ interface UIProduct {
                               <!-- Bundle Header Info -->
                               <div class="flex items-center justify-between w-full">
                                 @if (bundle.isBestValue) {
-                                   <span class="absolute -top-3 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white text-xs font-bold px-3 py-1 rounded-full shadow-md animate-pulse">الأكثر طلباً 🔥</span>
+                                   <span class="absolute -top-3 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white text-[10px] md:text-xs font-black px-3 py-1 rounded-full shadow-md z-10">الأكثر طلباً 🔥</span>
                                 }
                                 @if (bundle.savings > 0) {
-                                   <span class="absolute -top-3 left-4 bg-green-500 text-white text-xs font-bold px-2 py-0.5 rounded-md">وفر {{ currencyService.formatPrice(bundle.savings) }}</span>
+                                   <span class="absolute -top-3 left-4 bg-green-500 text-white text-[10px] md:text-xs font-black px-3 py-1 rounded-full shadow-md z-10">وفر {{ currencyService.formatPrice(bundle.savings) }}</span>
                                 }
 
                                 <div class="flex items-center gap-3">
@@ -521,6 +521,7 @@ export class ProductPageComponent implements OnInit {
     setTimeout(() => {
       this.adding.set(false);
       this.addedToCart.set(true);
+      this.shopifyService.openCart(); // Auto-open cart for better UX
       setTimeout(() => this.addedToCart.set(false), 2000);
     }, 1000);
   }

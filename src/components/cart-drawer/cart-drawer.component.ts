@@ -94,8 +94,8 @@ import { Observable } from 'rxjs';
                         <span class="w-10 text-center text-xs font-black text-gray-900">{{ item.quantity }}</span>
                         <button (click)="updateQuantity(item.id, item.quantity + 1)" class="w-8 h-full flex items-center justify-center text-gray-400 hover:text-primary-600 hover:bg-gray-50 transition-colors font-bold border-l border-gray-100">+</button>
                       </div>
-                      <p class="text-primary-600 font-black text-base">
-                        {{ (item.variant?.price?.amount || item.variant?.price) * item.quantity | currency : (cart.currencyCode || 'USD') : 'symbol' : '1.0-2' }}
+                      <p class="text-primary-600 font-black text-base whitespace-nowrap">
+                        {{ currencyService.formatPrice(parseFloat(item.variant?.price?.amount || item.variant?.price || 0) * item.quantity) }}
                       </p>
                     </div>
                   </div>
@@ -152,10 +152,10 @@ import { Observable } from 'rxjs';
 
              <!-- Footer -->
             <div *ngIf="cart.lineItems?.length" class="mt-auto pt-6 border-t border-gray-100 space-y-4 bg-white p-6 -mx-6 mb-[-1.5rem] shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
-                <div class="flex items-center justify-between text-gray-900">
+                <div class="flex items-center justify-between text-gray-900 px-1">
                   <span class="text-gray-500 font-bold">المجموع الفرعي</span>
                   <span class="text-2xl font-black tracking-tight text-primary-600">
-                     {{ calculateDisplayTotal(cart) | currency : (cart.currencyCode || 'USD') : 'symbol' : '1.0-2' }}
+                     {{ currencyService.formatPrice(calculateDisplayTotal(cart)) }}
                   </span>
                 </div>
                 
@@ -216,6 +216,10 @@ export class CartDrawerComponent implements OnInit {
 
   getFilteredItems(cart: any) {
     return cart?.lineItems?.filter((item: any) => item.variant?.id !== this.shopifyService.getProtectionVariantId()) || [];
+  }
+
+  parseFloat(val: any): number {
+    return parseFloat(val || 0);
   }
 
   redirectToCheckout() {

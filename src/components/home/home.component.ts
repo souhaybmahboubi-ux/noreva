@@ -23,7 +23,7 @@ import { NgOptimizedImage, CommonModule } from '@angular/common';
             <span class="text-xs font-bold">🔥 الهبة رقم #1 في المدارس</span>
           </div>
           
-          <h1 class="text-5xl md:text-7xl font-black text-gray-900 leading-[1.1] mb-6 tracking-tight">
+          <h1 class="text-4xl xs:text-5xl md:text-7xl font-black text-gray-900 leading-[1.1] mb-6 tracking-tight">
             التفتيش <span class="text-red-500 underline decoration-4 decoration-yellow-400">مفاجئ؟</span><br/>
             جوالك <span class="text-primary-600">بأمان!</span> 😎
           </h1>

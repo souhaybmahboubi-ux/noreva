@@ -107,6 +107,10 @@ import { Router, RouterLink } from '@angular/router';
                             <option value="QA">قطر</option>
                             <option value="BH">البحرين</option>
                             <option value="OM">عمان</option>
+                            <option value="LY">ليبيا</option>
+                            <option value="EG">مصر</option>
+                            <option value="IQ">العراق</option>
+                            <option value="JO">الأردن</option>
                           </select>
                           <div class="absolute inset-y-0 left-4 flex items-center pointer-events-none">
                             <svg class="w-4 h-4 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" /></svg>
@@ -157,7 +161,7 @@ import { Router, RouterLink } from '@angular/router';
                             <input type="radio" formControlName="paymentMethod" value="cod" class="text-primary-600 focus:ring-primary-500 w-5 h-5">
                             <div class="flex flex-col">
                               <span class="font-bold text-gray-900">الدفع عند الاستلام</span>
-                              <span class="text-xs text-gray-500">+ 15 ر.س رسوم إضافية</span>
+                              <span class="text-xs text-gray-500">+ {{ currencyService.formatPrice(15) }} رسوم إضافية</span>
                             </div>
                           </div>
                           <svg class="w-6 h-6 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
@@ -214,7 +218,7 @@ import { Router, RouterLink } from '@angular/router';
                     @if (checkoutForm.get('paymentMethod')?.value === 'cod') {
                       <div class="flex justify-between items-center text-gray-600 text-sm">
                         <span>رسوم الدفع عند الاستلام</span>
-                        <span class="font-bold tabular-nums">15 ر.س</span>
+                        <span class="font-bold tabular-nums">{{ currencyService.formatPrice(15) }}</span>
                       </div>
                     }
                   </div>
