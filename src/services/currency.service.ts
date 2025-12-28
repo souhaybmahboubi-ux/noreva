@@ -5,7 +5,7 @@ export interface Currency {
   code: string;
   name: string;
   symbol: string;
-  rate: number; // Rate relative to SAR (Base)
+  rate: number; // Rate relative to AED (Base)
   flag: string;
 }
 
@@ -16,16 +16,16 @@ export class CurrencyService {
   private appRef = inject(ApplicationRef);
 
   readonly currencies: Currency[] = [
-    { code: 'SAR', name: 'السعودية', symbol: 'ر.س', rate: 1.0000, flag: '🇸🇦' },
-    { code: 'AED', name: 'الإمارات', symbol: 'د.إ', rate: 0.9791, flag: '🇦🇪' },
-    { code: 'KWD', name: 'الكويت', symbol: 'د.ك', rate: 0.0821, flag: '🇰🇼' },
-    { code: 'BHD', name: 'البحرين', symbol: 'د.ب', rate: 0.1005, flag: '🇧🇭' },
-    { code: 'OMR', name: 'عمان', symbol: 'ر.ع', rate: 0.1027, flag: '🇴🇲' },
-    { code: 'QAR', name: 'قطر', symbol: 'ر.ق', rate: 0.9708, flag: '🇶🇦' },
-    { code: 'LYD', name: 'ليبيا', symbol: 'ل.د', rate: 1.2850, flag: '🇱🇾' },
-    { code: 'EGP', name: 'مصر', symbol: 'ج.م', rate: 13.4120, flag: '🇪🇬' },
-    { code: 'IQD', name: 'العراق', symbol: 'د.ع', rate: 349.3300, flag: '🇮🇶' },
-    { code: 'JOD', name: 'الأردن', symbol: 'د.أ', rate: 0.1891, flag: '🇯🇴' }
+    { code: 'AED', name: 'الإمارات', symbol: 'د.إ', rate: 1.0000, flag: '🇦🇪' },
+    { code: 'SAR', name: 'السعودية', symbol: 'ر.س', rate: 1.0213, flag: '🇸🇦' },
+    { code: 'KWD', name: 'الكويت', symbol: 'د.ك', rate: 0.0839, flag: '🇰🇼' },
+    { code: 'BHD', name: 'البحرين', symbol: 'د.ب', rate: 0.1026, flag: '🇧🇭' },
+    { code: 'OMR', name: 'عمان', symbol: 'ر.ع', rate: 0.1049, flag: '🇴🇲' },
+    { code: 'QAR', name: 'قطر', symbol: 'ر.ق', rate: 0.9915, flag: '🇶🇦' },
+    { code: 'LYD', name: 'ليبيا', symbol: 'ل.د', rate: 1.3124, flag: '🇱🇾' },
+    { code: 'EGP', name: 'مصر', symbol: 'ج.م', rate: 13.6983, flag: '🇪🇬' },
+    { code: 'IQD', name: 'العراق', symbol: 'د.ع', rate: 356.7868, flag: '🇮🇶' },
+    { code: 'JOD', name: 'الأردن', symbol: 'د.أ', rate: 0.1931, flag: '🇯🇴' }
   ];
 
   selectedCurrency = signal<Currency>(this.getInitialCurrency());
@@ -114,9 +114,9 @@ export class CurrencyService {
     }
   }
 
-  formatPrice(sarPrice: number): string {
+  formatPrice(basePrice: number): string {
     const current = this.selectedCurrency();
-    const converted = sarPrice * current.rate;
+    const converted = basePrice * current.rate;
 
     let displayValue: string;
 
@@ -131,7 +131,7 @@ export class CurrencyService {
     return `${displayValue} ${current.symbol}`;
   }
 
-  convertValue(sarPrice: number): number {
-    return sarPrice * this.selectedCurrency().rate;
+  convertValue(basePrice: number): number {
+    return basePrice * this.selectedCurrency().rate;
   }
 }

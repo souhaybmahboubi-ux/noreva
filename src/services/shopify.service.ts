@@ -368,7 +368,7 @@ export class ShopifyService {
             if (protectionItem) {
                 this.shippingProtectionCost = parseFloat(protectionItem.variant?.price?.amount || protectionItem.variant?.price || 0);
             } else if (!this.shippingProtectionCost || this.shippingProtectionCost === 0) {
-                this.shippingProtectionCost = 2.99; // Updated default for protection-1
+                this.shippingProtectionCost = 11.99; // Updated default for protection-1
             }
         }
     }

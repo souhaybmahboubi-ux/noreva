@@ -34,7 +34,7 @@ import { Component } from '@angular/core';
     </div>
   `
 })
-export class AboutComponent {}
+export class AboutComponent { }
 
 @Component({
   selector: 'app-privacy',
@@ -83,7 +83,7 @@ export class AboutComponent {}
     </div>
   `
 })
-export class PrivacyComponent {}
+export class PrivacyComponent { }
 
 @Component({
   selector: 'app-terms',
@@ -127,7 +127,7 @@ export class PrivacyComponent {}
     </div>
   `
 })
-export class TermsComponent {}
+export class TermsComponent { }
 
 @Component({
   selector: 'app-shipping-policy',
@@ -181,7 +181,7 @@ export class TermsComponent {}
     </div>
   `
 })
-export class ShippingComponent {}
+export class ShippingComponent { }
 
 @Component({
   selector: 'app-contact',
@@ -217,4 +217,4 @@ export class ShippingComponent {}
     </div>
   `
 })
-export class ContactComponent {}
+export class ContactComponent { }
