@@ -80,6 +80,15 @@ export class ShopifyService {
 
         const lineItemsToAdd = [{ variantId, quantity }];
 
+        // Check if we should automatically add shipping protection
+        const cart = this.cartSubject.value;
+        const hasProtection = cart?.lineItems?.some((item: any) => this.isProtectionItem(item));
+        const isAddingProtection = variantId === this.PROTECTION_VARIANT_ID;
+
+        if (!hasProtection && !isAddingProtection) {
+            lineItemsToAdd.push({ variantId: this.PROTECTION_VARIANT_ID, quantity: 1 });
+        }
+
         from(this.client.checkout.addLineItems(checkoutId, lineItemsToAdd)).subscribe({
             next: (checkout) => {
                 this.updateCartState(checkout);
@@ -107,7 +116,18 @@ export class ShopifyService {
         const checkoutId = this.checkoutIdSubject.value;
         if (!checkoutId) return;
 
-        from(this.client.checkout.removeLineItems(checkoutId, [lineItemId])).subscribe({
+        const cart = this.cartSubject.value;
+        const itemsToRemove = [lineItemId];
+
+        // If this is the last real item, also remove protection so it resets
+        const realItems = cart?.lineItems?.filter((item: any) => !this.isProtectionItem(item)) || [];
+        const protectionItem = cart?.lineItems?.find((item: any) => this.isProtectionItem(item));
+
+        if (realItems.length === 1 && realItems[0].id === lineItemId && protectionItem) {
+            itemsToRemove.push(protectionItem.id);
+        }
+
+        from(this.client.checkout.removeLineItems(checkoutId, itemsToRemove)).subscribe({
             next: (checkout) => {
                 this.updateCartState(checkout);
             },
