@@ -124,7 +124,7 @@ import { Observable } from 'rxjs';
                     </div>
                     <div>
                       <div class="font-bold text-gray-900 text-sm">حماية الشحنة</div>
-                      <div class="text-[10px] text-gray-500 font-medium">حماية против السرقة أو الضياع</div>
+                      <div class="text-[10px] text-gray-500 font-medium">حماية ضد السرقة أو الضياع</div>
                     </div>
                   </div>
                   <div class="flex items-center gap-3">

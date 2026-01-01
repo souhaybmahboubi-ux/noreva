@@ -1,5 +1,5 @@
 import { Component, inject, signal, computed, effect, ViewChild, ElementRef, OnInit } from '@angular/core';
-import { CommonModule, NgOptimizedImage } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { catchError, map, switchMap, tap } from 'rxjs/operators';
@@ -42,7 +42,7 @@ interface UIProduct {
 @Component({
   selector: 'app-product-page',
   standalone: true,
-  imports: [CommonModule, NgOptimizedImage, RouterLink, ReviewsComponent],
+  imports: [CommonModule, RouterLink, ReviewsComponent],
   template: `
     <div class="bg-white min-h-screen pb-20">
       

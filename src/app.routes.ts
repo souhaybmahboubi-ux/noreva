@@ -3,7 +3,7 @@ import { Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
 import { ProductDetailComponent } from './components/product-detail/product-detail.component';
 import { CatalogComponent } from './components/catalog/catalog.component';
-import { CartComponent } from './components/cart/cart.component';
+
 import { CheckoutComponent } from './components/checkout/checkout.component';
 import { LoginComponent } from './components/auth/login.component';
 import { AccountComponent } from './components/auth/account.component';
@@ -14,7 +14,7 @@ export const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'products', component: CatalogComponent },
   { path: 'product/:handle', loadComponent: () => import('./components/product-page/product-page.component').then(m => m.ProductPageComponent) },
-  { path: 'cart', component: CartComponent },
+
   { path: 'checkout', component: CheckoutComponent },
   { path: 'login', component: LoginComponent },
   { path: 'account', component: AccountComponent },
