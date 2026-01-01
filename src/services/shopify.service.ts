@@ -75,15 +75,19 @@ export class ShopifyService {
     }
 
     addItemToCheckout(variantId: string, quantity: number) {
+        this.addItemsToCheckout([{ variantId, quantity }]);
+    }
+
+    addItemsToCheckout(items: { variantId: string, quantity: number }[]) {
         const checkoutId = this.checkoutIdSubject.value;
         if (!checkoutId) return;
 
-        const lineItemsToAdd = [{ variantId, quantity }];
+        const lineItemsToAdd = [...items];
 
         // Check if we should automatically add shipping protection
         const cart = this.cartSubject.value;
         const hasProtection = cart?.lineItems?.some((item: any) => this.isProtectionItem(item));
-        const isAddingProtection = variantId === this.PROTECTION_VARIANT_ID;
+        const isAddingProtection = items.some(i => i.variantId === this.PROTECTION_VARIANT_ID);
 
         if (!hasProtection && !isAddingProtection) {
             lineItemsToAdd.push({ variantId: this.PROTECTION_VARIANT_ID, quantity: 1 });
@@ -94,36 +98,45 @@ export class ShopifyService {
                 this.updateCartState(checkout);
                 this.openCart();
             },
-            error: (err) => console.error('Error adding item', err)
+            error: (err) => console.error('Error adding items', err)
         });
     }
 
+
     updateItemQuantity(lineItemId: string, quantity: number) {
+        this.updateLineItems([{ id: lineItemId, quantity }]);
+    }
+
+    updateLineItems(items: { id: string, quantity: number }[]) {
         const checkoutId = this.checkoutIdSubject.value;
         if (!checkoutId) return;
 
-        const lineItemsToUpdate = [{ id: lineItemId, quantity }];
-
-        from(this.client.checkout.updateLineItems(checkoutId, lineItemsToUpdate)).subscribe({
+        from(this.client.checkout.updateLineItems(checkoutId, items)).subscribe({
             next: (checkout) => {
                 this.updateCartState(checkout);
             },
-            error: (err) => console.error('Error updating quantity', err)
+            error: (err) => console.error('Error updating quantities', err)
         });
     }
 
     removeItem(lineItemId: string) {
+        this.removeItems([lineItemId]);
+    }
+
+    removeItems(lineItemIds: string[]) {
         const checkoutId = this.checkoutIdSubject.value;
         if (!checkoutId) return;
 
         const cart = this.cartSubject.value;
-        const itemsToRemove = [lineItemId];
+        const itemsToRemove = [...lineItemIds];
 
-        // If this is the last real item, also remove protection so it resets
+        // If these are the last real items, also remove protection so it resets
         const realItems = cart?.lineItems?.filter((item: any) => !this.isProtectionItem(item)) || [];
         const protectionItem = cart?.lineItems?.find((item: any) => this.isProtectionItem(item));
 
-        if (realItems.length === 1 && realItems[0].id === lineItemId && protectionItem) {
+        const remainingRealItems = realItems.filter((item: any) => !lineItemIds.includes(item.id));
+
+        if (remainingRealItems.length === 0 && protectionItem) {
             itemsToRemove.push(protectionItem.id);
         }
 
@@ -131,9 +144,10 @@ export class ShopifyService {
             next: (checkout) => {
                 this.updateCartState(checkout);
             },
-            error: (err) => console.error('Error removing item', err)
+            error: (err) => console.error('Error removing items', err)
         });
     }
+
 
     redirectToCheckout() {
         const checkout = this.cartSubject.value;

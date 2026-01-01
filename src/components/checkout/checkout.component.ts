@@ -190,8 +190,9 @@ import { Router, RouterLink } from '@angular/router';
                           <p class="text-xs text-gray-500 mt-1">{{ item.variant?.title }}</p>
                         </div>
                         <div class="text-left">
-                           <span class="font-bold text-gray-900 text-sm">{{ currencyService.formatPrice(parseFloat(item.variant?.price?.amount || item.variant?.price) * item.quantity) }}</span>
+                           <span class="font-bold text-gray-900 text-sm">{{ currencyService.formatPrice(getItemDisplayPrice(item)) }}</span>
                         </div>
+
                       </div>
                     }
                   </div>
@@ -314,27 +315,57 @@ export class CheckoutComponent implements OnInit {
     return !!(control && control.invalid && (control.dirty || control.touched));
   }
 
+  getItemDisplayPrice(item: any): number {
+    const basePrice = this.parseFloat(item.variant?.price?.amount || item.variant?.price || 0);
+    return basePrice * item.quantity;
+  }
+
+
   calculateFinalTotal(cart: any): number {
-    const subtotal = parseFloat(cart.subtotalPrice?.amount || cart.subtotalPrice || 0);
-    let total = subtotal;
-    // Protection is already in subtotal now as it's a real product
+    const items = this.getFilteredItems(cart);
+    const itemsTotal = items.reduce((acc, item) => acc + this.getItemDisplayPrice(item), 0);
+
+    let total = itemsTotal;
+
+    // Add protection
+    if (this.shopifyService.shippingProtection()) {
+      total += this.shopifyService.shippingProtectionCost;
+    }
+
+    // Add COD fee
     if (this.checkoutForm.get('paymentMethod')?.value === 'cod') {
       total += 15;
     }
+
     return total;
   }
 
+
   getSubtotalExcludingProtection(cart: any): number {
-    const subtotal = parseFloat(cart.subtotalPrice?.amount || cart.subtotalPrice || 0);
-    if (this.shopifyService.shippingProtection()) {
-      return subtotal - this.shopifyService.shippingProtectionCost;
-    }
-    return subtotal;
+    const items = this.getFilteredItems(cart);
+    return items.reduce((acc, item) => acc + this.getItemDisplayPrice(item), 0);
   }
 
+
   getFilteredItems(cart: any) {
-    return cart?.lineItems?.filter((item: any) => item.variant?.id !== this.shopifyService.getProtectionVariantId()) || [];
+    const rawItems = cart?.lineItems?.filter((item: any) => item.variant?.id !== this.shopifyService.getProtectionVariantId()) || [];
+
+    // Group items by variant ID
+    const groupedMap = new Map<string, any>();
+
+    rawItems.forEach((item: any) => {
+      const variantId = item.variant?.id || item.id;
+      if (groupedMap.has(variantId)) {
+        const existing = groupedMap.get(variantId);
+        existing.quantity += item.quantity;
+      } else {
+        groupedMap.set(variantId, { ...item });
+      }
+    });
+
+    return Array.from(groupedMap.values());
   }
+
 
   parseFloat(val: any): number {
     return parseFloat(val || 0);

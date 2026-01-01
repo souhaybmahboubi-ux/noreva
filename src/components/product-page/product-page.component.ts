@@ -104,107 +104,59 @@ interface UIProduct {
                   </div>
 
                   <!-- Price -->
-                  <div class="flex items-end gap-4 mb-10 bg-gray-50 p-5 rounded-2xl border border-gray-100 inline-flex w-full">
+                  <div class="flex items-end gap-4 mb-8 bg-gray-50 p-5 rounded-2xl border border-gray-100 inline-flex w-full">
                     <div class="flex flex-col">
                         <span class="text-sm text-gray-500 mb-1">السعر الحالي</span>
                         <span class="text-4xl font-black text-primary-600">
-                             {{ currencyService.formatPrice(selectedBundle()?.price || currentProduct.price) }}
+                             {{ currencyService.formatPrice(product()!.price) }}
                         </span>
                     </div>
-                    @if (currentProduct.compareAtPrice > currentProduct.price || selectedBundle()?.savings) {
+                    @if (product()!.compareAtPrice > product()!.price) {
                         <div class="flex flex-col mb-1.5 mr-4">
                              <span class="text-xs text-gray-400 line-through">
-                                {{ currencyService.formatPrice(
-                                    selectedBundle() ? (currentProduct.price * selectedBundle()!.quantity) : currentProduct.compareAtPrice
-                                 ) }}
+                                {{ currencyService.formatPrice(product()!.compareAtPrice) }}
                              </span>
                              <span class="text-xs text-red-500 font-bold">شامل الضريبة</span>
                         </div>
                     }
                   </div>
 
-                  <!-- BUNDLES SECTION -->
-                  <div class="mb-8">
-                     <h3 class="text-lg font-bold text-gray-900 mb-4 flex items-center gap-2">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-primary-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                        </svg>
-                        اختر العرض اللي يناسبك
-                     </h3>
-                     <div class="space-y-3">
-                        @for (bundle of currentProduct.bundles; track bundle.id) {
-                           <div 
-                              (click)="selectBundle(bundle)"
-                              class="relative p-4 rounded-xl border-2 cursor-pointer transition-all flex flex-col group"
-                              [class.border-primary-600]="selectedBundle()?.id === bundle.id"
-                              [class.bg-primary-50]="selectedBundle()?.id === bundle.id"
-                              [class.border-gray-200]="selectedBundle()?.id !== bundle.id"
-                              [class.hover:border-primary-300]="selectedBundle()?.id !== bundle.id"
-                           >
-                              <!-- Bundle Header Info -->
-                              <div class="flex items-center justify-between w-full">
-                                @if (bundle.isBestValue) {
-                                   <span class="absolute -top-3 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white text-[10px] md:text-xs font-black px-3 py-1 rounded-full shadow-md z-10">الأكثر طلباً 🔥</span>
-                                }
-                                @if (bundle.savings > 0) {
-                                   <span class="absolute -top-3 left-4 bg-green-500 text-white text-[10px] md:text-xs font-black px-3 py-1 rounded-full shadow-md z-10">وفر {{ currencyService.formatPrice(bundle.savings) }}</span>
-                                }
-
-                                <div class="flex items-center gap-3">
-                                   <div class="w-6 h-6 rounded-full border border-gray-300 flex items-center justify-center bg-white" 
-                                        [class.border-primary-600]="selectedBundle()?.id === bundle.id">
-                                        @if (selectedBundle()?.id === bundle.id) {
-                                           <div class="w-3 h-3 bg-primary-600 rounded-full"></div>
-                                        }
-                                   </div>
-                                   <div>
-                                      <div class="font-bold text-gray-900">{{ bundle.title }}</div>
-                                      <div class="text-xs text-gray-500">{{ bundle.quantity }} حبات</div>
-                                   </div>
-                                </div>
-
-                                <div class="text-left">
-                                   <div class="font-black text-xl text-primary-700">{{ currencyService.formatPrice(bundle.price) }}</div>
-                                   @if (bundle.savings > 0) {
-                                     <div class="text-xs text-gray-400 line-through">{{ currencyService.formatPrice(currentProduct.price * bundle.quantity) }}</div>
-                                   }
-                                </div>
-                              </div>
-
-                              <!-- Embedded Variant Selectors (Multi-Piece) -->
-                              @if (selectedBundle()?.id === bundle.id) {
-                                 <div class="mt-4 pt-4 border-t border-gray-200/50 w-full animate-in slide-in-from-top-2 duration-300" (click)="$event.stopPropagation()">
-                                   @for (idx of getSequence(bundle.quantity); track idx) {
-                                      <div class="mb-4 last:mb-0 p-3 bg-white/60 rounded-lg border border-gray-100">
-                                        <p class="text-xs font-bold text-gray-500 mb-2 flex items-center justify-between">
-                                           <span>القطعة #{{ idx + 1 }} - اختر اللون:</span>
-                                           <span class="text-primary-600">{{ selectedBundleVariants()[idx]?.name }}</span>
-                                        </p>
-                                        <div class="flex gap-2 flex-wrap">
-                                           @for (variant of currentProduct.variants; track variant.id) {
-                                             <button 
-                                               (click)="updateBundleVariant(idx, variant)"
-                                               class="px-3 py-1 text-sm rounded-lg border transition-all focus:outline-none bg-white font-medium"
-                                               [class.border-primary-500]="selectedBundleVariants()[idx]?.id === variant.id"
-                                               [class.bg-primary-50]="selectedBundleVariants()[idx]?.id === variant.id"
-                                               [class.text-primary-700]="selectedBundleVariants()[idx]?.id === variant.id"
-                                               [class.border-gray-200]="selectedBundleVariants()[idx]?.id !== variant.id"
-                                             >
-                                                {{ variant.name }}
-                                             </button>
-                                           }
-                                        </div>
-                                      </div>
-                                   }
-                                 </div>
-                              }
-                           </div>
+                  <!-- Variant Selector -->
+                  @if (product()!.variants.length > 1) {
+                    <div class="mb-8">
+                      <h3 class="text-sm font-bold text-gray-900 mb-4">اختر اللون: <span class="text-primary-600">{{ selectedVariant()?.name }}</span></h3>
+                      <div class="flex gap-3 flex-wrap">
+                        @for (variant of product()!.variants; track variant.id) {
+                          <button 
+                            (click)="selectVariant(variant)"
+                            class="px-5 py-2.5 rounded-xl border-2 transition-all focus:outline-none font-bold text-sm"
+                            [class.border-primary-600]="selectedVariant()?.id === variant.id"
+                            [class.bg-primary-50]="selectedVariant()?.id === variant.id"
+                            [class.text-primary-700]="selectedVariant()?.id === variant.id"
+                            [class.border-gray-200]="selectedVariant()?.id !== variant.id"
+                          >
+                            {{ variant.name }}
+                          </button>
                         }
-                     </div>
-                  </div>
+                      </div>
+                    </div>
+                  }
 
-                  <!-- Add to Cart Button -->
-                  <div class="flex flex-col gap-6 mb-6">
+
+
+
+                   <!-- Add to Cart Button -->
+                  <div class="flex flex-col gap-6 mb-8">
+                      <!-- Quantity Selector -->
+                      <div class="flex items-center gap-4">
+                        <div class="flex items-center border-2 border-gray-200 rounded-xl h-14 bg-white overflow-hidden">
+                          <button (click)="decrementQty()" class="w-12 h-full flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-primary-600 transition-colors font-bold">-</button>
+                          <input type="text" [value]="quantity()" readonly class="w-12 h-full text-center font-black text-gray-900 border-none focus:ring-0 p-0 text-lg">
+                          <button (click)="incrementQty()" class="w-12 h-full flex items-center justify-center text-gray-500 hover:bg-gray-50 hover:text-primary-600 transition-colors font-bold">+</button>
+                        </div>
+                        <span class="text-sm font-bold text-gray-500">الكمية</span>
+                      </div>
+
                       <button 
                         (click)="addToCart()"
                         [disabled]="adding()"
@@ -227,12 +179,13 @@ interface UIProduct {
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
                               </svg>
                               <span>
-                                أضف للسلة - {{ currencyService.formatPrice(selectedBundle()?.price || currentProduct.price) }}
+                                أضف للسلة - {{ currencyService.formatPrice(product()!.price * quantity()) }}
                               </span>
                            </div>
                          }
                       </button>
                   </div>
+
                   
                   <!-- Trust Badges & Description... (Retained) -->
                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 py-6 border-t border-b border-gray-100">
@@ -370,9 +323,9 @@ export class ProductPageComponent implements OnInit {
   error = signal<string | null>(null);
   product = signal<UIProduct | null>(null);
 
-  // Bundle Logic
-  selectedBundle = signal<UIProductBundle | null>(null);
-  selectedBundleVariants = signal<UIProductVariant[]>([]);
+  quantity = signal(1);
+  selectedVariant = signal<UIProductVariant | null>(null);
+
 
   adding = signal(false);
   addedToCart = signal(false);
@@ -400,12 +353,12 @@ export class ProductPageComponent implements OnInit {
     ).subscribe(data => {
       this.loading.set(false);
       if (data) {
-        this.mapShopifyProduct(data);
+        this.processShopifyProduct(data);
       }
     });
   }
 
-  private mapShopifyProduct(data: any) {
+  private processShopifyProduct(data: any) {
     const variants: UIProductVariant[] = data.variants.map((v: any) => ({
       id: v.id,
       name: v.title,
@@ -414,32 +367,7 @@ export class ProductPageComponent implements OnInit {
       price: parseFloat(v.price.amount)
     }));
 
-    // GENERATE DYNAMIC BUNDLES
     const basePrice = variants[0]?.price || 0;
-    const bundles: UIProductBundle[] = [
-      {
-        id: 'b1',
-        title: 'حبة وحدة',
-        quantity: 1,
-        price: basePrice,
-        savings: 0
-      },
-      {
-        id: 'b2',
-        title: 'عرض الربع (حبتين)',
-        quantity: 2,
-        price: Math.round(basePrice * 2 * 0.90), // 10% Discount
-        savings: Math.round(basePrice * 2 * 0.10),
-        isBestValue: true
-      },
-      {
-        id: 'b3',
-        title: 'عرض الشلة (4 حبات)',
-        quantity: 4,
-        price: Math.round(basePrice * 4 * 0.85), // 15% Discount
-        savings: Math.round(basePrice * 4 * 0.15)
-      }
-    ];
 
     const product: UIProduct = {
       id: data.id,
@@ -451,7 +379,7 @@ export class ProductPageComponent implements OnInit {
       price: basePrice,
       compareAtPrice: 0,
       features: [],
-      bundles: bundles
+      bundles: []
     };
 
     if (data.variants[0]?.compareAtPrice) {
@@ -459,35 +387,21 @@ export class ProductPageComponent implements OnInit {
     }
 
     this.product.set(product);
-    // Select Best Value Bundle by default
-    this.selectBundle(bundles[1]); // b2 is Best Value
-  }
-
-  selectBundle(bundle: UIProductBundle) {
-    this.selectedBundle.set(bundle);
-    const p = this.product();
-    const variants = p?.variants || [];
     if (variants.length > 0) {
-      // Initialize all slots with first variant
-      this.selectedBundleVariants.set(Array(bundle.quantity).fill(variants[0]));
+      this.selectVariant(variants[0]);
     }
   }
 
-  updateBundleVariant(index: number, variant: UIProductVariant) {
-    this.selectedBundleVariants.update(curr => {
-      const next = [...curr];
-      next[index] = variant;
-      return next;
-    });
+
+  selectVariant(variant: UIProductVariant) {
+    this.selectedVariant.set(variant);
 
     // Auto-scroll to specific images based on variant selection
     const product = this.product();
     if (product && product.images.length > 0) {
       if (variant.name.includes('أبيض') || variant.name.toLowerCase().includes('white')) {
-        // Scroll to the LAST image
         this.scrollToIndex(product.images.length - 1);
       } else if (variant.name.includes('أحمر') || variant.name.toLowerCase().includes('red')) {
-        // Scroll to the image BEFORE the last one
         if (product.images.length >= 2) {
           this.scrollToIndex(product.images.length - 2);
         }
@@ -495,28 +409,24 @@ export class ProductPageComponent implements OnInit {
     }
   }
 
-  getSequence(n: number): number[] {
-    return Array(n).fill(0).map((x, i) => i);
+
+  incrementQty() {
+    this.quantity.update(q => q + 1);
+  }
+
+  decrementQty() {
+    this.quantity.update(q => q > 1 ? q - 1 : 1);
   }
 
   addToCart() {
-    const bundle = this.selectedBundle();
-    const chosenVariants = this.selectedBundleVariants();
+    const variant = this.selectedVariant();
+    const qty = this.quantity();
 
-    if (!bundle || chosenVariants.length === 0) return;
+    if (!variant) return;
 
     this.adding.set(true);
 
-    // In a real production app with Bundles, checking out with a price different 
-    // from the variance price often requires a Discount Code or a Draft Order.
-    // Standard Storefront API adds items at their Defined Price unless we have a specific script.
-    // FOR NOW: We will add the items. The "Discount" shown in UI might not reflect in Checkout
-    // unless you have an automatic discount set up in Shopify for 2 items.
-
-    // We add them sequentially
-    chosenVariants.forEach(v => {
-      this.shopifyService.addItemToCheckout(v.id, 1);
-    });
+    this.shopifyService.addItemToCheckout(variant.id, qty);
 
     setTimeout(() => {
       this.adding.set(false);
@@ -525,6 +435,7 @@ export class ProductPageComponent implements OnInit {
       setTimeout(() => this.addedToCart.set(false), 2000);
     }, 1000);
   }
+
 
   getDiscountPercentage() {
     const p = this.product();
