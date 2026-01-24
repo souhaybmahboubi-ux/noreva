@@ -1,23 +1,41 @@
 
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { CurrencySelectorComponent } from './components/currency-selector/currency-selector.component';
-import { CartDrawerComponent } from './components/cart-drawer/cart-drawer.component';
+import { CurrencyDrawerComponent } from './components/currency-selector/currency-drawer.component';
+import { CurrencyService } from './services/currency.service';
+import { LanguageService } from './services/language.service';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, CurrencySelectorComponent, CartDrawerComponent],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, CurrencyDrawerComponent],
   template: `
     <app-header></app-header>
-    <main class="pb-20 md:pb-0">
+    <main>
       <router-outlet></router-outlet>
     </main>
-    <app-cart-drawer></app-cart-drawer>
     <app-footer></app-footer>
-    <app-currency-selector></app-currency-selector>
-  `
+    <app-currency-drawer></app-currency-drawer>
+  `,
+  host: {
+    '[attr.dir]': 'langService.isRtl() ? "rtl" : "ltr"',
+    '[attr.lang]': 'langService.currentLang()',
+    '(dblclick)': '$event.preventDefault()',
+    '(copy)': 'handleGlobalCopy($event)'
+  }
 })
-export class AppComponent { }
+export class AppComponent implements OnInit {
+  private currencyService = inject(CurrencyService);
+  langService = inject(LanguageService);
+
+  ngOnInit() {
+    this.currencyService.detectAndSetCurrency();
+  }
+
+  handleGlobalCopy(event: ClipboardEvent) {
+    event.preventDefault();
+  }
+}

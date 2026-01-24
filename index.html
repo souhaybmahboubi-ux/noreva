@@ -1,66 +1,178 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
-  <head>
-    <meta charset="utf-8" />
-    <title>متجر نوريفا - Noreva</title>
-    <base href="/" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%230d9488%22 stroke-width=%222%22 stroke-linecap=%22round%22 stroke-linejoin=%22round%22><path d=%22M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z%22/></svg>">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-    <script>
-      tailwind.config = {
-        theme: {
-          extend: {
-            fontFamily: {
-              sans: ['Cairo', 'sans-serif'],
-            },
-            colors: {
-              primary: {
-                50: '#f0fdfa',
-                100: '#ccfbf1',
-                200: '#99f6e4',
-                300: '#5eead4',
-                400: '#2dd4bf',
-                500: '#14b8a6',
-                600: '#0d9488',
-                700: '#0f766e',
-                800: '#115e59',
-                900: '#134e4a',
-                950: '#042f2e',
-              },
-              gold: {
-                400: '#fbbf24',
-                500: '#f59e0b',
-                600: '#d97706',
-              }
-            },
-            animation: {
-              'float': 'float 6s ease-in-out infinite',
-            },
-            keyframes: {
-              float: {
-                '0%, 100%': { transform: 'translateY(0)' },
-                '50%': { transform: 'translateY(-20px)' },
+
+<head>
+  <meta charset="utf-8" />
+  <title>نوريڤا™ | فن نحت الوجه العلمي</title>
+  <base href="/" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="icon"
+    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23e3e1dc%22><path d=%22M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z%22/></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Outfit:wght@100;400;700;900&family=IBM+Plex+Sans+Arabic:wght@100;400;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap"
+    rel="stylesheet">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Outfit', 'IBM Plex Sans Arabic', 'sans-serif'],
+            serif: ['Playfair Display', 'serif'],
+            arabic: ['IBM Plex Sans Arabic', 'sans-serif']
+          },
+          colors: {
+            noreva: {
+              black: '#000000',
+              white: '#FFFFFF',
+              bone: '#e3e1dc',
+              gray: {
+                50: '#F9F9F9',
+                100: '#F3F3F3',
+                400: '#999999',
+                900: '#111111'
               }
             }
-          },
+          }
         },
+      },
+    }
+  </script>
+
+  <!-- Metapixel Code -->
+  <script>
+    !function (f, b, e, v, n, t, s) {
+      if (f.fbq) return; n = f.fbq = function () {
+        n.callMethod ?
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+      };
+      if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
+      n.queue = []; t = b.createElement(e); t.async = !0;
+      t.src = v; s = b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t, s)
+    }(window, document, 'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+    fbq('init', 'YOUR-META-PIXEL-ID');
+    fbq('track', 'PageView');
+  </script>
+  <!-- End Metapixel Code -->
+
+  <!-- TikTok Pixel Code -->
+  <script>
+    !function (w, d, t) {
+      w.TiktokAnalyticsObject = t; var ttq = w[t] = w[t] || []; ttq.methods = ["page", "track", "identify", "instances", "debug", "on", "off", "once", "ready", "alias", "group", "enableCookie", "disableCookie"], ttq.setAndDefer = function (t, e) { t.align = 2, ttq.chars = 365, ttq.methods.forEach(function (e) { t[e] = function () { var n = Array.prototype.slice.call(arguments); return t.push([e].concat(n)), t } }) }; for (var i = 0; i < ttq.methods.length; i++)ttq.setAndDefer(ttq, ttq.methods[i]); ttq.instance = function (t) { var e = ttq._i[t] || []; return Object.assign(e, { versions: (ttq._i[t] || []).versions, types: (ttq._i[t] || []).types, instance: new ttq.instance(t) }); }, ttq.load = function (e, n) { var i = "https://analytics.tiktok.com/i18n/pixel/events.js"; ttq._i = ttq._i || {}, ttq._i[e] = [], ttq._i[e]._u = i, ttq._t = ttq._t || {}, ttq._t[e] = +new Date, ttq._o = ttq._o || {}, ttq._o[e] = n || {}; var o = document.createElement("script"); o.type = "text/javascript", o.async = !0, o.src = i + "?sdkid=" + e + "&lib=" + t; var a = document.getElementsByTagName("script")[0]; a.parentNode.insertBefore(o, a) };
+      ttq.load('YOUR-TIKTOK-PIXEL-ID');
+      ttq.page();
+    }(window, document, 'ttq');
+  </script>
+  <!-- End TikTok Pixel Code -->
+  <style>
+    * {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    input,
+    textarea {
+      -webkit-user-select: text;
+      -moz-user-select: text;
+      -ms-user-select: text;
+      user-select: text;
+    }
+
+    body {
+      font-family: 'Outfit', 'IBM Plex Sans Arabic', sans-serif;
+      background-color: #FFFFFF;
+      color: #000000;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    [dir="rtl"],
+    [lang="ar"] {
+      font-family: 'IBM Plex Sans Arabic', sans-serif;
+    }
+
+    /* Scaling factor for Arabic text to ensure visual parity with English */
+    [dir="rtl"] p,
+    [dir="rtl"] span,
+    [dir="rtl"] button,
+    [dir="rtl"] a,
+    [dir="rtl"] h1,
+    [dir="rtl"] h2,
+    [dir="rtl"] h3,
+    [dir="rtl"] h4,
+    [dir="rtl"] h5 {
+      line-height: 1.6;
+    }
+
+    .no-scrollbar::-webkit-scrollbar {
+      display: none;
+    }
+
+    @keyframes fade-up {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
       }
-    </script>
-    <style>
-      body {
-        font-family: 'Cairo', sans-serif;
+
+      to {
+        opacity: 1;
+        transform: translateY(0);
       }
-      /* Hide scrollbar for clean horizontal scrolling */
-      .no-scrollbar::-webkit-scrollbar {
-        display: none;
+    }
+
+    @keyframes slide-down {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
       }
-      .no-scrollbar {
-        -ms-overflow-style: none;
-        scrollbar-width: none;
+
+      to {
+        transform: translateY(0);
+        opacity: 1;
       }
-    </style>
+    }
+
+    @keyframes slide-up {
+      from {
+        transform: translateY(100%);
+      }
+
+      to {
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes fade-in {
+      from {
+        opacity: 0;
+      }
+
+      to {
+        opacity: 1;
+      }
+    }
+
+    .animate-fade-up {
+      animation: fade-up 0.8s ease-out forwards;
+    }
+
+    .animate-slide-down {
+      animation: slide-down 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .animate-slide-up {
+      animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .animate-fade-in {
+      animation: fade-in 0.3s ease-out forwards;
+    }
+  </style>
   <script type="importmap">
 {
   "imports": {
@@ -70,19 +182,21 @@
     "rxjs/webSocket": "https://esm.sh/rxjs@^7.8.2/webSocket?conditions=es2015",
     "rxjs/testing": "https://esm.sh/rxjs@^7.8.2/testing?conditions=es2015",
     "rxjs/fetch": "https://esm.sh/rxjs@^7.8.2/fetch?conditions=es2015",
-    "@angular/platform-browser": "https://esm.sh/@angular/platform-browser@^21.0.6?external=rxjs",
-    "@angular/common": "https://esm.sh/@angular/common@^21.0.6?external=rxjs",
-    "@angular/router": "https://esm.sh/@angular/router@^21.0.6?external=rxjs",
-    "@angular/compiler": "https://esm.sh/@angular/compiler@^21.0.6?external=rxjs",
-    "@angular/core": "https://esm.sh/@angular/core@^21.0.6?external=rxjs",
-    "@angular/core/rxjs-interop": "https://esm.sh/@angular/core@^21.0.6/rxjs-interop?external=rxjs",
-    "@angular/forms": "https://esm.sh/@angular/forms@^21.0.6?external=rxjs"
+    "@angular/compiler": "https://esm.sh/@angular/compiler@^21.1.0?external=rxjs",
+    "@angular/platform-browser": "https://esm.sh/@angular/platform-browser@^21.1.0?external=rxjs",
+    "@angular/core": "https://esm.sh/@angular/core@^21.1.0?external=rxjs",
+    "@angular/router": "https://esm.sh/@angular/router@^21.1.0?external=rxjs",
+    "@angular/common": "https://esm.sh/@angular/common@^21.1.0?external=rxjs",
+    "@angular/core/rxjs-interop": "https://esm.sh/@angular/core@^21.1.0/rxjs-interop?external=rxjs",
+    "@angular/forms": "https://esm.sh/@angular/forms@^21.1.0?external=rxjs"
   }
 }
 </script>
-
+  <link rel="stylesheet" href="/index.css">
 </head>
-  <body class="bg-gray-50 text-gray-900 selection:bg-primary-500 selection:text-white">
-    <app-root></app-root>
-  </body>
+
+<body oncontextmenu="return false">
+  <app-root></app-root>
+</body>
+
 </html>

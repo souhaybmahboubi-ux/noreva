@@ -1,11 +1,11 @@
 
-import { Injectable, signal, inject, ApplicationRef } from '@angular/core';
+import { Injectable, signal, computed } from '@angular/core';
 
 export interface Currency {
   code: string;
   name: string;
   symbol: string;
-  rate: number; // Rate relative to AED (Base)
+  rate: number; // Rate relative to SAR (Base)
   flag: string;
 }
 
@@ -13,125 +13,78 @@ export interface Currency {
   providedIn: 'root'
 })
 export class CurrencyService {
-  private appRef = inject(ApplicationRef);
-
   readonly currencies: Currency[] = [
-    { code: 'AED', name: 'الإمارات', symbol: 'د.إ', rate: 1.0000, flag: '🇦🇪' },
-    { code: 'SAR', name: 'السعودية', symbol: 'ر.س', rate: 1.0213, flag: '🇸🇦' },
-    { code: 'KWD', name: 'الكويت', symbol: 'د.ك', rate: 0.0839, flag: '🇰🇼' },
-    { code: 'BHD', name: 'البحرين', symbol: 'د.ب', rate: 0.1026, flag: '🇧🇭' },
-    { code: 'OMR', name: 'عمان', symbol: 'ر.ع', rate: 0.1049, flag: '🇴🇲' },
-    { code: 'QAR', name: 'قطر', symbol: 'ر.ق', rate: 0.9915, flag: '🇶🇦' },
-    { code: 'LYD', name: 'ليبيا', symbol: 'ل.د', rate: 1.3124, flag: '🇱🇾' },
-    { code: 'EGP', name: 'مصر', symbol: 'ج.م', rate: 13.6983, flag: '🇪🇬' },
-    { code: 'IQD', name: 'العراق', symbol: 'د.ع', rate: 356.7868, flag: '🇮🇶' },
-    { code: 'JOD', name: 'الأردن', symbol: 'د.أ', rate: 0.1931, flag: '🇯🇴' }
+    { code: 'SAR', name: 'السعودية', symbol: 'ر.س', rate: 1, flag: '🇸🇦' },
+    { code: 'AED', name: 'الإمارات', symbol: 'د.إ', rate: 0.98, flag: '🇦🇪' },
+    { code: 'KWD', name: 'الكويت', symbol: 'د.ك', rate: 0.08, flag: '🇰🇼' },
+    { code: 'BHD', name: 'البحرين', symbol: 'د.ب', rate: 0.10, flag: '🇧🇭' },
+    { code: 'OMR', name: 'عمان', symbol: 'ر.ع', rate: 0.10, flag: '🇴🇲' },
+    { code: 'QAR', name: 'قطر', symbol: 'ر.ق', rate: 0.97, flag: '🇶🇦' }
   ];
 
-  selectedCurrency = signal<Currency>(this.getInitialCurrency());
+  selectedCurrency = signal<Currency>(this.currencies[0]);
+  isDrawerOpen = signal(false);
 
-  constructor() {
-    this.initAutoDetection();
-  }
-
-  private initAutoDetection() {
-    if (typeof window === 'undefined') return;
-
-    // Only auto-detect if the user hasn't manually selected a currency in the past
-    if (!localStorage.getItem('manual_currency_selection')) {
-      this.detectCurrency();
-    }
-  }
-
-  private getInitialCurrency(): Currency {
-    if (typeof window === 'undefined') return this.currencies[0];
-
-    const saved = localStorage.getItem('selected_currency');
-    if (saved) {
-      const found = this.currencies.find(c => c.code === saved);
-      if (found) return found;
-    }
-    return this.currencies[0];
-  }
-
-  private async detectCurrency() {
-    // Try multiple sources for reliability
-    const sources = [
-      { url: 'https://ipwho.is/', parser: (data: any) => data.currency?.code || data.country_code },
-      { url: 'https://ipapi.co/json/', parser: (data: any) => data.currency || data.country_code }
-    ];
-
-    for (const source of sources) {
-      try {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 3000); // 3s timeout per source
-
-        const response = await fetch(source.url, { signal: controller.signal });
-        clearTimeout(timeoutId);
-
-        if (!response.ok) continue;
-
-        const data = await response.json();
-        let code = source.parser(data);
-
-        if (code) {
-          code = code.toUpperCase();
-          // If the parser returned a country code, map it to currency
-          if (code.length === 2) {
-            code = this.mapCountryToCurrency(code);
-          }
-
-          const found = this.currencies.find(c => c.code === code);
-          if (found) {
-            this.selectedCurrency.set(found);
-            localStorage.setItem('selected_currency', found.code);
-            this.appRef.tick(); // Force UI update
-            return; // Success, stop trying other sources
-          }
-        }
-      } catch (e) {
-        console.warn(`Currency detection source ${source.url} failed:`, e);
-      }
-    }
-  }
-
-  private mapCountryToCurrency(countryCode: string): string {
-    const map: { [key: string]: string } = {
-      'AE': 'AED', 'SA': 'SAR', 'KW': 'KWD', 'BH': 'BHD',
-      'OM': 'OMR', 'QA': 'QAR', 'LY': 'LYD', 'EG': 'EGP',
-      'IQ': 'IQD', 'JO': 'JOD'
-    };
-    return map[countryCode] || '';
-  }
+  openDrawer() { this.isDrawerOpen.set(true); }
+  closeDrawer() { this.isDrawerOpen.set(false); }
+  toggleDrawer() { this.isDrawerOpen.update(v => !v); }
 
   setCurrency(code: string) {
     const currency = this.currencies.find(c => c.code === code);
     if (currency) {
       this.selectedCurrency.set(currency);
-      localStorage.setItem('selected_currency', code);
-      localStorage.setItem('manual_currency_selection', 'true'); // Flag that user made a choice
-      this.appRef.tick();
     }
   }
 
-  formatPrice(basePrice: number): string {
-    const current = this.selectedCurrency();
-    const converted = basePrice * current.rate;
+  /**
+   * Automatically detects the user's country using timezone and browser locale
+   */
+  detectAndSetCurrency() {
+    try {
+      // 1. Check by Timezone (Most reliable for GCC)
+      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
+      const tzMap: Record<string, string> = {
+        'Asia/Riyadh': 'SAR',
+        'Asia/Dubai': 'AED',
+        'Asia/Kuwait': 'KWD',
+        'Asia/Bahrain': 'BHD',
+        'Asia/Muscat': 'OMR',
+        'Asia/Qatar': 'QAR',
+        'Asia/Aden': 'SAR' // Often maps to SAR for commerce
+      };
 
-    let displayValue: string;
+      if (tzMap[timezone]) {
+        this.setCurrency(tzMap[timezone]);
+        return;
+      }
 
-    if (current.code === 'IQD') {
-      displayValue = Math.round(converted).toLocaleString('en-US');
-    } else if (['KWD', 'BHD', 'OMR', 'JOD'].includes(current.code)) {
-      displayValue = converted.toFixed(3);
-    } else {
-      displayValue = converted.toFixed(2);
+      // 2. Check by Browser Locale Fallback
+      const locales = navigator.languages || [navigator.language];
+      for (const locale of locales) {
+        const upperLocale = locale.toUpperCase();
+        if (upperLocale.includes('SA')) { this.setCurrency('SAR'); return; }
+        if (upperLocale.includes('AE')) { this.setCurrency('AED'); return; }
+        if (upperLocale.includes('KW')) { this.setCurrency('KWD'); return; }
+        if (upperLocale.includes('BH')) { this.setCurrency('BHD'); return; }
+        if (upperLocale.includes('OM')) { this.setCurrency('OMR'); return; }
+        if (upperLocale.includes('QA')) { this.setCurrency('QAR'); return; }
+      }
+    } catch (e) {
+      console.warn('Currency detection failed, defaulting to SAR');
     }
+
+    // Default to SAR
+    this.setCurrency('SAR');
+  }
+
+  formatPrice(sarPrice: number): string {
+    const current = this.selectedCurrency();
+    const converted = sarPrice * current.rate;
+
+    const displayValue = ['KWD', 'BHD', 'OMR', 'SAR', 'AED'].includes(current.code)
+      ? converted.toFixed(2)
+      : Math.ceil(converted).toFixed(0);
 
     return `${displayValue} ${current.symbol}`;
-  }
-
-  convertValue(basePrice: number): number {
-    return basePrice * this.selectedCurrency().rate;
   }
 }

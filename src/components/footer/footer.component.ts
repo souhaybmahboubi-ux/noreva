@@ -1,60 +1,92 @@
-
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { LanguageService } from '../../services/language.service';
+import { CurrencyService } from '../../services/currency.service';
 
 @Component({
   selector: 'app-footer',
   standalone: true,
   imports: [RouterLink],
   template: `
-    <footer class="bg-gray-900 text-gray-300 py-12 pb-32 md:pb-12 border-t border-white/5">
-      <div class="container mx-auto px-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
-        <!-- Brand -->
-        <div class="col-span-1 lg:col-span-2">
-          <h3 class="text-3xl font-black text-white mb-6 flex items-center gap-3">
-            <div class="w-10 h-10 bg-primary-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary-500/20">
-               <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2.69l5.66 5.66a8 8 0 1 1-11.31 0z"></path>
-               </svg>
-            </div>
-            نوريفا
-          </h3>
-          <p class="text-gray-400 text-sm leading-relaxed max-w-sm">
-            نوريفا هو وجهتك الأولى للمنتجات المبتكرة التي تجمع بين الذكاء في التصميم والعملية في الاستخدام. نحن نسعى دائماً لتقديم حلول تجعل حياتك أسهل وأكثر أماناً.
-          </p>
+    <footer class="bg-black text-white py-24 border-t border-white/5 font-sans">
+      <div class="container mx-auto px-6">
+        
+        <div class="mb-10">
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-x-8 text-center max-w-3xl mx-auto mb-10">
+            <a routerLink="/about" class="text-xs font-black hover:text-white/50 transition-all uppercase tracking-[0.2em]">{{ langService.currentLang() === 'ar' ? 'من نحن' : 'ABOUT' }}</a>
+            <a routerLink="/tracking" class="text-xs font-black hover:text-white/50 transition-all uppercase tracking-[0.2em]">{{ langService.currentLang() === 'ar' ? 'تتبع الطلب' : 'TRACKING' }}</a>
+            <a routerLink="/shipping" class="text-xs font-black hover:text-white/50 transition-all uppercase tracking-[0.2em]">{{ langService.currentLang() === 'ar' ? 'الشحن' : 'SHIPPING' }}</a>
+            <a routerLink="/privacy" class="text-xs font-black hover:text-white/50 transition-all uppercase tracking-[0.2em]">{{ langService.currentLang() === 'ar' ? 'الخصوصية' : 'PRIVACY' }}</a>
+            <a routerLink="/terms" class="text-xs font-black hover:text-white/50 transition-all uppercase tracking-[0.2em]">{{ langService.currentLang() === 'ar' ? 'الشروط' : 'TERMS' }}</a>
+            <a routerLink="/help" class="text-xs font-black hover:text-white/50 transition-all uppercase tracking-[0.2em]">{{ langService.currentLang() === 'ar' ? 'المساعدة' : 'HELP' }}</a>
+          </div>
         </div>
 
-        <!-- Links -->
-        <div>
-          <h4 class="text-white font-black text-lg mb-6 flex items-center gap-2">
-             <span class="w-1.5 h-1.5 rounded-full bg-primary-500"></span>
-             روابط سريعة
-          </h4>
-          <ul class="space-y-4 text-sm font-bold">
-            <li><a routerLink="/about" class="hover:text-primary-400 transition-all hover:translate-x-1 inline-block">من نحن</a></li>
-            <li><a routerLink="/tracking" class="hover:text-primary-400 transition-all hover:translate-x-1 inline-block">تتبع الطلب</a></li>
-            <li><a routerLink="/shipping" class="hover:text-primary-400 transition-all hover:translate-x-1 inline-block">سياسة الشحن والتوصيل</a></li>
-          </ul>
-        </div>
+        <!-- Stable Centered Selectors -->
+        <div class="flex flex-col items-center justify-center gap-8 mb-16 border-t border-white/5 pt-10">
+           <div class="flex items-center gap-12 text-sm font-black uppercase tracking-[0.2em]">
+              <button (click)="langService.toggleLanguage()" class="text-white hover:text-[#4a4945] transition-colors min-w-[80px]">
+                {{ langService.currentLang() === 'ar' ? 'English' : 'عربي' }}
+              </button>
+              
+              <div class="relative group">
+                <button (click)="currencyService.toggleDrawer()" class="text-white hover:text-white/60 transition-colors flex items-center gap-2">
+                  <svg class="w-3 h-3 transition-transform" [class.rotate-180]="currencyService.isDrawerOpen()" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                  </svg>
+                  <span class="tracking-widest">{{ currencyService.selectedCurrency().code }}</span>
+                </button>
 
-        <div>
-           <h4 class="text-white font-black text-lg mb-6 flex items-center gap-2">
-             <span class="w-1.5 h-1.5 rounded-full bg-primary-500"></span>
-             الدعم والخصوصية
-          </h4>
-          <ul class="space-y-4 text-sm font-bold">
-            <li><a routerLink="/privacy" class="hover:text-primary-400 transition-all hover:translate-x-1 inline-block">سياسة الخصوصية</a></li>
-            <li><a routerLink="/terms" class="hover:text-primary-400 transition-all hover:translate-x-1 inline-block">شروط الاستخدام</a></li>
-            <li><a routerLink="/contact" class="hover:text-primary-400 transition-all hover:translate-x-1 inline-block">اتصل بنا</a></li>
-          </ul>
+                <!-- Small Dropdown Drawer (Positioned BELOW as requested) -->
+                @if (currencyService.isDrawerOpen()) {
+                  <div class="absolute top-full left-1/2 -translate-x-1/2 mt-4 w-40 bg-white text-black rounded-2xl shadow-[0_20px_50px_rgba(0,0,0,0.3)] overflow-hidden animate-slide-down z-50 border border-gray-100">
+                    <div class="p-1.5 space-y-0.5">
+                      @for (curr of currencyService.currencies; track curr.code) {
+                        <button 
+                          (click)="selectCurrency(curr.code)"
+                          class="w-full px-4 py-3 flex items-center justify-between hover:bg-gray-50 rounded-xl transition-all group/item"
+                          [class.bg-gray-50]="currencyService.selectedCurrency().code === curr.code"
+                        >
+                          <span class="text-xs font-black tracking-widest text-gray-400 group-hover/item:text-black transition-colors">{{ curr.code }}</span>
+                          <span class="text-base grayscale opacity-30 group-hover/item:grayscale-0 group-hover/item:opacity-100 transition-all">{{ curr.flag }}</span>
+                        </button>
+                      }
+                    </div>
+                  </div>
+                }
+              </div>
+           </div>
         </div>
-      </div>
-      <div class="border-t border-white/5 mt-16 pt-8 text-center px-4">
-        <p class="text-xs text-gray-500 font-bold">
-          &copy; 2024 متجر نوريفا. جميع الحقوق محفوظة. صنع بكل ❤️ لعملائنا في الخليج.
-        </p>
+        
+        <!-- Bottom Bar -->
+        <div class="pt-12 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-8">
+          <div class="text-center md:text-start opacity-30">
+            <p class="text-xs font-black tracking-[0.4em] uppercase">
+              {{ langService.currentLang() === 'ar' 
+                ? '© 2026 نوريڤا لتكنولوجيا التجميل. جميع الحقوق محفوظة.' 
+                : '© 2026 NOREVA COSMETICS TECHNOLOGY. ALL RIGHTS RESERVED.' 
+              }}
+            </p>
+          </div>
+
+          <div class="flex gap-8 grayscale opacity-20 hover:opacity-50 transition-opacity">
+             <span class="text-[10px] font-black uppercase tracking-[0.3em]">VISA</span>
+             <span class="text-[10px] font-black uppercase tracking-[0.3em]">MASTERCARD</span>
+             <span class="text-[10px] font-black uppercase tracking-[0.3em]">APPLE PAY</span>
+          </div>
+        </div>
       </div>
     </footer>
   `
 })
-export class FooterComponent { }
+export class FooterComponent {
+  langService = inject(LanguageService);
+  currencyService = inject(CurrencyService);
+
+  selectCurrency(code: string) {
+    this.currencyService.setCurrency(code);
+    setTimeout(() => this.currencyService.closeDrawer(), 150);
+  }
+}
+// Force Rebuild
+

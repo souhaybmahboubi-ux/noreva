@@ -1,340 +1,408 @@
-import { Injectable, signal } from '@angular/core';
-import Client from 'shopify-buy';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { Injectable } from '@angular/core';
 import { environment } from '../environments/environment';
 
 @Injectable({
-    providedIn: 'root'
+  providedIn: 'root'
 })
 export class ShopifyService {
-    private client: Client;
-    private cartSubject = new BehaviorSubject<any>(null);
-    private cartOpenSubject = new BehaviorSubject<boolean>(false);
-    private checkoutIdSubject = new BehaviorSubject<string | null>(null);
-    private PROTECTION_VARIANT_ID = 'gid://shopify/ProductVariant/43087402270779';
-    public getProtectionVariantId(): string {
-        return this.PROTECTION_VARIANT_ID;
-    }
-    shippingProtection = signal(false);
-    shippingProtectionCost = 0; // Will be set from product price
+  private readonly apiUrl = `https://${environment.shopify.domain}/api/${environment.shopify.version}/graphql.json`;
+  private shippingProtectionVariantId: string | null = null;
 
-    cart$ = this.cartSubject.asObservable();
-    cartOpen$ = this.cartOpenSubject.asObservable();
-    checkoutId$ = this.checkoutIdSubject.asObservable();
-
-    constructor() {
-        const domain = environment.shopifyDomain || 'mock.myshopify.com';
-        const storefrontAccessToken = environment.shopifyToken || 'mock_token';
-
-        console.log('Initializing Shopify Client with:', { domain, storefrontAccessToken: storefrontAccessToken.substring(0, 5) + '...' });
-
-        this.client = Client.buildClient({
-            domain: domain,
-            storefrontAccessToken: storefrontAccessToken,
-            apiVersion: '2023-10'
-        });
-
-        this.initializeCheckout();
-    }
-
-    private initializeCheckout() {
-        const existingCheckoutId = localStorage.getItem('shopifyCheckoutId');
-        if (existingCheckoutId) {
-            this.fetchCheckout(existingCheckoutId);
-        } else {
-            this.createCheckout();
-        }
-    }
-
-    createCheckout() {
-        from(this.client.checkout.create()).subscribe({
-            next: (checkout) => {
-                this.updateCartState(checkout);
-            },
-            error: (err) => console.error('Error creating checkout', err)
-        });
-    }
-
-    fetchCheckout(checkoutId: string) {
-        from(this.client.checkout.fetch(checkoutId)).subscribe({
-            next: (checkout) => {
-                // If checkout is completed, create a new one
-                if (checkout && (checkout as any).completedAt) {
-                    this.createCheckout();
-                } else {
-                    this.updateCartState(checkout);
+  async getProducts(count: number = 20) {
+    const query = `
+      {
+        products(first: ${count}) {
+          edges {
+            node {
+              id
+              title
+              handle
+              description
+              priceRange {
+                minVariantPrice {
+                  amount
+                  currencyCode
                 }
-            },
-            error: (err) => {
-                console.error('Error fetching checkout', err);
-                // Fallback to new checkout
-                this.createCheckout();
-            }
-        });
-    }
-
-    addItemToCheckout(variantId: string, quantity: number) {
-        this.addItemsToCheckout([{ variantId, quantity }]);
-    }
-
-    addItemsToCheckout(items: { variantId: string, quantity: number }[]) {
-        const checkoutId = this.checkoutIdSubject.value;
-        if (!checkoutId) return;
-
-        const lineItemsToAdd = [...items];
-
-        // Check if we should automatically add shipping protection
-        const cart = this.cartSubject.value;
-        const hasProtection = cart?.lineItems?.some((item: any) => this.isProtectionItem(item));
-        const isAddingProtection = items.some(i => i.variantId === this.PROTECTION_VARIANT_ID);
-
-        if (!hasProtection && !isAddingProtection) {
-            lineItemsToAdd.push({ variantId: this.PROTECTION_VARIANT_ID, quantity: 1 });
-        }
-
-        from(this.client.checkout.addLineItems(checkoutId, lineItemsToAdd)).subscribe({
-            next: (checkout) => {
-                this.updateCartState(checkout);
-                this.openCart();
-            },
-            error: (err) => console.error('Error adding items', err)
-        });
-    }
-
-
-    updateItemQuantity(lineItemId: string, quantity: number) {
-        this.updateLineItems([{ id: lineItemId, quantity }]);
-    }
-
-    updateLineItems(items: { id: string, quantity: number }[]) {
-        const checkoutId = this.checkoutIdSubject.value;
-        if (!checkoutId) return;
-
-        from(this.client.checkout.updateLineItems(checkoutId, items)).subscribe({
-            next: (checkout) => {
-                this.updateCartState(checkout);
-            },
-            error: (err) => console.error('Error updating quantities', err)
-        });
-    }
-
-    removeItem(lineItemId: string) {
-        this.removeItems([lineItemId]);
-    }
-
-    removeItems(lineItemIds: string[]) {
-        const checkoutId = this.checkoutIdSubject.value;
-        if (!checkoutId) return;
-
-        const cart = this.cartSubject.value;
-        const itemsToRemove = [...lineItemIds];
-
-        // If these are the last real items, also remove protection so it resets
-        const realItems = cart?.lineItems?.filter((item: any) => !this.isProtectionItem(item)) || [];
-        const protectionItem = cart?.lineItems?.find((item: any) => this.isProtectionItem(item));
-
-        const remainingRealItems = realItems.filter((item: any) => !lineItemIds.includes(item.id));
-
-        if (remainingRealItems.length === 0 && protectionItem) {
-            itemsToRemove.push(protectionItem.id);
-        }
-
-        from(this.client.checkout.removeLineItems(checkoutId, itemsToRemove)).subscribe({
-            next: (checkout) => {
-                this.updateCartState(checkout);
-            },
-            error: (err) => console.error('Error removing items', err)
-        });
-    }
-
-
-    redirectToCheckout() {
-        const checkout = this.cartSubject.value;
-        if (checkout && checkout.webUrl) {
-            window.location.href = checkout.webUrl;
-        }
-    }
-
-    fetchProduct(handle: string): Observable<any> {
-        return from(this.client.product.fetchByHandle(handle));
-    }
-
-    toggleCart() {
-        this.cartOpenSubject.next(!this.cartOpenSubject.value);
-    }
-
-    openCart() {
-        this.cartOpenSubject.next(true);
-    }
-
-    closeCart() {
-        this.cartOpenSubject.next(false);
-    }
-
-    registerUser(firstName: string, lastName: string, email: string, pass: string): Observable<any> {
-        const query = `
-            mutation customerCreate($input: CustomerCreateInput!) {
-              customerCreate(input: $input) {
-                customer {
-                  id
-                  email
+              }
+              images(first: 5) {
+                edges {
+                  node {
+                    url
+                    altText
+                  }
                 }
-                customerUserErrors {
-                  code
-                  field
-                  message
+              }
+              variants(first: 10) {
+                edges {
+                  node {
+                    id
+                    title
+                    price {
+                      amount
+                      currencyCode
+                    }
+                  }
                 }
               }
             }
-        `;
+          }
+        }
+      }
+    `;
 
-        const variables = {
-            input: {
-                firstName,
-                lastName,
-                email,
-                password: pass,
-                acceptsMarketing: true
-            }
+    try {
+      const response = await fetch(this.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': environment.shopify.storefrontToken
+        },
+        body: JSON.stringify({ query })
+      });
+
+      if (!response.ok) {
+        throw new Error(`Shopify API Error: ${response.status}`);
+      }
+
+      const data = await response.json();
+
+      if (data.errors) {
+        console.error('GraphQL Errors:', data.errors);
+        return [];
+      }
+
+      const allProducts = data.data.products.edges.map((edge: any) => {
+        const node = edge.node;
+        const mapped = {
+          id: node.id,
+          title: node.title,
+          handle: node.handle,
+          description: node.description,
+          price: parseFloat(node.priceRange.minVariantPrice.amount),
+          currency: node.priceRange.minVariantPrice.currencyCode,
+          imageUrl: node.images.edges[0]?.node.url || '',
+          images: node.images.edges.map((imgEdge: any) => imgEdge.node.url),
+          variants: node.variants.edges.map((varEdge: any) => ({
+            id: varEdge.node.id,
+            title: varEdge.node.title,
+            price: parseFloat(varEdge.node.price.amount)
+          }))
         };
 
-        return from(
-            fetch(`https://${environment.shopifyDomain}/api/2023-10/graphql.json`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Shopify-Storefront-Access-Token': environment.shopifyToken
-                },
-                body: JSON.stringify({ query, variables })
-            })
-        ).pipe(
-            switchMap(response => from(response.json())),
-            map((result: any) => {
-                const data = result.data?.customerCreate;
-                if (data?.customer) {
-                    return data.customer;
-                }
-                const error = data?.customerUserErrors?.[0]?.message || 'فشل في إنشاء الحساب';
-                throw new Error(error);
-            })
-        );
-    }
+        // Capture Shipping Protection ID if we see it
+        if (mapped.title === 'Shipping Protection' && mapped.variants.length > 0) {
+          this.shippingProtectionVariantId = mapped.variants[0].id;
+        }
 
-    loginUser(email: string, pass: string): Observable<string> {
-        const query = `
-            mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
-              customerAccessTokenCreate(input: $input) {
-                customerAccessToken {
-                  accessToken
-                  expiresAt
+        return mapped;
+      });
+
+      return allProducts.filter((product: any) => product.title !== 'Shipping Protection');
+
+    } catch (error) {
+      console.error('Fetch error:', error);
+      return [];
+    }
+  }
+
+  async getProductByHandle(handle: string) {
+    const query = `
+      {
+        productByHandle(handle: "${handle}") {
+          id
+          title
+          handle
+          description
+          priceRange {
+            minVariantPrice {
+              amount
+              currencyCode
+            }
+            maxVariantPrice {
+              amount
+              currencyCode
+            }
+          }
+          images(first: 10) {
+            edges {
+              node {
+                url
+                altText
+              }
+            }
+          }
+          variants(first: 20) {
+            edges {
+              node {
+                id
+                title
+                price {
+                  amount
+                  currencyCode
                 }
-                customerUserErrors {
-                  code
-                  field
-                  message
+                compareAtPrice {
+                    amount
+                    currencyCode
+                }
+                image {
+                    url
                 }
               }
             }
-        `;
+          }
+        }
+      }
+    `;
 
-        const variables = {
-            input: {
-                email: email,
-                password: pass
-            }
-        };
+    try {
+      const response = await fetch(this.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': environment.shopify.storefrontToken
+        },
+        body: JSON.stringify({ query })
+      });
 
-        return from(
-            fetch(`https://${environment.shopifyDomain}/api/2023-10/graphql.json`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Shopify-Storefront-Access-Token': environment.shopifyToken
-                },
-                body: JSON.stringify({ query, variables })
-            })
-        ).pipe(
-            switchMap(response => from(response.json())),
-            map((result: any) => {
-                const data = result.data?.customerAccessTokenCreate;
-                if (data?.customerAccessToken) {
-                    return data.customerAccessToken.accessToken;
-                }
-                const error = data?.customerUserErrors?.[0]?.message || 'البريد الإلكتروني أو كلمة المرور غير صحيحة';
-                throw new Error(error);
-            })
-        );
+      const data = await response.json();
+      const node = data.data.productByHandle;
+
+      if (!node) return null;
+
+      const variants = node.variants.edges.map((varEdge: any) => ({
+        id: varEdge.node.id,
+        name: varEdge.node.title,
+        title: varEdge.node.title,
+        price: parseFloat(varEdge.node.price.amount),
+        compareAtPrice: varEdge.node.compareAtPrice ? parseFloat(varEdge.node.compareAtPrice.amount) : parseFloat(varEdge.node.price.amount),
+        image: varEdge.node.image?.url
+      }));
+
+      return {
+        id: node.id,
+        title: node.title,
+        handle: node.handle,
+        description: node.description,
+        price: parseFloat(node.priceRange.minVariantPrice.amount),
+        compareAtPrice: parseFloat(node.priceRange.maxVariantPrice.amount),
+        currency: node.priceRange.minVariantPrice.currencyCode,
+        imageUrl: node.images.edges[0]?.node.url || '',
+        images: node.images.edges.map((imgEdge: any) => imgEdge.node.url),
+        variants: variants,
+        bundles: variants.map((v: any) => ({
+          id: v.id,
+          title: v.title,
+          subtitle: v.title,
+          quantity: 1,
+          price: v.price,
+          compareAtPrice: v.compareAtPrice,
+          savings: v.compareAtPrice - v.price
+        }))
+      };
+
+    } catch (error) {
+      console.error('Fetch product error:', error);
+      return null;
     }
+  }
 
-    getCustomerInfo(token: string): Observable<any> {
-        const query = `
-            query getCustomerData($customerAccessToken: String!) {
-              customer(customerAccessToken: $customerAccessToken) {
-                firstName
-                lastName
-                email
-                phone
-                defaultAddress {
-                  address1
-                  city
-                  country
-                }
-              }
-            }
-        `;
+  async createCart(lineItems: { variantId: string, quantity: number }[]) {
+    const query = `
+      mutation cartCreate($input: CartInput) {
+        cartCreate(input: $input) {
+          cart {
+            id
+            checkoutUrl
+          }
+          userErrors {
+            field
+            message
+          }
+        }
+      }
+    `;
 
-        const variables = {
-            customerAccessToken: token
-        };
+    const variables = {
+      input: {
+        lines: lineItems.map(item => ({
+          merchandiseId: item.variantId,
+          quantity: item.quantity
+        }))
+      }
+    };
 
-        return from(
-            fetch(`https://${environment.shopifyDomain}/api/2023-10/graphql.json`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Shopify-Storefront-Access-Token': environment.shopifyToken
-                },
-                body: JSON.stringify({ query, variables })
-            })
-        ).pipe(
-            switchMap(response => from(response.json())),
-            map((result: any) => {
-                if (result.errors) {
-                    throw new Error(result.errors[0].message);
-                }
-                return result.data?.customer;
-            })
-        );
+    try {
+      const response = await fetch(this.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': environment.shopify.storefrontToken
+        },
+        body: JSON.stringify({ query, variables })
+      });
+
+      const data = await response.json();
+      if (data.errors) {
+        console.error('GraphQL Errors:', data.errors);
+        throw new Error(data.errors[0].message);
+      }
+
+      const cartCreate = data.data.cartCreate;
+      if (cartCreate.userErrors && cartCreate.userErrors.length > 0) {
+        console.error('Shopify User Errors:', cartCreate.userErrors);
+        throw new Error(cartCreate.userErrors[0].message);
+      }
+
+      return cartCreate;
+    } catch (error) {
+      console.error('Cart creation error details:', error);
+      throw error;
     }
+  }
 
-    getCustomerOrders(token: string): Observable<any[]> {
-        const query = `
-            query getCustomerOrders($customerAccessToken: String!) {
-              customer(customerAccessToken: $customerAccessToken) {
-                orders(first: 10, reverse: true) {
+  async getShippingProtectionVariantId() {
+    if (this.shippingProtectionVariantId) return this.shippingProtectionVariantId;
+
+    // If not found yet, try fetching it once
+    await this.getProducts(50);
+
+    return this.shippingProtectionVariantId;
+  }
+  async subscribeToNewsletter(email: string) {
+    const query = `
+      mutation customerEmailMarketingSubscribe($input: CustomerEmailMarketingSubscribeInput!) {
+        customerEmailMarketingSubscribe(input: $input) {
+          customer {
+            id
+            email
+          }
+          userErrors {
+            field
+            message
+          }
+        }
+      }
+    `;
+
+    const variables = {
+      input: {
+        email: email
+      }
+    };
+
+    try {
+      const response = await fetch(this.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': environment.shopify.storefrontToken
+        },
+        body: JSON.stringify({ query, variables })
+      });
+
+      const data = await response.json();
+      if (data.errors) {
+        console.error('GraphQL Errors:', data.errors);
+        throw new Error(data.errors[0].message);
+      }
+
+      const result = data.data.customerEmailMarketingSubscribe;
+      if (result.userErrors && result.userErrors.length > 0) {
+        throw new Error(result.userErrors[0].message);
+      }
+
+      return result.customer;
+    } catch (error) {
+      console.error('Newsletter subscription error:', error);
+      throw error;
+    }
+  }
+
+  async loginCustomer(email: string, password: string) {
+    const query = `
+      mutation customerAccessTokenCreate($input: CustomerAccessTokenCreateInput!) {
+        customerAccessTokenCreate(input: $input) {
+          customerAccessToken {
+            accessToken
+            expiresAt
+          }
+          customerUserErrors {
+            code
+            field
+            message
+          }
+        }
+      }
+    `;
+
+    const variables = {
+      input: {
+        email,
+        password
+      }
+    };
+
+    try {
+      const response = await fetch(this.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': environment.shopify.storefrontToken
+        },
+        body: JSON.stringify({ query, variables })
+      });
+
+      const data = await response.json();
+      if (data.errors) {
+        console.error('GraphQL Errors:', data.errors);
+        throw new Error(data.errors[0].message);
+      }
+
+      const result = data.data.customerAccessTokenCreate;
+      if (result.customerUserErrors && result.customerUserErrors.length > 0) {
+        // Return null or throw specific error to indicate failure
+        throw new Error(result.customerUserErrors[0].message);
+      }
+
+      return result.customerAccessToken;
+    } catch (error) {
+      console.error('Login error:', error);
+      throw error;
+    }
+  }
+
+  async getCustomer(accessToken: string) {
+    const query = `
+      query {
+        customer(customerAccessToken: "${accessToken}") {
+          firstName
+          lastName
+          email
+          phone
+          defaultAddress {
+             address1
+             city
+             country
+             zip
+          }
+          orders(first: 10, reverse: true) {
+            edges {
+              node {
+                orderNumber
+                processedAt
+                fulfillmentStatus
+                financialStatus
+                totalPrice {
+                  amount
+                  currencyCode
+                }
+                lineItems(first: 5) {
                   edges {
                     node {
-                      id
-                      orderNumber
-                      processedAt
-                      totalPrice {
-                        amount
-                        currencyCode
-                      }
-                      financialStatus
-                      fulfillmentStatus
-                      lineItems(first: 5) {
-                        edges {
-                          node {
-                            title
-                            quantity
-                            variant {
-                              image {
-                                url
-                              }
-                            }
-                          }
+                      title
+                      variant {
+                        image {
+                          url
                         }
                       }
                     }
@@ -342,68 +410,84 @@ export class ShopifyService {
                 }
               }
             }
-        `;
-
-        const variables = {
-            customerAccessToken: token
-        };
-
-        return from(
-            fetch(`https://${environment.shopifyDomain}/api/2023-10/graphql.json`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Shopify-Storefront-Access-Token': environment.shopifyToken
-                },
-                body: JSON.stringify({ query, variables })
-            })
-        ).pipe(
-            switchMap(response => from(response.json())),
-            map((result: any) => {
-                if (result.errors) {
-                    throw new Error(result.errors[0].message);
-                }
-                const orders = result.data?.customer?.orders?.edges?.map((edge: any) => edge.node) || [];
-                return orders;
-            })
-        );
-    }
-
-    isProtectionItem(item: any): boolean {
-        if (!item) return false;
-        const variantId = item.variant?.id || '';
-        const title = item.title || '';
-        return variantId === this.PROTECTION_VARIANT_ID ||
-            variantId.includes(this.PROTECTION_VARIANT_ID.split('/').pop() || '!!!') ||
-            title === 'Shipping Protection' ||
-            item.handle === 'shipping-protection-1';
-    }
-
-    toggleShippingProtection() {
-        const cart = this.cartSubject.value;
-        const protectionItem = cart?.lineItems?.find((item: any) => this.isProtectionItem(item));
-
-        if (protectionItem) {
-            this.removeItem(protectionItem.id);
-        } else {
-            this.addItemToCheckout(this.PROTECTION_VARIANT_ID, 1);
+          }
         }
+      }
+    `;
+
+    try {
+      const response = await fetch(this.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': environment.shopify.storefrontToken
+        },
+        body: JSON.stringify({ query })
+      });
+
+      const data = await response.json();
+      if (data.errors) {
+        console.error('GraphQL Errors:', data.errors);
+        throw new Error(data.errors[0].message);
+      }
+
+      return data.data.customer;
+    } catch (error) {
+      console.error('Get Customer error:', error);
+      throw error;
     }
+  }
 
-    private updateCartState(checkout: any) {
-        this.cartSubject.next(checkout);
-        if (checkout && checkout.id) {
-            this.checkoutIdSubject.next(checkout.id);
-            localStorage.setItem('shopifyCheckoutId', checkout.id);
-
-            // Check if protection is in cart
-            const protectionItem = checkout.lineItems?.find((item: any) => this.isProtectionItem(item));
-            this.shippingProtection.set(!!protectionItem);
-            if (protectionItem) {
-                this.shippingProtectionCost = parseFloat(protectionItem.variant?.price?.amount || protectionItem.variant?.price || 0);
-            } else if (!this.shippingProtectionCost || this.shippingProtectionCost === 0) {
-                this.shippingProtectionCost = 11.99; // Updated default for protection-1
-            }
+  async createCustomer(email: string, password: string, firstName: string, lastName: string) {
+    const query = `
+      mutation customerCreate($input: CustomerCreateInput!) {
+        customerCreate(input: $input) {
+          customer {
+            id
+            email
+          }
+          customerUserErrors {
+            code
+            field
+            message
+          }
         }
+      }
+    `;
+
+    const variables = {
+      input: {
+        email,
+        password,
+        firstName,
+        lastName
+      }
+    };
+
+    try {
+      const response = await fetch(this.apiUrl, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Shopify-Storefront-Access-Token': environment.shopify.storefrontToken
+        },
+        body: JSON.stringify({ query, variables })
+      });
+
+      const data = await response.json();
+      if (data.errors) {
+        throw new Error(data.errors[0].message);
+      }
+
+      const result = data.data.customerCreate;
+      if (result.customerUserErrors && result.customerUserErrors.length > 0) {
+        throw new Error(result.customerUserErrors[0].message);
+      }
+
+      return result.customer;
+    } catch (error) {
+      console.error('Registration error:', error);
+      throw error;
     }
+  }
 }

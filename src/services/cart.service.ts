@@ -1,6 +1,6 @@
-
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal, computed, inject, effect } from '@angular/core';
 import { Product, ProductVariant } from './product.service';
+import { PixelService } from './pixel.service'; // Import PixelService
 
 export interface CartItem {
   product: Product;
@@ -14,9 +14,35 @@ export interface CartItem {
 })
 export class CartService {
   items = signal<CartItem[]>([]);
+  isCartOpen = signal(false);
   // Changed to true by default as requested
   shippingProtection = signal(true);
-  readonly shippingProtectionCost = 11.99;
+  readonly shippingProtectionCost = 5.75;
+  private pixelService = inject(PixelService);
+
+  constructor() {
+    this.loadCart();
+    // Auto-save cart on changes
+    effect(() => {
+      localStorage.setItem('noreva_cart', JSON.stringify({
+        items: this.items(),
+        shippingProtection: this.shippingProtection()
+      }));
+    });
+  }
+
+  private loadCart() {
+    const saved = localStorage.getItem('noreva_cart');
+    if (saved) {
+      try {
+        const { items, shippingProtection } = JSON.parse(saved);
+        this.items.set(items || []);
+        this.shippingProtection.set(shippingProtection !== undefined ? shippingProtection : true);
+      } catch (e) {
+        console.error('Failed to load cart', e);
+      }
+    }
+  }
 
   totalItems = computed(() => this.items().reduce((acc, item) => acc + item.quantity, 0));
 
@@ -31,10 +57,9 @@ export class CartService {
 
   addToCart(product: Product, quantity: number, variant?: ProductVariant, priceOverride?: number) {
     this.items.update(currentItems => {
-      // Check if item exists with same variant AND same price (to separate bundle items from normal items)
       const existingItemIndex = currentItems.findIndex(item =>
         item.product.id === product.id &&
-        item.variant?.name === variant?.name &&
+        item.variant?.id === variant?.id &&
         item.priceOverride === priceOverride
       );
 
@@ -49,16 +74,34 @@ export class CartService {
         return [...currentItems, { product, quantity, variant, priceOverride }];
       }
     });
+
+    this.pixelService.trackAddToCart(
+      product.title,
+      product.id,
+      priceOverride || product.price,
+      quantity
+    );
   }
 
   removeFromCart(itemToRemove: CartItem) {
-    this.items.update(items => items.filter(item => item !== itemToRemove));
+    this.items.update(items => items.filter(item =>
+      !(item.product.id === itemToRemove.product.id &&
+        item.variant?.id === itemToRemove.variant?.id &&
+        item.priceOverride === itemToRemove.priceOverride)
+    ));
   }
 
   updateQuantity(itemToUpdate: CartItem, newQuantity: number) {
-    if (newQuantity < 1) return;
+    if (newQuantity < 1) {
+      this.removeFromCart(itemToUpdate);
+      return;
+    }
     this.items.update(items => items.map(item =>
-      item === itemToUpdate ? { ...item, quantity: newQuantity } : item
+      (item.product.id === itemToUpdate.product.id &&
+        item.variant?.id === itemToUpdate.variant?.id &&
+        item.priceOverride === itemToUpdate.priceOverride)
+        ? { ...item, quantity: newQuantity }
+        : item
     ));
   }
 
@@ -68,6 +111,7 @@ export class CartService {
 
   clearCart() {
     this.items.set([]);
-    this.shippingProtection.set(true); // Reset to true by default
+    this.shippingProtection.set(true);
+    localStorage.removeItem('noreva_cart');
   }
 }

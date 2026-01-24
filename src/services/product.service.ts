@@ -1,19 +1,23 @@
 
-import { Injectable, signal } from '@angular/core';
+import { Injectable } from '@angular/core';
 
 export interface ProductVariant {
+  id: string;
   name: string;
-  colorCode: string; // Hex for UI
-  image?: string; // Optional: Linked to specific gallery image
+  colorCode: string;
+  image?: string;
 }
 
 export interface ProductBundle {
   id: string;
   title: string;
+  subtitle: string;
   quantity: number;
-  price: number; // Total price for the bundle
-  savings: number; // Percentage or Amount saved label
+  price: number;
+  compareAtPrice: number;
+  savings: number;
   isBestValue?: boolean;
+  isMostPopular?: boolean;
 }
 
 export interface Product {
@@ -34,61 +38,62 @@ export interface Product {
 export class ProductService {
   private products: Product[] = [
     {
-      id: 'stealth-hydrate-1',
-      title: 'مطارة نوريفا™',
-      price: 86.99,
-      compareAtPrice: 195.00,
-      description: `تبي الفكة من قروشة التفتيش؟ وتبي أغراضك تكون معك طول الوقت؟
-مطارة نوريفا™ هي الحل اللي تدوره. شكلها مطارة ماي كشخة وعادية، بس داخلها "علوم ثانية"! 😉
-فيها مخبا سري تحت، وسيع وراهي! يشيل جوالك بالراحة (حتى لو معك آيفون 17 برو ماكس)، ويشيل سماعاتك، والفيب (Vape)، وحتى فلوسك.
-والأهم من هذا كله؟ ما تخر ماي أبد! نظام العزل فيها بطل، يعني تطمن أغراضك ناشفة وأمان 100%.
-شكلها بريء ما يلفت النظر، يعني تمشي أمورك فالمدرسة والطلعات وأنت مرتاح. خلك ذيب واضمن أغراضك معك!`,
+      id: 'noreva-face-brush', // Keeping ID for route compatibility, but content changes
+      title: 'نوريڤا™ الرموش المغناطيسية السحرية',
+      price: 161.00,
+      compareAtPrice: 300.00,
+      description: '【استخدام سهل مع مغناطيس ناعم】 استمتعي بتجربة رموش سلسة مع رموشنا المغناطيسية الناعمة. مزودة بزوج واحد من شرائح الرموش ذات المغناطيسين وأداة تطبيق، يمكنكِ تركيبها في 3 ثوانٍ وإزالتها في ثانية واحدة، وهي مثالية للمبتدئات.\n\n【بدون صمغ أو مزيل، لطيفة على البشرة الحساسة】 ودعي فوضى الصمغ والمزيلات التقليدية. توفر رموشنا المغناطيسية تجربة لطيفة وآمنة دون إتلاف الرموش الطبيعية، مما يجعلها مثالية للبشرة الحساسة.\n\n【مريحة في الارتداء】 تتميز ببطانة شفافة رفيعة للغاية، مما يجعل رموشنا المغناطيسية أكثر نعومة وخفة ومرونة، مما يضمن ملاءمة طبيعية ومريحة دون أي عبء على العينين.\n\n【رموش مغناطيسية قابلة لإعادة الاستخدام】 رموشنا مصنوعة من مواد عالية الجودة، مقاومة للماء وتدوم طويلاً، ويمكن إعادة استخدامها لأكثر من 100 مرة. عززي روتين جمالكِ بشكل مستدام.\n\n【ثبات قوي لارتداء مستقر】 تحافظ التقنية المغناطيسية الفريدة على الرموش في مكانها بشكل آمن، مما يلبي احتياجات يوم كامل بسهولة دون الحاجة إلى تعديلات مستمرة.',
       features: [
-        'مخبا راهي: يشيل آيفون 17 برو ماكس، إيربودز، والفيب بالراحة.',
-        'ما تخر أبد: عزل 100% بين الماي والأغراض، يعني أجهزتك بأمان.',
-        'تمويه ولا غلطة: شكلها مطارة عادية، محد بيشك فيك.',
-        'جودة توب: تتحمل الكرف والطيحات، تعيش معك.'
+        'تركيب فوري في 3 ثواني بدون صمغ',
+        'مغناطيس دقيق غير مرئي وثبات عالي',
+        'قابلة لإعادة الاستخدام حتى 100 مرة',
+        'خفيفة الوزن وآمنة على الرموش الطبيعية'
       ],
-      // Images ordered exactly as per CSV input
       images: [
-        'https://cdn.shopify.com/s/files/1/0649/3421/5739/files/wmremove-transformed.png?v=1766527136',       // Position 1
-        'https://cdn.shopify.com/s/files/1/0649/3421/5739/files/wmremove-transformed_1.png?v=1766527136',     // Position 2
-        'https://cdn.shopify.com/s/files/1/0649/3421/5739/files/Gemini_Generated_Image_zbpzyfzbpzyfzbpz.png?v=1766527136', // Position 3
-        'https://cdn.shopify.com/s/files/1/0649/3421/5739/files/image_6.png?v=1766527136',                    // Position 4
-        'https://cdn.shopify.com/s/files/1/0649/3421/5739/files/S5c5dfff128554bc88b28bfcea87a7d39T.webp?v=1766527136',      // Position 5 (2nd to Last)
-        'https://cdn.shopify.com/s/files/1/0649/3421/5739/files/S46a2503ca66d4869b91e7678c28a8324z.webp?v=1766527136'       // Position 6 (Last)
+        'https://ae01.alicdn.com/kf/Ab4481cf4142b47daa7b3f81fb10fdac7f.jpg',
+        'https://ae01.alicdn.com/kf/A39b78ba5557d48188d1c1cc6ef6feba4Y.jpg',
+        'https://ae01.alicdn.com/kf/A275861ba51844d65a73afd4a0392ab40c.jpg',
+        'https://ae01.alicdn.com/kf/A74daed21421d4460994c516b23c435d0X.jpg'
       ],
       variants: [
-        { 
-          name: 'أبيض لؤلؤي', 
-          colorCode: '#f9fafb',
-          // Linked to the last image
-          image: 'https://cdn.shopify.com/s/files/1/0649/3421/5739/files/S46a2503ca66d4869b91e7678c28a8324z.webp?v=1766527136'
-        },
-        { 
-          name: 'أحمر كلاسيك', 
-          colorCode: '#dc2626',
-          // Linked to the one before the last (2nd to last)
-          image: 'https://cdn.shopify.com/s/files/1/0649/3421/5739/files/S5c5dfff128554bc88b28bfcea87a7d39T.webp?v=1766527136'
-        }
+        { id: 'v1', name: 'Black', colorCode: '#000000' },
+        { id: 'v2', name: 'Dark Brown', colorCode: '#3D2314' },
+        { id: 'v3', name: 'Light Brown', colorCode: '#7D513B' }
       ],
       bundles: [
-        { id: 'b1', title: 'حبة وحدة', quantity: 1, price: 86.99, savings: 0 },
-        { id: 'b2', title: 'عرض الربع (حبتين)', quantity: 2, price: 155.00, savings: 18.98, isBestValue: true },
-        { id: 'b3', title: 'عرض الشلة (4 حبات)', quantity: 4, price: 290.00, savings: 57.96 }
+        {
+          id: 'b1',
+          title: 'زوج واحد',
+          subtitle: 'تجربة السحر المغناطيسي',
+          quantity: 1,
+          price: 161.00,
+          compareAtPrice: 300.00,
+          savings: 0
+        },
+        {
+          id: 'b2',
+          title: 'عرض الـ ٢ زوج (١+١ مجاناً)',
+          subtitle: 'لوك يومي ولوك سهرة ✈️ شحن مجاني',
+          quantity: 2,
+          price: 161.00,
+          compareAtPrice: 600.00,
+          savings: 439.00,
+          isMostPopular: true
+        },
+        {
+          id: 'b3',
+          title: 'باقة الصديقات (٣ أزواج + ٢ مجاناً)',
+          subtitle: 'توفير خيالي لكِ ولصديقاتكِ ✈️',
+          quantity: 5,
+          price: 322.00,
+          compareAtPrice: 1500.00,
+          savings: 1178.00,
+          isBestValue: true
+        }
       ]
     }
   ];
 
-  getProducts() {
-    return this.products;
-  }
-
-  getProduct(id: string) {
-    return this.products.find(p => p.id === id);
-  }
-
-  getRelatedProducts(currentId: string) {
-    return this.products.filter(p => p.id !== currentId);
-  }
+  getProducts() { return this.products; }
+  getProduct(id: string) { return this.products.find(p => p.id === id); }
 }
