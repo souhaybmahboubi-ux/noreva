@@ -44,7 +44,7 @@ import { CommonModule } from '@angular/common';
 
         <!-- Logo (NOREVA - Dark Taupe for Visibility) -->
         <a routerLink="/" class="absolute left-1/2 -translate-x-1/2 flex items-center justify-center h-full">
-           <span class="text-3xl md:text-4xl font-serif font-black tracking-[0.15em] text-black leading-none uppercase">NOREVA</span>
+           <img src="/assets/final-logo.webp" alt="NOREVA" class="h-6 md:h-8 w-auto object-contain">
         </a>
 
         <!-- Right Actions -->
@@ -157,7 +157,13 @@ import { CommonModule } from '@angular/common';
                           <span class="text-xs font-black min-w-[1rem] text-center">{{ item.quantity }}</span>
                           <button (click)="cartService.updateQuantity(item, item.quantity + 1)" class="w-4 h-4 flex items-center justify-center text-black font-black text-xs hover:scale-125 transition-transform">+</button>
                         </div>
-                        <span class="font-black text-sm">{{ currencyService.formatPrice((item.priceOverride || item.product.price) * item.quantity) }}</span>
+                        <span class="font-black text-sm">
+                          @if ((item.priceOverride !== undefined ? item.priceOverride : item.product.price) * item.quantity === 0) {
+                            <span class="text-green-600 uppercase tracking-wider text-xs">{{ langService.currentLang() === 'ar' ? 'مجاناً' : 'FREE' }}</span>
+                          } @else {
+                            {{ currencyService.formatPrice((item.priceOverride !== undefined ? item.priceOverride : item.product.price) * item.quantity) }}
+                          }
+                        </span>
                       </div>
                    </div>
                 </div>

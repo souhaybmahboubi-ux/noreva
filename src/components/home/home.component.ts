@@ -28,7 +28,7 @@ import { NgOptimizedImage, CommonModule } from '@angular/common';
            </p>
 
            <div class="flex flex-col items-center gap-8 animate-fade-up" style="animation-delay: 0.2s">
-              <a [routerLink]="['/product', 'noreva-face-brush']" class="bg-black text-white px-16 py-7 text-xl font-black rounded-full hover:scale-105 active:scale-95 transition-all shadow-2xl">
+              <a [routerLink]="['/products']" class="bg-black text-white px-16 py-7 text-xl font-black rounded-full hover:scale-105 active:scale-95 transition-all shadow-2xl">
                  {{ langService.currentLang() === 'ar' ? 'احصلي عليها الآن' : 'GET YOURS NOW' }}
               </a>
               <div class="flex gap-10 opacity-30 grayscale items-center">

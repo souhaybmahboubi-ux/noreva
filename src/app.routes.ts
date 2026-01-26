@@ -6,7 +6,7 @@ import { CatalogComponent } from './components/catalog/catalog.component';
 import { CartComponent } from './components/cart/cart.component';
 import { LoginComponent } from './components/auth/login.component';
 import { TrackingComponent } from './components/pages/tracking.component';
-import { AboutComponent, PrivacyComponent, TermsComponent, ShippingComponent, HelpComponent } from './components/pages/static-pages.component';
+import { AboutComponent, PrivacyComponent, TermsComponent, ShippingComponent, HelpComponent, WhyUsComponent, RefundPolicyComponent } from './components/pages/static-pages.component';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -20,5 +20,7 @@ export const routes: Routes = [
   { path: 'terms', component: TermsComponent },
   { path: 'shipping', component: ShippingComponent },
   { path: 'help', component: HelpComponent },
+  { path: 'why-us', component: WhyUsComponent },
+  { path: 'refund-policy', component: RefundPolicyComponent },
   { path: '**', redirectTo: '' }
 ];

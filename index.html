@@ -6,12 +6,11 @@
   <title>نوريڤا™ | فن نحت الوجه العلمي</title>
   <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="icon"
-    href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22%23e3e1dc%22><path d=%22M12 2L4.5 20.29l.71.71L12 18l6.79 3 .71-.71z%22/></svg>">
+  <link rel="icon" href="/assets/final favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=IBM+Plex+Sans+Arabic:wght@100;400;700&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Alexandria:wght@100..900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap"
     rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -19,9 +18,9 @@
       theme: {
         extend: {
           fontFamily: {
-            sans: ['Manrope', 'IBM Plex Sans Arabic', 'sans-serif'],
-            serif: ['Playfair Display', 'serif'],
-            arabic: ['IBM Plex Sans Arabic', 'sans-serif']
+            sans: ['Manrope', 'Alexandria', 'sans-serif'],
+            serif: ['Playfair Display', 'Alexandria', 'serif'],
+            arabic: ['Alexandria', 'sans-serif']
           },
           colors: {
             noreva: {
@@ -85,7 +84,7 @@
     }
 
     body {
-      font-family: 'Manrope', 'IBM Plex Sans Arabic', sans-serif;
+      font-family: 'Manrope', 'Alexandria', sans-serif;
       background-color: #FFFFFF;
       color: #000000;
       -webkit-font-smoothing: antialiased;
@@ -93,7 +92,7 @@
 
     [dir="rtl"],
     [lang="ar"] {
-      font-family: 'IBM Plex Sans Arabic', sans-serif;
+      font-family: 'Alexandria', sans-serif;
     }
 
     /* Scaling factor for Arabic text to ensure visual parity with English */
@@ -197,6 +196,8 @@
 
 <body oncontextmenu="return false">
   <app-root></app-root>
+
+
 </body>
 
 </html>

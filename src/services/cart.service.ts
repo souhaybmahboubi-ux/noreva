@@ -89,6 +89,7 @@ export class CartService {
         item.variant?.id === itemToRemove.variant?.id &&
         item.priceOverride === itemToRemove.priceOverride)
     ));
+    this.checkGiftEligibility();
   }
 
   updateQuantity(itemToUpdate: CartItem, newQuantity: number) {
@@ -103,6 +104,15 @@ export class CartService {
         ? { ...item, quantity: newQuantity }
         : item
     ));
+    this.checkGiftEligibility();
+  }
+
+  private checkGiftEligibility() {
+    const hasPaidItems = this.items().some(item => (item.priceOverride !== undefined ? item.priceOverride : item.product.price) > 0);
+    if (!hasPaidItems) {
+      // Remove free items (gifts)
+      this.items.update(items => items.filter(item => (item.priceOverride !== undefined ? item.priceOverride : item.product.price) > 0));
+    }
   }
 
   toggleShippingProtection() {

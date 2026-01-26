@@ -27,7 +27,7 @@ interface Review {
           {{ langService.currentLang() === 'ar' ? 'آراء العميلات' : 'Customer Reviews' }}
         </span>
         <h2 class="text-4xl font-black text-black tracking-tighter mb-6 italic">
-          {{ langService.currentLang() === 'ar' ? 'تجارب بنات الخليج' : 'Khaleeji Girls Love It' }}
+          {{ langService.currentLang() === 'ar' ? 'تجارب عميلات نوريڤا' : 'Why Girls Love Noreva' }}
         </h2>
         <div class="flex items-center justify-center gap-4">
            <div class="flex text-yellow-500 text-lg">★★★★★</div>
@@ -37,22 +37,22 @@ interface Review {
         </div>
       </div>
 
-      <!-- Reviews Grid -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+      <!-- Reviews Grid (Updated to 2 cols on mobile and thinner style) -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
         @for (review of displayedReviews(); track review.id) {
-          <div class="flex flex-col bg-white p-6 rounded-[1.5rem] border border-gray-100 hover:border-black/20 hover:shadow-lg transition-all duration-300 break-inside-avoid">
+          <div class="flex flex-col bg-white p-3 md:p-6 rounded-[1rem] md:rounded-[1.5rem] border border-gray-100 hover:border-black/20 hover:shadow-lg transition-all duration-300 break-inside-avoid">
             
-            <div class="flex justify-between items-start mb-4">
-                <div class="flex gap-3 items-center">
-                   <div class="w-8 h-8 rounded-full bg-gray-100 flex items-center justify-center text-[10px] font-black">
+            <div class="flex justify-between items-start mb-2 md:mb-4">
+                <div class="flex gap-2 md:gap-3 items-center">
+                   <div class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gray-100 flex items-center justify-center text-[8px] md:text-[10px] font-black">
                       {{ review.name.charAt(0) }}
                    </div>
                    <div>
-                      <h5 class="font-bold text-black text-xs">{{ review.name }}</h5>
-                      <p class="text-gray-400 text-[9px] font-bold uppercase tracking-widest">{{ review.city }}</p>
+                      <h5 class="font-bold text-black text-[10px] md:text-xs leading-tight">{{ review.name }}</h5>
+                      <p class="text-gray-400 text-[8px] md:text-[9px] font-bold uppercase tracking-widest leading-none">{{ review.city }}</p>
                    </div>
                 </div>
-                <div class="flex text-yellow-500 text-[10px] gap-0.5">
+                <div class="flex text-yellow-500 text-[8px] md:text-[10px] gap-0.5">
                   @for (star of [1,2,3,4,5]; track star) {
                     <span [class.opacity-30]="star > review.rating">★</span>
                   }
@@ -61,16 +61,16 @@ interface Review {
 
             <!-- Review Image from CSV -->
             @if (review.image) {
-              <div class="mb-4 rounded-xl overflow-hidden border border-gray-100 aspect-video relative bg-gray-50">
-                <img [ngSrc]="review.image" width="300" height="200" class="object-cover w-full h-full hover:scale-105 transition-transform duration-500">
+              <div class="mb-2 md:mb-4 rounded-lg md:rounded-xl overflow-hidden border border-gray-100 aspect-video relative bg-gray-50">
+                <img [ngSrc]="review.image" width="300" height="200" referrerpolicy="no-referrer" class="object-cover w-full h-full hover:scale-105 transition-transform duration-500">
               </div>
             }
 
-            <p class="text-gray-600 text-sm leading-relaxed font-medium mb-4 text-right" dir="rtl">
+            <p class="text-gray-600 text-[10px] md:text-sm leading-relaxed font-medium mb-2 md:mb-4 text-right line-clamp-4" dir="rtl">
               {{ review.comment }}
             </p>
             
-            <div class="mt-auto pt-4 border-t border-gray-50 flex items-center justify-between">
+            <div class="mt-auto pt-2 md:pt-4 border-t border-gray-50 flex items-center justify-between">
                <span class="text-[8px] text-gray-300 font-mono">{{ review.date }}</span>
             </div>
           </div>

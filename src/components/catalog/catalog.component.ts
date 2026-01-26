@@ -73,7 +73,8 @@ export class CatalogComponent implements OnInit {
   async ngOnInit() {
     try {
       const fetchedProducts = await this.shopifyService.getProducts(12);
-      this.products.set(fetchedProducts);
+      // Filter out unwanted products (gift items, hidden items)
+      this.products.set(fetchedProducts.filter(p => !p.handle.includes('eyelash-curler') && !p.handle.includes('shipping-protection')));
     } catch (error) {
       console.error('Failed to load products', error);
     } finally {

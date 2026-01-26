@@ -132,7 +132,10 @@ import { LanguageService } from '../../services/language.service';
                         <span class="text-xs font-black text-gray-400 uppercase tracking-widest">{{ langService.currentLang() === 'ar' ? 'الإجمالي' : 'TOTAL' }}</span>
                         <span class="text-2xl font-black italic">{{ currencyService.formatPrice(cartService.totalPrice()) }}</span>
                       </div>
-                      <a routerLink="/checkout" class="block w-full py-5 bg-black text-white text-center rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl active:scale-95 transition-all">إتمام الطلب الآن</a>
+                      <button (click)="handleCheckout()" [disabled]="isCheckingOut()" class="block w-full py-5 bg-black text-white text-center rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl active:scale-95 transition-all flex items-center justify-center gap-3 disabled:opacity-70 disabled:cursor-not-allowed">
+                        @if (isCheckingOut()) { <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> }
+                        {{ langService.currentLang() === 'ar' ? 'إتمام الطلب الآن' : 'COMPLETE ORDER NOW' }}
+                      </button>
                     </div>
                   } @else {
                     <div class="text-center py-10">
@@ -142,14 +145,20 @@ import { LanguageService } from '../../services/language.service';
                   }
                 </div>
 
-                <div class="mt-8 p-6 bg-black text-white rounded-[2rem] flex items-center gap-6 group overflow-hidden relative">
+                <div class="mt-8 p-6 bg-black text-white rounded-[2rem] flex items-center gap-6 group overflow-hidden relative" (click)="copyCode('noreva26')">
                    <div class="absolute -top-10 -right-10 w-32 h-32 bg-white/5 rounded-full blur-2xl group-hover:scale-150 transition-transform duration-700"></div>
-                   <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0">
-                      <span class="text-lg">🎁</span>
+                   <div class="w-12 h-12 bg-white/10 rounded-full flex items-center justify-center flex-shrink-0 cursor-pointer hover:bg-white/20 transition-colors">
+                      <span class="text-lg">🏷️</span>
                    </div>
-                   <div class="relative z-10">
-                      <h4 class="font-black text-xs uppercase tracking-widest mb-1">{{ langService.currentLang() === 'ar' ? 'هدية حصرية' : 'EXCLUSIVE GIFT' }}</h4>
-                      <p class="text-xs opacity-60 leading-tight">{{ langService.currentLang() === 'ar' ? 'طلبك القادم يحصل على خصم إضافي 5% تلقائياً' : 'Your next order automatically gets 5% extra discount' }}</p>
+                   <div class="relative z-10 flex-1">
+                      <h4 class="font-black text-xs uppercase tracking-widest mb-1">{{ langService.currentLang() === 'ar' ? 'كود خصم حصري' : 'MEMBER EXCLUSIVE' }}</h4>
+                      <p class="text-xs opacity-60 leading-tight mb-2">{{ langService.currentLang() === 'ar' ? 'استخدمي الكود التالي لخصم 10%:' : 'Use this code for 10% OFF:' }}</p>
+                      <div class="bg-white/10 px-3 py-1.5 rounded-lg inline-flex items-center gap-3 cursor-pointer hover:bg-white/20 transition-colors">
+                         <span class="font-mono font-bold tracking-widest text-[#c19b6e]">noreva26</span>
+                         <span class="text-[9px] opacity-50 uppercase tracking-widest">{{ langService.currentLang() === 'ar' ? 'نسخ' : 'COPY' }}</span>
+                      </div>
+                      <p class="text-[9px] opacity-40 mt-2 uppercase tracking-wider">{{ langService.currentLang() === 'ar' ? 'استخدمي هذا الكود لطلبك الأول فقط' : 'Use this code for your first order only' }}</p>
+                   </div>
                    </div>
                 </div>
               </div>
@@ -157,97 +166,127 @@ import { LanguageService } from '../../services/language.service';
           </div>
         </div>
       } @else {
-        <!-- Auth Mode -->
+        <!-- Auth Mode (Redesigned - No Image) -->
         <div class="container mx-auto px-4 flex items-center justify-center">
-          <div class="w-full max-w-md">
-            
-            <!-- Header -->
-            <div class="text-center mb-12">
-                <h1 class="text-4xl md:text-5xl font-black text-black italic tracking-tighter uppercase mb-4">
-                  {{ isLoginMode() ? (langService.currentLang() === 'ar' ? 'أهلاً بعودتكِ' : 'WELCOME BACK') : (langService.currentLang() === 'ar' ? 'عضوية نوريڤا' : 'NOREVA MEMBERSHIP') }}
-                </h1>
-                <p class="text-gray-400 font-medium text-sm">
-                  {{ isLoginMode() ? (langService.currentLang() === 'ar' ? 'سجلي دخولكِ لتجربة جمالية فريدة' : 'Log in for a unique beauty experience') : (langService.currentLang() === 'ar' ? 'انضمي للنخبة واحفظي بياناتكِ لطلب أسرع' : 'Join the elite and save your details for faster ordering') }}
-                </p>
-            </div>
-
-            @if (errorMessage()) {
-              <div class="mb-6 p-5 bg-red-50 border border-red-100 rounded-2xl text-red-500 text-xs md:text-sm font-bold text-center animate-in fade-in zoom-in-95 duration-300">
-                {{ errorMessage() }}
-              </div>
-            }
-
-            <!-- Form Container -->
-            <div class="bg-white p-8 md:p-12 rounded-[3rem] border border-gray-100 shadow-2xl">
-              <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="space-y-6">
-                
-                @if (!isLoginMode()) {
-                  <div class="grid grid-cols-2 gap-4">
-                    <div>
-                      <label class="block text-xs font-black uppercase tracking-widest text-gray-300 mb-2 px-2">{{ langService.currentLang() === 'ar' ? 'الاسم الأول' : 'FIRST NAME' }}</label>
-                      <input type="text" formControlName="firstName" class="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:border-black focus:bg-white outline-none transition-all font-bold">
+           <div class="relative w-full max-w-xl bg-white shadow-2xl overflow-hidden rounded-sm p-8 md:p-16 flex flex-col justify-center min-h-[600px]">
+                 
+                 <div class="w-full" [dir]="langService.isRtl() ? 'rtl' : 'ltr'">
+                    <!-- Header -->
+                    <div class="text-center mb-12">
+                       <h3 class="text-sm md:text-base font-serif italic text-gray-900 mb-3 tracking-wide">
+                         {{ isLoginMode() ? (langService.currentLang() === 'ar' ? 'مرحباً بعودتك' : 'Welcome Back') : (langService.currentLang() === 'ar' ? 'انضمي إلينا' : 'Join the Club') }}
+                       </h3>
+                       <h1 class="text-4xl md:text-6xl font-serif text-black leading-none uppercase mb-4">
+                         {{ isLoginMode() ? (langService.currentLang() === 'ar' ? 'تسجيل الدخول' : 'MEMBER LOGIN') : (langService.currentLang() === 'ar' ? 'عضوية جديدة' : 'REGISTER') }}
+                       </h1>
+                       <p class="text-[10px] font-sans tracking-widest text-gray-400 uppercase">
+                         {{ isLoginMode() ? (langService.currentLang() === 'ar' ? 'للوصول إلى ملفك الشخصي' : 'ACCESS YOUR DASHBOARD') : (langService.currentLang() === 'ar' ? 'لتجربة تسوق فريدة' : 'FOR A UNIQUE EXPERIENCE') }}
+                       </p>
                     </div>
-                    <div>
-                      <label class="block text-xs font-black uppercase tracking-widest text-gray-300 mb-2 px-2">{{ langService.currentLang() === 'ar' ? 'العائلة' : 'LAST NAME' }}</label>
-                      <input type="text" formControlName="lastName" class="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:border-black focus:bg-white outline-none transition-all font-bold">
+
+                    <!-- Error Message -->
+                    @if (errorMessage()) {
+                      <div class="mb-8 p-4 bg-red-50 border-l-4 border-red-500 text-red-500 text-xs font-bold uppercase tracking-widest text-center">
+                        {{ errorMessage() }}
+                      </div>
+                    }
+
+                    <!-- Form -->
+                    <form [formGroup]="authForm" (ngSubmit)="onSubmit()" class="space-y-5">
+                       
+                       @if (!isLoginMode()) {
+                         <!-- Name Fields -->
+                         <div class="flex gap-4">
+                           <div class="w-1/2">
+                             <input type="text" formControlName="firstName" 
+                                    [placeholder]="langService.currentLang() === 'ar' ? 'الاسم الأول' : 'FIRST NAME'"
+                                    class="w-full h-12 md:h-14 px-4 border border-black/20 focus:border-black focus:outline-none text-xs md:text-sm font-bold bg-transparent placeholder:text-gray-400">
+                           </div>
+                           <div class="w-1/2">
+                             <input type="text" formControlName="lastName" 
+                                    [placeholder]="langService.currentLang() === 'ar' ? 'العائلة' : 'LAST NAME'"
+                                    class="w-full h-12 md:h-14 px-4 border border-black/20 focus:border-black focus:outline-none text-xs md:text-sm font-bold bg-transparent placeholder:text-gray-400">
+                           </div>
+                         </div>
+                       }
+
+                       <!-- Email -->
+                       <input type="email" formControlName="email" 
+                              [placeholder]="langService.currentLang() === 'ar' ? 'البريد الإلكتروني' : 'EMAIL ADDRESS'"
+                              class="w-full h-12 md:h-14 px-4 border border-black/20 focus:border-black focus:outline-none text-xs md:text-sm font-bold bg-transparent placeholder:text-gray-400">
+
+                       <!-- Password -->
+                       <div class="relative">
+                          <input [type]="showPassword() ? 'text' : 'password'" formControlName="password" 
+                                 [placeholder]="langService.currentLang() === 'ar' ? 'كلمة المرور' : 'PASSWORD'"
+                                 class="w-full h-12 md:h-14 px-4 border border-black/20 focus:border-black focus:outline-none text-xs md:text-sm font-bold bg-transparent placeholder:text-gray-400">
+                          <button type="button" (click)="showPassword.set(!showPassword())" class="absolute top-0 bottom-0 px-4 text-gray-400 hover:text-black transition-colors ltr:right-0 rtl:left-0 flex items-center">
+                             <span class="text-[10px] font-black uppercase tracking-widest">{{ showPassword() ? 'HIDE' : 'SHOW' }}</span>
+                          </button>
+                       </div>
+
+                       <!-- Submit Button (Beige) -->
+                       <button type="submit" [disabled]="authForm.invalid || isLoading()" 
+                               class="w-full h-12 md:h-16 bg-[#ebeae6] hover:bg-[#dedcd6] text-black font-serif font-bold tracking-[0.2em] uppercase transition-colors text-xs md:text-xl shadow-sm disabled:opacity-50 mt-6 md:mt-8">
+                          @if (isLoading()) {
+                            {{ langService.currentLang() === 'ar' ? 'جاري التحقق...' : 'VERIFYING...' }}
+                          } @else {
+                            {{ isLoginMode() ? (langService.currentLang() === 'ar' ? 'دخول' : 'SIGN IN') : (langService.currentLang() === 'ar' ? 'تسجيل' : 'CREATE ACCOUNT') }}
+                          }
+                       </button>
+
+                    </form>
+
+                    <!-- Toggle Mode Link -->
+                    <div class="mt-8 md:mt-12 text-center">
+                       <button (click)="toggleMode()" class="text-[10px] md:text-xs font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-black border-b border-transparent hover:border-black transition-all pb-1">
+                         {{ isLoginMode() ? (langService.currentLang() === 'ar' ? 'ليس لديكِ حساب؟ انضمي لنا' : 'NO ACCOUNT? CREATE ONE') : (langService.currentLang() === 'ar' ? 'لديكِ عضوية؟ سجلي دخولكِ' : 'ALREADY A MEMBER? LOGIN') }}
+                       </button>
                     </div>
-                  </div>
-                }
 
-                <div>
-                  <label class="block text-xs font-black uppercase tracking-widest text-gray-300 mb-2 px-2">{{ langService.currentLang() === 'ar' ? 'البريد الإلكتروني' : 'EMAIL ADDRESS' }}</label>
-                  <input type="email" formControlName="email" class="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:border-black focus:bg-white outline-none transition-all font-bold">
-                </div>
-
-                <div>
-                  <label class="block text-xs font-black uppercase tracking-widest text-gray-300 mb-2 px-2">{{ langService.currentLang() === 'ar' ? 'كلمة المرور' : 'PASSWORD' }}</label>
-                  <div class="relative">
-                    <input 
-                      [type]="showPassword() ? 'text' : 'password'" 
-                      formControlName="password" 
-                      class="w-full px-6 py-4 rounded-2xl bg-gray-50 border border-gray-100 focus:border-black focus:bg-white outline-none transition-all font-bold ltr:pr-14 rtl:pl-14"
-                    >
-                    <button 
-                      type="button" 
-                      (click)="showPassword.set(!showPassword())"
-                      class="absolute top-1/2 -translate-y-1/2 text-gray-400 hover:text-black transition-colors p-2 ltr:right-4 rtl:left-4"
-                    >
-                      @if (showPassword()) {
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.888 9.888L4.222 4.222m15.556 15.556l-5.666-5.666m5.666-5.666c.111.313.208.634.288.963C19.268 13.057 15.478 16 11 16c-.536 0-1.058-.046-1.562-.133M15.556 5.556a10.05 10.05 0 013.987 5.444M11 5a10.05 10.05 0 014.556 1.056M11 5c-4.478 0-8.268-2.943-9.543 7a9.97 9.97 0 001.563 3.029l5.858-5.858a3 3 0 014.243-4.243" /></svg>
-                      } @else {
-                        <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" /></svg>
-                      }
-                    </button>
-                  </div>
-                  @if (!isLoginMode()) {
-                    <p class="text-xs text-gray-400 mt-2 px-2">{{ langService.currentLang() === 'ar' ? 'أدخلي 6 أحرف أو أرقام على الأقل' : 'At least 6 characters' }}</p>
-                  }
-                </div>
-
-                <button type="submit" [disabled]="authForm.invalid || isLoading()" class="w-full py-6 bg-black text-white rounded-2xl font-black text-sm uppercase tracking-widest shadow-2xl active:scale-95 disabled:opacity-30 transition-all mt-6 flex items-center justify-center gap-3">
-                  @if (isLoading()) {
-                    <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-                    <span>{{ langService.currentLang() === 'ar' ? 'جاري التحقق...' : 'VERIFYING...' }}</span>
-                  } @else {
-                    {{ isLoginMode() ? (langService.currentLang() === 'ar' ? 'دخول للغرفة' : 'LOGIN TO ROOM') : (langService.currentLang() === 'ar' ? 'إنشاء العضوية' : 'CREATE ACCOUNT') }}
-                  }
-                </button>
-              </form>
-
-              <div class="mt-10 text-center">
-                <button (click)="toggleMode()" class="text-xs font-bold uppercase tracking-[0.2em] text-gray-400 hover:text-black transition-colors">
-                  {{ isLoginMode() ? (langService.currentLang() === 'ar' ? 'ليس لديكِ حساب؟ انضمي لنا' : 'NO ACCOUNT? JOIN US') : (langService.currentLang() === 'ar' ? 'لديكِ عضوية؟ سجلي دخولكِ' : 'HAVE ACCOUNT? LOG IN') }}
-                </button>
-              </div>
-            </div>
-
-            <div class="mt-12 text-center opacity-20">
-               <span class="text-[9px] font-black uppercase tracking-[0.5em]">{{ langService.currentLang() === 'ar' ? 'دخول نوريڤا الخاص' : 'NOREVA ELITE ACCESS' }}</span>
-            </div>
-          </div>
+                 </div>
+           </div>
         </div>
       }
     </div>
+
+    <!-- Welcome Popup (Global) -->
+    @if (showWelcomePopup()) {
+      <div class="fixed inset-0 z-[200] flex items-center justify-center px-4 animate-in fade-in duration-300">
+        <div class="absolute inset-0 bg-black/60 backdrop-blur-sm" (click)="closePopup()"></div>
+        <div class="bg-white rounded-[2rem] p-8 md:p-12 w-full max-w-lg relative shadow-2xl animate-in zoom-in-95 duration-300 text-center">
+            <button (click)="closePopup()" class="absolute top-6 right-6 text-gray-400 hover:text-black transition-colors">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+            
+            <div class="w-20 h-20 bg-black text-white rounded-full flex items-center justify-center mx-auto mb-8 text-3xl shadow-xl">
+              🎉
+            </div>
+
+            <h2 class="text-3xl md:text-5xl font-serif text-black mb-4 italic tracking-tight">
+              {{ langService.currentLang() === 'ar' ? 'أهلاً بكِ في العائلة!' : 'Welcome to the Club!' }}
+            </h2>
+            
+            <p class="text-gray-500 font-medium mb-8 leading-relaxed">
+              {{ langService.currentLang() === 'ar' ? 'كعربون محبة، تفضلي هذا الخصم الحصري لطلبك القادم.' : 'As a thank you for joining, here is an exclusive discount for your next order.' }}
+            </p>
+
+            <div class="bg-gray-50 border-2 border-dashed border-gray-200 rounded-2xl p-6 mb-8 relative group cursor-pointer hover:border-black transition-colors" (click)="copyCode('noreva26')">
+               <span class="block text-[10px] font-black uppercase tracking-widest text-gray-400 mb-2">{{ langService.currentLang() === 'ar' ? 'كود الخصم الخاص بك' : 'YOUR DISCOUNT CODE' }}</span>
+               <div class="flex items-center justify-center gap-4">
+                  <span class="text-3xl md:text-4xl font-black text-[#c19b6e] tracking-wider font-mono">noreva26</span>
+                  <span class="bg-black text-white text-[9px] font-bold px-3 py-1 rounded-full uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                    {{ langService.currentLang() === 'ar' ? 'نسخ' : 'COPY' }}
+                  </span>
+               </div>
+            </div>
+
+            <button (click)="closePopup()" class="w-full py-4 bg-black text-white rounded-xl font-black text-sm uppercase tracking-widest hover:bg-gray-900 transition-all shadow-lg">
+              {{ langService.currentLang() === 'ar' ? 'تسوقي الآن' : 'START SHOPPING' }}
+            </button>
+        </div>
+      </div>
+    }
   `,
   styles: [`
     .no-scrollbar::-webkit-scrollbar { display: none; }
@@ -260,11 +299,13 @@ export class LoginComponent {
   cartService = inject(CartService);
   currencyService = inject(CurrencyService);
   langService = inject(LanguageService);
+  shopifyService = inject(ShopifyService);
   router: Router = inject(Router);
 
   isLoginMode = signal(true);
   showPassword = signal(false);
   isLoading = signal(false);
+  isCheckingOut = signal(false);
   errorMessage = signal<string | null>(null);
   authForm: FormGroup;
 
@@ -277,6 +318,8 @@ export class LoginComponent {
       lastName: ['']
     });
   }
+
+  showWelcomePopup = signal(false);
 
   toggleMode() {
     this.isLoginMode.update(v => !v);
@@ -296,12 +339,16 @@ export class LoginComponent {
           const result = await this.authService.login(email, password);
           if (!result.success) {
             this.errorMessage.set(this.langService.currentLang() === 'ar' ? 'لا يوجد حساب بهذه المعلومات' : 'No account found with this information');
+          } else {
+            this.showWelcomePopup.set(true);
           }
         } else {
           // Changed to Call Register (Real Implementation)
           const result = await this.authService.register(email, password, firstName, lastName);
           if (!result.success) {
             this.errorMessage.set(this.langService.currentLang() === 'ar' ? 'فشل التسجيل: ' + result.message : 'Registration failed: ' + result.message);
+          } else {
+            this.showWelcomePopup.set(true);
           }
         }
       } catch (error) {
@@ -310,6 +357,15 @@ export class LoginComponent {
         this.isLoading.set(false);
       }
     }
+  }
+
+  copyCode(code: string) {
+    navigator.clipboard.writeText(code);
+    alert(this.langService.currentLang() === 'ar' ? 'تم نسخ الكود!' : 'Code copied!');
+  }
+
+  closePopup() {
+    this.showWelcomePopup.set(false);
   }
 
   getStatusLabel(status: string): string {
@@ -330,5 +386,43 @@ export class LoginComponent {
       'shipped': base + 'bg-orange-50 text-orange-500 border border-orange-100'
     };
     return types[status] || base;
+  }
+
+  async handleCheckout() {
+    if (this.isCheckingOut() || this.cartService.items().length === 0) return;
+
+    try {
+      this.isCheckingOut.set(true);
+
+      const lineItems = this.cartService.items().map(item => ({
+        variantId: item.variant?.id || item.product.variants[0]?.id,
+        quantity: item.quantity
+      }));
+
+      // Add shipping protection if enabled
+      if (this.cartService.shippingProtection()) {
+        const protectionId = await this.shopifyService.getShippingProtectionVariantId();
+        if (protectionId) {
+          lineItems.push({
+            variantId: protectionId,
+            quantity: 1
+          });
+        }
+      }
+
+      const result = await this.shopifyService.createCart(lineItems);
+
+      if (result && result.cart && result.cart.checkoutUrl) {
+        window.location.href = result.cart.checkoutUrl;
+      } else {
+        throw new Error('Could not create checkout URL');
+      }
+    } catch (error: any) {
+      console.error('Checkout error:', error);
+      const msg = error?.message || (this.langService.currentLang() === 'ar' ? 'حدث خطأ أثناء الانتقال للدفع' : 'Error proceeding to checkout');
+      alert(msg);
+    } finally {
+      this.isCheckingOut.set(false);
+    }
   }
 }
