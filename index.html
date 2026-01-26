@@ -106,6 +106,14 @@
     [dir="rtl"] h4,
     [dir="rtl"] h5 {
       line-height: 1.6;
+      letter-spacing: 0 !important;
+    }
+
+    /* Preserve letter-spacing only for uppercase English text in RTL */
+    [dir="rtl"] .tracking-widest,
+    [dir="rtl"] .tracking-wider,
+    [dir="rtl"] .uppercase {
+      letter-spacing: 0 !important;
     }
 
     .no-scrollbar::-webkit-scrollbar {

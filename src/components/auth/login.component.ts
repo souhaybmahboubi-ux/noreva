@@ -45,11 +45,13 @@ import { ShopifyService } from '../../services/shopify.service';
             <div class="hidden lg:flex gap-4">
               <div class="bg-gray-50 p-6 rounded-[2.5rem] border border-gray-100 text-center min-w-[140px]">
                 <span class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">{{ langService.currentLang() === 'ar' ? 'إجمالي الطلبات' : 'TOTAL ORDERS' }}</span>
-                <span class="text-3xl font-black italic">03</span>
+                <span class="text-3xl font-black italic">
+                  {{ (authService.currentUser()?.orders?.length || 0) < 10 ? '0' : '' }}{{ authService.currentUser()?.orders?.length || 0 }}
+                </span>
               </div>
               <div class="bg-gray-50 p-6 rounded-[2.5rem] border border-gray-100 text-center min-w-[140px]">
                 <span class="block text-xs font-black text-gray-400 uppercase tracking-widest mb-2">{{ langService.currentLang() === 'ar' ? 'توفير العضوية' : 'MEMBERSHIP SAVE' }}</span>
-                <span class="text-3xl font-black italic">15%</span>
+                <span class="text-3xl font-black italic">10%</span>
               </div>
             </div>
           </div>

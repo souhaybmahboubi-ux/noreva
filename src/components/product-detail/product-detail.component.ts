@@ -548,8 +548,41 @@ import { ReviewsComponent } from '../reviews/reviews.component';
 
 
 
+          <!-- FAQ Section -->
+          <div class="mt-16 pt-16 border-t border-gray-100 max-w-4xl mx-auto px-6">
+             <div class="text-center mb-12">
+                <h3 class="text-3xl md:text-5xl font-serif text-black mb-4">
+                  {{ langService.currentLang() === 'ar' ? 'الأسئلة الشائعة' : 'Questions & Answers' }}
+                </h3>
+                <p class="text-gray-500 uppercase tracking-widest text-[10px] font-black">
+                  {{ langService.currentLang() === 'ar' ? 'كل ما تودين معرفته عن نوريڤا' : 'Everything you need to know about Noreva' }}
+                </p>
+             </div>
+
+             <div class="space-y-4">
+                @for (faq of (langService.currentLang() === 'ar' ? faqsAr : faqsEn); track faq.q) {
+                  <div class="border border-gray-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
+                    <button (click)="faq.open = !faq.open" 
+                            class="w-full p-6 text-start flex items-center justify-between gap-4 focus:outline-none">
+                      <span class="text-sm md:text-base font-bold text-gray-900">{{ faq.q }}</span>
+                      <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center flex-shrink-0 transition-transform duration-300"
+                           [class.rotate-180]="faq.open">
+                        <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                      </div>
+                    </button>
+                    @if (faq.open) {
+                      <div class="px-6 pb-6 animate-in fade-in slide-in-from-top-2 duration-300">
+                        <div class="h-px bg-gray-50 mb-6"></div>
+                        <p class="text-sm text-gray-500 leading-relaxed">{{ faq.a }}</p>
+                      </div>
+                    }
+                  </div>
+                }
+             </div>
+          </div>
+
           <!-- Reviews Integration -->
-          <div class="mt-8 pt-8 border-t border-gray-100">
+          <div class="mt-16 pt-16 border-t border-gray-100">
              <app-reviews></app-reviews>
           </div>
         }
