@@ -1,4 +1,3 @@
-
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
@@ -7,6 +6,7 @@ import { AuthService, UserProfile } from '../../services/auth.service';
 import { CartService } from '../../services/cart.service';
 import { CurrencyService } from '../../services/currency.service';
 import { LanguageService } from '../../services/language.service';
+import { ShopifyService } from '../../services/shopify.service';
 
 
 @Component({
@@ -26,9 +26,7 @@ import { LanguageService } from '../../services/language.service';
                 <div class="w-32 h-32 bg-black text-white rounded-full flex items-center justify-center text-5xl font-black italic shadow-2xl">
                   {{ authService.currentUser()?.firstName?.charAt(0) }}
                 </div>
-                <div class="absolute -bottom-2 -right-2 bg-[#e3e1dc] text-black px-4 py-1.5 rounded-full text-[10px] font-black uppercase tracking-widest shadow-lg border-2 border-white">
-                  {{ langService.currentLang() === 'ar' ? 'عضوية ملكية' : 'NOREVA ELITE' }}
-                </div>
+
               </div>
               <div>
                 <h1 class="text-4xl font-black text-black italic tracking-tighter mb-2">
@@ -36,9 +34,7 @@ import { LanguageService } from '../../services/language.service';
                 </h1>
                 <p class="text-gray-400 font-medium text-sm">{{ authService.currentUser()?.email }}</p>
                 <div class="flex items-center gap-4 mt-4 justify-center md:justify-start">
-                  <span class="text-xs font-black bg-gray-50 px-4 py-1.5 rounded-full uppercase tracking-widest text-gray-400 border border-gray-100">
-                    {{ langService.currentLang() === 'ar' ? '12 نقطة نوريڤا' : '12 NOREVA POINTS' }}
-                  </span>
+
                   <button (click)="authService.logout()" class="text-xs font-black uppercase tracking-widest text-red-400 hover:text-red-600 transition-colors">
                     {{ langService.currentLang() === 'ar' ? 'تسجيل الخروج' : 'LOGOUT' }}
                   </button>
@@ -164,13 +160,9 @@ import { LanguageService } from '../../services/language.service';
               </div>
             </div>
           </div>
-        </div>
       } @else {
-        <!-- Auth Mode (Redesigned - No Image) -->
         <div class="container mx-auto px-4 flex items-center justify-center">
-           <div class="relative w-full max-w-xl bg-white shadow-2xl overflow-hidden rounded-sm p-8 md:p-16 flex flex-col justify-center min-h-[600px]">
-                 
-                 <div class="w-full" [dir]="langService.isRtl() ? 'rtl' : 'ltr'">
+            <div class="w-full max-w-lg">
                     <!-- Header -->
                     <div class="text-center mb-12">
                        <h3 class="text-sm md:text-base font-serif italic text-gray-900 mb-3 tracking-wide">
@@ -246,7 +238,6 @@ import { LanguageService } from '../../services/language.service';
 
                  </div>
            </div>
-        </div>
       }
     </div>
 
