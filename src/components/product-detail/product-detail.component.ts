@@ -106,15 +106,15 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                    </div>
 
                    <!-- Mobile Shipping Info (Between Rating and Title) -->
-                   <div class="lg:hidden mb-4 flex items-center gap-3 p-3 bg-[#f0f9ff] rounded-xl border border-[#e0f2fe] text-[#0c4a6e]">
-                       <div class="bg-white p-2 rounded-full shadow-sm text-[#0284c7]">
-                           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+                   <div class="lg:hidden mb-4 flex items-center gap-3 p-3 bg-[#faf9f6] rounded-xl border border-gray-100 text-gray-800">
+                       <div class="bg-white p-2 rounded-full shadow-sm text-gray-900">
+                           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
                        </div>
                        <div class="flex-1">
                            <p class="text-[10px] font-black uppercase tracking-widest mb-0.5">
-                               {{ langService.currentLang() === 'ar' ? 'شحن سريع لدول الخليج' : 'FAST GCC SHIPPING' }} ✈️
+                               {{ langService.currentLang() === 'ar' ? 'شحن سريع لدول الخليج' : 'FAST GCC SHIPPING' }}
                            </p>
-                           <p class="text-[9px] font-medium leading-tight opacity-80">
+                           <p class="text-[9px] font-medium leading-tight opacity-60">
                                {{ langService.currentLang() === 'ar' ? 'السعودية، الإمارات، قطر، البحرين، الكويت، عمان (4-12 يوم)' : 'Saudi Arabia, UAE, Qatar, Bahrain, Kuwait, Oman (4-12 Days)' }}
                            </p>
                        </div>
@@ -130,7 +130,7 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                    <div class="flex items-center gap-3">
                       <div class="flex items-baseline gap-2 text-black">
                          <span class="text-2xl font-bold">{{ currencyService.formatPrice((selectedBundle() ? selectedBundle()!.price : currentProduct.price) / (selectedBundle() ? selectedBundle()!.quantity : 1)) }}</span>
-                         <span class="text-sm font-bold text-gray-400 mx-1 uppercase">{{ langService.currentLang() === 'ar' ? '/ للزوج' : '/ pair' }}</span>
+                         <span class="text-sm font-bold text-gray-400 mx-1 uppercase">{{ langService.currentLang() === 'ar' ? 'للزوج' : 'pair' }}</span>
                          @if (selectedBundle() && selectedBundle()!.compareAtPrice > selectedBundle()!.price) {
                            <span class="text-gray-400 line-through text-sm">{{ currencyService.formatPrice(selectedBundle()!.compareAtPrice / selectedBundle()!.quantity) }}</span>
                            <span class="bg-red-50 text-red-600 text-xs font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
@@ -188,9 +188,6 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                                    <div>
                                        <h3 class="font-black text-base uppercase tracking-tight flex items-center gap-2" [class.text-[#c19b6e]]="true">
                                            {{ bundle.title }}
-                                           @if (bundle.id === 'trio') {
-                                             <span class="text-[18px]">👑</span>
-                                           }
                                        </h3>
                                        <p class="text-[10px] font-bold text-gray-500 mt-0.5 flex flex-wrap gap-2 items-center">
                                          <span class="bg-black text-white px-1.5 py-0.5 rounded text-[9px]">{{ bundle.subtitle }}</span>
@@ -349,15 +346,16 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                   </div>
                   
                   <!-- Shipping Info (GCC Focused) -->
-                  <div class="mt-3 flex items-center gap-3 p-3 bg-[#f0f9ff] rounded-xl border border-[#e0f2fe] text-[#0c4a6e]">
-                      <div class="bg-white p-2 rounded-full shadow-sm text-[#0284c7]">
-                          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
+                  <!-- Shipping Info (GCC Focused) -->
+                  <div class="mt-3 flex items-center gap-3 p-3 bg-[#faf9f6] rounded-xl border border-gray-100 text-gray-800">
+                      <div class="bg-white p-2 rounded-full shadow-sm text-gray-900">
+                          <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
                       </div>
                       <div class="flex-1">
                           <p class="text-[10px] font-black uppercase tracking-widest mb-0.5">
-                              {{ langService.currentLang() === 'ar' ? 'شحن سريع لدول الخليج' : 'FAST GCC SHIPPING' }} ✈️
+                              {{ langService.currentLang() === 'ar' ? 'شحن سريع لدول الخليج' : 'FAST GCC SHIPPING' }}
                           </p>
-                          <p class="text-[9px] font-medium leading-tight opacity-80">
+                          <p class="text-[9px] font-medium leading-tight opacity-60">
                               {{ langService.currentLang() === 'ar' ? 'السعودية، الإمارات، قطر، البحرين، الكويت، عمان (4-12 يوم)' : 'Saudi Arabia, UAE, Qatar, Bahrain, Kuwait, Oman (4-12 Days)' }}
                           </p>
                       </div>
@@ -521,7 +519,7 @@ import { ReviewsComponent } from '../reviews/reviews.component';
              
              <div class="rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100 bg-black">
                 <div class="relative w-full aspect-[3/4]">
-                   <video src="/assets/noreva-why-us.mp4" autoplay loop muted playsinline class="absolute inset-0 w-full h-full object-cover"></video>
+                   <img src="/assets/noreva-why-us-2.gif" class="absolute inset-0 w-full h-full object-cover">
                 </div>
              </div>
           </div>
@@ -604,7 +602,7 @@ import { ReviewsComponent } from '../reviews/reviews.component';
   
                 <!-- Image Side (Left - 35% on Mobile) -->
                 <div class="w-[35%] md:w-1/2 bg-[#f5f5f5] relative shrink-0">
-                   <img src="/assets/models.png" alt="Models" class="absolute inset-0 w-full h-full object-cover">
+                   <img src="/assets/noreva-models-popup.png" alt="Models" class="absolute inset-0 w-full h-full object-cover">
                 </div>
   
                 <!-- Content Side (Right - 65% on Mobile) -->
@@ -622,7 +620,7 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                    <div class="w-full max-w-[90%] md:max-w-md space-y-4 md:space-y-8">
                       <a routerLink="/login" (click)="closeNewsletter()" 
                          class="flex items-center justify-center w-full h-12 md:h-16 bg-[#ebeae6] hover:bg-[#dedcd6] text-black font-serif font-bold tracking-[0.2em] uppercase transition-colors text-sm md:text-2xl whitespace-nowrap cursor-pointer shadow-sm">
-                        {{ langService.currentLang() === 'ar' ? 'تسجيل الدخول' : 'SIGN IN / REGISTER' }}
+                        {{ langService.currentLang() === 'ar' ? 'تسجيل الدخول' : 'SIGN IN & REGISTER' }}
                       </a>
                    </div>
   
@@ -635,13 +633,30 @@ import { ReviewsComponent } from '../reviews/reviews.component';
           </div>
         } @else {
           <!-- Minimized Floating Button -->
-          <button (click)="openNewsletter()" class="fixed bottom-24 left-4 md:bottom-10 md:left-10 z-[1000] bg-white text-black pl-2 pr-6 py-2 rounded-full shadow-2xl flex items-center gap-4 animate-in slide-in-from-bottom duration-500 hover:scale-105 active:scale-95 transition-all border border-gray-100 group cursor-pointer hover:shadow-[0_20px_50px_rgba(0,0,0,0.1)]">
-            <div class="w-10 h-10 bg-black rounded-full flex items-center justify-center text-lg animate-pulse shadow-lg text-white">🎁</div>
-            <div class="flex flex-col text-start">
-               <span class="text-[10px] font-black uppercase tracking-widest text-black leading-tight">{{ langService.currentLang() === 'ar' ? 'خصم ١٠٪' : '10% OFF' }}</span>
-               <span class="text-[8px] font-bold text-gray-400 uppercase tracking-widest group-hover:text-black transition-colors">{{ langService.currentLang() === 'ar' ? 'حصرياً لك' : 'JUST FOR YOU' }}</span>
-            </div>
-          </button>
+          <!-- Minimized Floating Button (Eye Design) -->
+          <div class="fixed bottom-24 left-4MD:bottom-10 md:left-10 z-[1000] animate-in slide-in-from-bottom duration-500 group">
+             <!-- Close X -->
+             <button (click)="showNewsletter.set(false); $event.stopPropagation()" class="absolute -top-1 -right-1 z-20 bg-black text-white rounded-full w-5 h-5 flex items-center justify-center text-[9px] shadow-md border border-white hover:bg-gray-800 active:scale-90 transition-transform">
+               <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+             </button>
+
+             <!-- Main Trigger -->
+             <button (click)="openNewsletter()" class="relative w-14 h-14 md:w-20 md:h-20 rounded-full overflow-hidden shadow-[0_10px_40px_rgba(0,0,0,0.3)] hover:scale-105 transition-transform border-2 border-white cursor-pointer active:scale-95">
+                <img src="/assets/eye.png" class="absolute inset-0 w-full h-full object-cover">
+                <div class="absolute inset-0 bg-black/10 flex flex-col items-center justify-center text-white p-0.5">
+                   @if (langService.currentLang() === 'ar') {
+                      <span class="font-black text-[10px] md:text-sm leading-none drop-shadow-md">احصلي</span>
+                      <span class="font-black text-sm md:text-lg leading-none drop-shadow-md my-0.5">١٠٪</span>
+                      <span class="font-black text-[8px] md:text-xs leading-none drop-shadow-md">خصم</span>
+                   } @else {
+                      <span class="font-black text-xs md:text-base leading-none drop-shadow-md">GET</span>
+                      <span class="font-black text-xs md:text-base leading-none drop-shadow-md my-0.5">10%</span>
+                      <span class="font-black text-[9px] md:text-xs leading-none drop-shadow-md">OFF</span>
+                   }
+                </div>
+             </button>
+          </div>
+
         }
       }
     </div>
@@ -741,8 +756,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
 
   // Localized Descriptions
   private descriptions = {
-    en: `1. INNOVATIVE MAGNETIC DESIGN: Easy to wear without glue, the one-piece structure is simple and convenient, saving your time.\n\n2. PREMIUM MATERIALS: Made of high-quality flexible magnets and simulated hair material, light and comfortable, suitable for all eye shapes.\n\n3. SMART PACKAGING: Unique magnetic integrated box packaging, easy to store and carry.\n\n4. SUSTAINABLE BEAUTY: Repeated use without damage, environmentally friendly and economical.\n\n5. PERFECT FIT: Fits the eye contour perfectly to match your makeup style.\n\n⚠️ HEALTH ALERT: Traditional lash glues often contain harsh chemicals that can lead to eye infections, irritation, and permanent lash loss if left on during sleep. Our 100% glue-free technology eliminates these risks, ensuring your eye health is never compromised.\n\n* Shelf Life: 3 Years\n* Manual measurement tolerance: 2-5g\n* Note: Colors may vary slightly due to display settings.`,
-    ar: `1. تصميم مغناطيسي مبتكر: سهل الارتداء بدون صمغ، هيكل متكامل بسيط ومريح يوفر وقتكِ وجهدكِ.\n\n2. مواد فاخرة: مصنوعة من مغناطيسات مرنة عالية الجودة وشعر محاكي للطبيعي، خفيفة ومريحة، تناسب جميع أشكال العيون.\n\n3. تغليف ذكي: عبوة مدمجة مغناطيسية فريدة، سهلة التخزين والحمل.\n\n4. جمال مستدام: قابلة للاستخدام المتكرر دون تلف، صديقة للبيئة واقتصادية.\n\n5. تطابق مثالي: تتناسب مع محيط العين تماماً لتتناغم مع أسلوب مكياجكِ.\n\n⚠️ تنبيه صحي: صمغ الرموش التقليدي غالباً ما يحتوي على مواد كيميائية قاسية قد تؤدي إلى التهابات العين، التهيج، وفقدان الرموش الدائم خاصة عند النوم به. تقنيتنا الخالية من الصمغ بنسبة 100% تقضي على هذه المخاطر تماماً، مما يضمن الحفاظ على صحة عينيكِ.\n\n* مدة الصلاحية: 3 سنوات\n* ملاحظة: تفاوت القياس اليدوي 2-5 جرام.\n* تنبيه: قد تختلف الألوان الفعلية قليلاً حسب إعدادات الشاشة.`
+    en: `1. INNOVATIVE MAGNETIC DESIGN: Easy to wear without glue, the one-piece structure is simple and convenient, saving your time.\n\n2. PREMIUM MATERIALS: Made of high-quality flexible magnets and simulated hair material, light and comfortable, suitable for all eye shapes.\n\n3. SMART PACKAGING: Unique magnetic integrated box packaging, easy to store and carry.\n\n4. SUSTAINABLE BEAUTY: Repeated use without damage, environmentally friendly and economical.\n\n5. PERFECT FIT: Fits the eye contour perfectly to match your makeup style.\n\nHEALTH ALERT: Traditional lash glues often contain harsh chemicals that can lead to eye infections, irritation, and permanent lash loss if left on during sleep. Our 100% glue-free technology eliminates these risks, ensuring your eye health is never compromised.\n\n* Shelf Life: 3 Years\n* Manual measurement tolerance: 2-5g\n* Note: Colors may vary slightly due to display settings.`,
+    ar: `1. تصميم مغناطيسي مبتكر: سهل الارتداء بدون صمغ، هيكل متكامل بسيط ومريح يوفر وقتكِ وجهدكِ.\n\n2. مواد فاخرة: مصنوعة من مغناطيسات مرنة عالية الجودة وشعر محاكي للطبيعي، خفيفة ومريحة، تناسب جميع أشكال العيون.\n\n3. تغليف ذكي: عبوة مدمجة مغناطيسية فريدة، سهلة التخزين والحمل.\n\n4. جمال مستدام: قابلة للاستخدام المتكرر دون تلف، صديقة للبيئة واقتصادية.\n\n5. تطابق مثالي: تتناسب مع محيط العين تماماً لتتناغم مع أسلوب مكياجكِ.\n\nتنبيه صحي: صمغ الرموش التقليدي غالباً ما يحتوي على مواد كيميائية قاسية قد تؤدي إلى التهابات العين، التهيج، وفقدان الرموش الدائم خاصة عند النوم به. تقنيتنا الخالية من الصمغ بنسبة 100% تقضي على هذه المخاطر تماماً، مما يضمن الحفاظ على صحة عينيكِ.\n\n* مدة الصلاحية: 3 سنوات\n* ملاحظة: تفاوت القياس اليدوي 2-5 جرام.\n* تنبيه: قد تختلف الألوان الفعلية قليلاً حسب إعدادات الشاشة.`
   };
 
   get currentLocalizedDescription() {
@@ -785,11 +800,11 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
               {
                 id: 'trio',
                 title: this.langService.currentLang() === 'ar' ? 'الباقة المتكاملة' : 'Ultimate Pack',
-                subtitle: this.langService.currentLang() === 'ar' ? 'وفر 15٪' : 'Save 15%',
+                subtitle: this.langService.currentLang() === 'ar' ? 'وفر 20٪' : 'Save 20%',
                 quantity: 3,
-                price: 131.37,
-                compareAtPrice: 176.37,
-                savings: 45.00,
+                price: 176.97,
+                compareAtPrice: 236.97,
+                savings: 60.00,
                 hasGift: true,
                 giftValue: 32.99
               },
@@ -798,9 +813,9 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
                 title: this.langService.currentLang() === 'ar' ? 'طقم زوجين' : 'Duo',
                 subtitle: this.langService.currentLang() === 'ar' ? 'وفر 10٪' : 'Save 10%',
                 quantity: 2,
-                price: 105.83,
-                compareAtPrice: 117.58,
-                savings: 11.75,
+                price: 142.19,
+                compareAtPrice: 157.98,
+                savings: 15.79,
                 hasGift: true,
                 giftValue: 32.99
               },
@@ -809,8 +824,8 @@ export class ProductDetailComponent implements OnInit, OnDestroy {
                 title: this.langService.currentLang() === 'ar' ? 'زوج واحد' : 'Single',
                 subtitle: this.langService.currentLang() === 'ar' ? 'السعر الأساسي' : 'Standard price',
                 quantity: 1,
-                price: 58.79,
-                compareAtPrice: 58.79,
+                price: 78.99,
+                compareAtPrice: 78.99,
                 savings: 0
               }
             ];

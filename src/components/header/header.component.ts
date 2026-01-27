@@ -44,7 +44,7 @@ import { CommonModule } from '@angular/common';
 
         <!-- Logo (NOREVA - Dark Taupe for Visibility) -->
         <a routerLink="/" class="absolute left-1/2 -translate-x-1/2 flex items-center justify-center h-full">
-           <img src="/assets/final-logo.webp" alt="NOREVA" class="h-6 md:h-8 w-auto object-contain">
+           <img src="/assets/noreva-logo.webp" alt="NOREVA" class="h-6 md:h-8 w-auto object-contain">
         </a>
 
         <!-- Right Actions -->
@@ -114,7 +114,7 @@ import { CommonModule } from '@angular/common';
                     </button>
                  } @else {
                     <a (click)="closeMenu()" routerLink="/login" class="block py-5 border-b border-gray-50 text-base font-black text-black uppercase tracking-widest">
-                      {{ langService.currentLang() === 'ar' ? 'دخول / عضوية جديدة' : 'LOGIN / REGISTER' }}
+                      {{ langService.currentLang() === 'ar' ? 'دخول و عضوية جديدة' : 'LOGIN & REGISTER' }}
                     </a>
                  }
               </div>

@@ -14,30 +14,35 @@ import { NgOptimizedImage, CommonModule } from '@angular/common';
     <div class="bg-white min-h-screen selection:bg-noreva-bone selection:text-black overflow-x-hidden">
       
 
-      <!-- Hero Section -->
-      <section class="pt-32 md:pt-44 pb-24 px-6 border-b border-gray-50">
-        <div class="container mx-auto max-w-4xl text-center">
-           <h1 class="text-5xl md:text-8xl font-black font-serif text-black mb-10 leading-[1] tracking-tight animate-fade-up">
-              {{ langService.currentLang() === 'ar' ? 'رموش أحلامك..' : 'Dream Lashes..' }} <br/>
-              {{ langService.currentLang() === 'ar' ? 'بدون صمغ، بدون فوضى!' : 'No Glue, No Mess!' }}
-           </h1>
-           
-           <p class="text-xl md:text-2xl text-gray-500 font-medium leading-relaxed mb-16 max-w-2xl mx-auto animate-fade-up" style="animation-delay: 0.1s">
-              {{ langService.currentLang() === 'ar' 
-                ? 'وداعاً للصمغ اللي يدبق ويخرب المكياج. نوريڤا تقدم لكِ التقنية المغناطيسية لرموش تركب بثواني وتثبت طول اليوم.' 
-                : 'Say goodbye to sticky glue ruining your makeup. Noreva brings you magnetic tech for lashes that apply in seconds and stay all day.' }}
-           </p>
+      <!-- Hero Section (Zoom Out Effect) -->
+      <section class="relative h-screen w-full overflow-hidden">
+        <!-- Background Image with Zoom Effect -->
+        <div class="absolute inset-0 w-full h-full"
+             [style.transform]="'scale(' + zoomScale() + ')'"
+             style="transform-origin: center center; transition: transform 0.1s linear; will-change: transform;">
+           <img src="/assets/hero-zoom.png" class="w-full h-full object-cover">
+        </div>
+        
+        <!-- Overlay Content -->
+        <div class="absolute inset-0 bg-black/30 flex items-center justify-center">
+            <div class="container mx-auto max-w-4xl text-center px-6 pt-20">
+               <h1 class="text-5xl md:text-8xl font-black font-serif text-white mb-10 leading-[1] tracking-tight animate-fade-up drop-shadow-xl">
+                  {{ langService.currentLang() === 'ar' ? 'رموش أحلامك..' : 'Dream Lashes..' }} <br/>
+                  {{ langService.currentLang() === 'ar' ? 'بدون صمغ، بدون فوضى!' : 'No Glue, No Mess!' }}
+               </h1>
+               
+               <p class="text-xl md:text-2xl text-white/90 font-medium leading-relaxed mb-16 max-w-2xl mx-auto animate-fade-up drop-shadow-md" style="animation-delay: 0.1s">
+                  {{ langService.currentLang() === 'ar' 
+                    ? 'وداعاً للصمغ اللي يدبق ويخرب المكياج. نوريڤا تقدم لكِ التقنية المغناطيسية لرموش تركب بثواني وتثبت طول اليوم.' 
+                    : 'Say goodbye to sticky glue ruining your makeup. Noreva brings you magnetic tech for lashes that apply in seconds and stay all day.' }}
+               </p>
 
-           <div class="flex flex-col items-center gap-8 animate-fade-up" style="animation-delay: 0.2s">
-              <a [routerLink]="['/products']" class="bg-black text-white px-16 py-7 text-xl font-black rounded-full hover:scale-105 active:scale-95 transition-all shadow-2xl">
-                 {{ langService.currentLang() === 'ar' ? 'احصلي عليها الآن' : 'GET YOURS NOW' }}
-              </a>
-              <div class="flex gap-10 opacity-30 grayscale items-center">
-                 <span class="text-xs font-black tracking-widest uppercase italic">{{ langService.currentLang() === 'ar' ? 'تركيب فوري' : 'INSTANT APPLY' }}</span>
-                 <span class="text-xs font-black tracking-widest uppercase italic">{{ langService.currentLang() === 'ar' ? 'قابلة للإعادة' : 'REUSABLE' }}</span>
-                 <span class="text-xs font-black tracking-widest uppercase italic">{{ langService.currentLang() === 'ar' ? 'آمنة' : 'SAFE' }}</span>
-              </div>
-           </div>
+               <div class="flex flex-col items-center gap-8 animate-fade-up" style="animation-delay: 0.2s">
+                  <a [routerLink]="['/products']" class="bg-white text-black px-16 py-7 text-xl font-black rounded-full hover:scale-105 active:scale-95 transition-all shadow-2xl">
+                     {{ langService.currentLang() === 'ar' ? 'احصلي عليها الآن' : 'GET YOURS NOW' }}
+                  </a>
+               </div>
+            </div>
         </div>
       </section>
 
@@ -112,8 +117,8 @@ import { NgOptimizedImage, CommonModule } from '@angular/common';
                  </h3>
                  <p class="opacity-80 leading-loose text-base md:text-lg text-start">
                    {{ langService.currentLang() === 'ar' 
-                     ? 'مغناطيساتنا "مايكرو" يعني صغيرة جداً وغير مرئية للعين المجردة، لكنها قوية بما يكفي للصمود في أجواءنا الحارة والرطبة. خفيفة كالريشة، ستنسين أنك ترتدينها.' 
-                     : 'Our "Micro" magnets are tiny and invisible to the naked eye, yet strong enough to withstand hot and humid weather. Light as a feather, you will forget you are wearing them.' }}
+                     ? 'مغناطيساتنا مايكرو يعني صغيرة جداً وغير مرئية للعين المجردة، لكنها قوية بما يكفي للصمود في أجواءنا الحارة والرطبة. خفيفة كالريشة، ستنسين أنك ترتدينها.' 
+                     : 'Our Micro magnets are tiny and invisible to the naked eye, yet strong enough to withstand hot and humid weather. Light as a feather, you will forget you are wearing them.' }}
                  </p>
               </div>
            </div>
@@ -133,6 +138,34 @@ export class HomeComponent implements OnInit, OnDestroy {
   shopifyService = inject(ShopifyService);
 
   featuredProducts = signal<any[]>([]);
+  zoomScale = signal(1.5); // Start zoomed out? No, start zoomed IN (high scale) and go to 1?
+  // User asked: "first only the product appears and then u zoom out"
+  // This implies starting with a high scale (zoomed in on product) and decreasing scale to 1 (seeing full image) as we scroll?
+  // Or simpler: Parallax zoom out. Let's implement standard scroll-based zoom.
+
+  // Logic: Start at scale 2 (zoomed in). As user scrolls down, scale decreases to 1.
+
+  constructor() {
+    // Add scroll listener
+    if (typeof window !== 'undefined') {
+      window.addEventListener('scroll', () => {
+        const scrollY = window.scrollY;
+        const windowHeight = window.innerHeight;
+        // Calculate scale: 
+        // When scrollY = 0, scale = 1.3
+        // When scrollY = windowHeight, scale = 1
+
+        // Let's invert relative to request: "first only product appears (zoomed in) -> zoom out"
+        // So at scroll 0 => Scale = 1.5; At scroll = 500 => Scale = 1.0
+
+        const maxScroll = windowHeight;
+        const progress = Math.min(scrollY / maxScroll, 1);
+        const newScale = 1.5 - (0.5 * progress); // 1.5 -> 1.0
+
+        this.zoomScale.set(Math.max(1, newScale));
+      });
+    }
+  }
 
   async ngOnInit() {
     window.scrollTo(0, 0);

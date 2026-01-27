@@ -21,8 +21,8 @@ import { RouterLink } from '@angular/router';
             <h3 class="text-2xl font-bold text-gray-900 mb-4">{{ langService.currentLang() === 'ar' ? 'العلم خلف الجمال' : 'The science behind the beauty' }}</h3>
             <p>
               {{ langService.currentLang() === 'ar' 
-                ? 'تقنيتنا تعتمد على "المغناطيس المجهري الثنائي" المدمج بدقة متناهية في قاعدة الرموش. هذه التقنية تضمن ثباتاً فائقاً يتحدى الظروف اليومية، مع الحفاظ على مرونة كاملة تسمح للرموش باتخاذ شكل جفنكِ الطبيعي تماماً.' 
-                : 'Our technology is based on "Dual Micro-Magnets" precision-embedded at the base of the lashes. This technology ensures a superior grip that defies daily conditions, while maintaining full flexibility that allows the lashes to contour perfectly to your natural eyelid.' }}
+                ? 'تقنيتنا تعتمد على المغناطيس المجهري الثنائي المدمج بدقة متناهية في قاعدة الرموش. هذه التقنية تضمن ثباتاً فائقاً يتحدى الظروف اليومية، مع الحفاظ على مرونة كاملة تسمح للرموش باتخاذ شكل جفنكِ الطبيعي تماماً.' 
+                : 'Our technology is based on Dual Micro-Magnets precision-embedded at the base of the lashes. This technology ensures a superior grip that defies daily conditions, while maintaining full flexibility that allows the lashes to contour perfectly to your natural eyelid.' }}
             </p>
         </section>
         
@@ -312,7 +312,7 @@ export class HelpComponent {
         <div class="max-w-4xl mx-auto px-4 mb-20 md:mb-24 text-center">
             <p class="text-lg md:text-2xl text-gray-700 leading-relaxed font-medium">
               @if (langService.currentLang() === 'ar') {
-                في نوريڤا، ما قدمنا مجرد رموش جديدة، إحنا حلينا كل المشاكل اللي تعانين منها مع الرموش التقليدية. ليش تتحملين الصمغ والحساسية وضياع الوقت عشان تكشخين؟ جمعنا بين التكنولوجيا الطبية والجودة العالية عشان نعطيج لوك "الإكستنشن" الفخم وانتي ببيتج، وبدون أي مجهود. اكتشفي ليش البنات اختاروا نوريڤا:
+                في نوريڤا، ما قدمنا مجرد رموش جديدة، إحنا حلينا كل المشاكل اللي تعانين منها مع الرموش التقليدية. ليش تتحملين الصمغ والحساسية وضياع الوقت عشان تكشخين؟ جمعنا بين التكنولوجيا الطبية والجودة العالية عشان نعطيج لوك الإكستنشن الفخم وانتي ببيتج، وبدون أي مجهود. اكتشفي ليش البنات اختاروا نوريڤا:
               } @else {
                 We didn’t just create another eyelash brand; we solved the problems that made beauty painful. At Noreva, we believe that looking effortless shouldn’t require effort. By combining medical-grade technology with hand-crafted artistry, we have bridged the gap between salon-quality extensions and an at-home routine. Here is why thousands of girls are switching to Noreva:
               }
@@ -323,14 +323,7 @@ export class HelpComponent {
         <div class="relative w-full bg-white shadow-2xl border border-gray-100 flex flex-col md:flex-row overflow-hidden rounded-[2rem] mb-16 md:mb-24">
            <!-- Visual Side (Video Panel) -->
            <div class="w-full md:w-1/2 bg-[#ebeae6] min-h-[400px] md:min-h-[500px] relative order-1 rounded-[2rem] overflow-hidden">
-              <video 
-                class="absolute inset-0 w-full h-full object-cover" 
-                autoplay 
-                muted 
-                loop 
-                playsinline>
-                <source src="/assets/134df3903ce84e98ae782b4b3becff2a.mp4" type="video/mp4">
-              </video>
+              <img src="/assets/134df3903ce84e98ae782b4b3becff2a.gif" class="absolute inset-0 w-full h-full object-cover">
               <div class="absolute inset-0 bg-black/5 pointer-events-none"></div>
            </div>
            <!-- Content Side -->
@@ -341,7 +334,7 @@ export class HelpComponent {
               </h2>
               <p class="text-base md:text-lg text-gray-600 leading-relaxed font-medium">
                 @if (langService.currentLang() === 'ar') { 
-                  تعبتي من الرموش اللي تطلع عوجة؟ أو الصمغ اللي يسبب حساسية ويحرق جلدج؟ أغلب المنتجات توعد بالسهولة بس النتيجة تكون "كارثية". في نوريڤا، ننهي دورة التعب هذي. تقنيتنا تعتمد على مغناطيس "النيوديميوم" الطبي المدمج بالباند (مستحيل ينفك)، وبدون أي "لاينر" كيميائي ممكن يسبب تهيج. طقم واحد تقدرين تستخدمينه ٢٠٠-٣٠٠ مرة، وبكل ثقة. جمال حقيقي صممناه عشان يناسبج، مو بس حق "البلوقرز".
+                  تعبتي من الرموش اللي تطلع عوجة؟ أو الصمغ اللي يسبب حساسية ويحرق جلدج؟ أغلب المنتجات توعد بالسهولة بس النتيجة تكون "كارثية". في نوريڤا، ننهي دورة التعب هذي. تقنيتنا تعتمد على مغناطيس النيوديميوم الطبي المدمج بالباند (مستحيل ينفك)، وبدون أي لاينر كيميائي ممكن يسبب تهيج. طقم واحد تقدرين تستخدمينه ٢٠٠-٣٠٠ مرة، وبكل ثقة. جمال حقيقي صممناه عشان يناسبج، مو بس حق البلوقرز.
                 } @else {
                   If you’ve tried strip lashes that ended up crooked, glue that caused allergic reactions, or old magnetic lashes with liner that burned your sensitive skin—you know the heartbreak of products that promise easy but deliver disaster. Noreva is different. We use medical-grade neodymium magnets custom-molded into the lash band (impossible to come loose), removing the need for messy glues or irritating liners. One Noreva set is reusable 200-300 times and actually works. Finally, a lash solution designed for YOUR body—natural lashes that stay put and restore your confidence.
                 }
@@ -353,25 +346,18 @@ export class HelpComponent {
         <div class="relative w-full bg-white shadow-2xl border border-gray-100 flex flex-col md:flex-row overflow-hidden rounded-[2rem] mb-16 md:mb-24">
            <!-- Visual Side (Video Panel) -->
            <div class="w-full md:w-1/2 bg-[#ebeae6] min-h-[400px] md:min-h-[500px] relative order-1 rounded-[2rem] overflow-hidden">
-             <video 
-               class="absolute inset-0 w-full h-full object-cover" 
-               autoplay 
-               muted 
-               loop 
-               playsinline>
-               <source src="/assets/2fde79da74954d39be978a6a9394c455.mp4" type="video/mp4">
-             </video>
+             <img src="/assets/2fde79da74954d39be978a6a9394c455.gif" class="absolute inset-0 w-full h-full object-cover">
              <div class="absolute inset-0 bg-black/5 pointer-events-none"></div>
            </div>
            <!-- Content Side -->
            <div class="w-full md:w-1/2 p-8 md:p-20 flex flex-col justify-center order-2">
               <span class="text-9xl font-serif text-gray-50 font-bold leading-none absolute top-4 right-4 select-none -z-10">02</span>
               <h2 class="text-3xl md:text-4xl font-serif text-black mb-6 leading-tight">
-                @if (langService.currentLang() === 'ar') { لوك الإكستنشن بدون ما يضيع يومك } @else { The "Extensions Look" Without Ruining Your Morning }
+                @if (langService.currentLang() === 'ar') { لوك الإكستنشن بدون ما يضيع يومك } @else { The Extensions Look Without Ruining Your Morning }
               </h2>
               <p class="text-base md:text-lg text-gray-600 leading-relaxed font-medium">
                 @if (langService.currentLang() === 'ar') {
-                  تعرفين هذاك اللوك الفخم والجاهز لما تطلعين من الصالون؟ نوريڤا تعطيج نفس النتيجة بالضبط—رموش كثيفة، سواد فاحم، وبمكانها الصح—في أقل من دقيقة قدام منظرة بيتج. وداعاً لمواعيد الصالونات اللي تآخذ ساعات من يومج، ودفع مبالغ خيالية كل أسبوعين عشان "الري-فيل". ليش تدفعين مئات الدراهم والريالات وتضيعين وقتج بمواد كيميائية؟ نوريڤا هي الاستثمار الصح لجمالج وراحتج. طقم واحد يغنيج عن مئات الموديلات التقليدية اللي ما تضبط.
+                  تعرفين هذاك اللوك الفخم والجاهز لما تطلعين من الصالون؟ نوريڤا تعطيج نفس النتيجة بالضبط—رموش كثيفة، سواد فاحم، وبمكانها الصح—في أقل من دقيقة قدام منظرة بيتج. وداعاً لمواعيد الصالونات اللي تآخذ ساعات من يومج، ودفع مبالغ خيالية كل أسبوعين عشان الريفيل. ليش تدفعين مئات الدراهم والريالات وتضيعين وقتج بمواد كيميائية؟ نوريڤا هي الاستثمار الصح لجمالج وراحتج. طقم واحد يغنيج عن مئات الموديلات التقليدية اللي ما تضبط.
                 } @else {
                   You know that gorgeous, put-together look you get walking out of the salon? Noreva gives you that exact same result—full, dark, perfectly positioned lashes—in 60 seconds at your bathroom mirror. No 2-hour appointments eating up your weekend. No paying $200 and half your day. The salon-quality look that used to cost you hundreds now takes less time than your morning coffee. That’s the power of Noreva—luxury that actually respects your time and budget.
                 }
@@ -389,7 +375,7 @@ export class HelpComponent {
               </h2>
               <p class="text-base md:text-lg text-gray-600 leading-relaxed font-medium">
                  @if (langService.currentLang() === 'ar') {
-                   ندري إن وقتج ضيق، وما عندج ٤٠ دقيقة تضيعينها وانتي تحاولين تضبطين الرموش وتتلطخين بالصمغ. الحل عندنا في أداة التركيب الذكية اللي تضبط الرموش في أقل من ٣٠ ثانية وبكل سهولة. والجميل؟ تشيلينها في "رمشة عين" بدون أي ألم أو شد. رفعة وحدة، كبسة وحدة، وتكونين جاهزة.
+                   ندري إن وقتج ضيق، وما عندج ٤٠ دقيقة تضيعينها وانتي تحاولين تضبطين الرموش وتتلطخين بالصمغ. الحل عندنا في أداة التركيب الذكية اللي تضبط الرموش في أقل من ٣٠ ثانية وبكل سهولة. والجميل؟ تشيلينها في رمشة عين بدون أي ألم أو شد. رفعة وحدة، كبسة وحدة، وتكونين جاهزة.
                  } @else {
                    We know you are busy, and you don’t have 40 minutes to fight with glue or 2 hours to lie still in a salon. Our proprietary spring-loaded applicator does the work for you in less than 30 seconds. And the best part? They are removed in a blink without any tugging or irritation. It turns a frustrating morning struggle into a satisfying, flawless ritual.
                  }
@@ -426,7 +412,7 @@ export class HelpComponent {
               </h2>
               <p class="text-base md:text-lg text-gray-600 leading-relaxed font-medium">
                  @if (langService.currentLang() === 'ar') {
-                   تعبتي من الرموش اللي تبين "فيك" ومو مريحة؟ في نوريڤا، كسرنا القواعد. صممنا أنحف باند في العالم (٠.٢ ملم) عشان يختفي تماماً تحت رموشج الأصلية. رموشنا مصنوعة من أرقى الألياف اللي تشبه الطبيعية ١٠٠٪، خفيفة لدرجة إنج بتنسين إنج لابستها، بس الكل بيلاحظ جمال عيونج. لوك "الإكستنشن" الفخم الحين صار بمتناول إيدج.. بكل طبيعية، وبدون أي جهد.
+                   تعبتي من الرموش اللي تبين فيك ومو مريحة؟ في نوريڤا، كسرنا القواعد. صممنا أنحف باند في العالم (٠.٢ ملم) عشان يختفي تماماً تحت رموشج الأصلية. رموشنا مصنوعة من أرقى الألياف اللي تشبه الطبيعية ١٠٠٪، خفيفة لدرجة إنج بتنسين إنج لابستها، بس الكل بيلاحظ جمال عيونج. لوك الإكستنشن الفخم الحين صار بمتناول إيدج.. بكل طبيعية، وبدون أي جهد.
                  } @else {
                    Tired of lashes that look stiff or feel heavy? At Noreva, we’ve redefined the standard. Our ultra-flexible 0.2mm band is the thinnest in the industry, designed to blend seamlessly with your natural lash line. Crafted from premium, hand-tapered fibers, our lashes offer a soft, weightless volume that feels as natural as it looks. It's the salon-quality extension look you've always wanted—undetectable, effortlessly beautiful, and designed to make your eyes truly pop.
                  }
@@ -494,8 +480,8 @@ export class WhyUsComponent {
             </ul>
             <p class="text-red-500 text-sm font-bold mt-4 bg-red-50 p-4 rounded-xl border border-red-100">
               {{ langService.currentLang() === 'ar' 
-                ? 'تنبيه هام: إذا وصلنا المنتج بحالة تالفة، مستخدمة، أو "مبهذلة" (Messed Up)، فإننا نحتفظ بالحق في رفض استرداد المبلغ وإعادة المنتج إليك على نفقتك الخاصة.' 
-                : 'Important: If we receive the product in a damaged, used, or "messed up" condition, we reserve the right to refuse the refund and return the item to you at your expense.' }}
+                ? 'تنبيه هام: إذا وصلنا المنتج بحالة تالفة، مستخدمة، أو مبهذلة (Messed Up)، فإننا نحتفظ بالحق في رفض استرداد المبلغ وإعادة المنتج إليك على نفقتك الخاصة.' 
+                : 'Important: If we receive the product in a damaged, used, or messed up condition, we reserve the right to refuse the refund and return the item to you at your expense.' }}
             </p>
           </div>
         </section>
