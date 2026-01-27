@@ -127,13 +127,13 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                        <!-- Share/Wishlist placeholders could go here -->
                    </div>
                    
-                   <div class="flex items-center gap-3">
+                     <div class="flex items-center gap-3">
                       <div class="flex items-baseline gap-2 text-black">
                          <span class="text-2xl font-bold">{{ currencyService.formatPrice((selectedBundle() ? selectedBundle()!.price : currentProduct.price) / (selectedBundle() ? selectedBundle()!.quantity : 1)) }}</span>
                          <span class="text-sm font-bold text-gray-400 mx-1 uppercase">{{ langService.currentLang() === 'ar' ? 'للزوج' : 'pair' }}</span>
                          @if (selectedBundle() && selectedBundle()!.compareAtPrice > selectedBundle()!.price) {
                            <span class="text-gray-400 line-through text-sm">{{ currencyService.formatPrice(selectedBundle()!.compareAtPrice / selectedBundle()!.quantity) }}</span>
-                           <span class="bg-red-50 text-red-600 text-xs font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
+                           <span class="bg-black text-white text-xs font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
                                {{ langService.currentLang() === 'ar' ? 'خصم' : 'Save' }} {{ selectedBundle()!.id === 'trio' ? '15%' : (((selectedBundle()!.compareAtPrice - selectedBundle()!.price) / selectedBundle()!.compareAtPrice) | percent:'1.0-0') }}
                            </span>
                         }
@@ -162,15 +162,15 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                           @if (bundle.id === 'trio') {
                             <div (click)="selectBundle(bundle)" 
                                class="relative p-5 rounded-[1.8rem] cursor-pointer transition-all duration-300 border-2 overflow-hidden group shadow-lg"
-                               [class.border-[#c19b6e]]="selectedBundle()?.id === bundle.id"
-                               [class.bg-[#fffbf5]]="selectedBundle()?.id === bundle.id"
+                               [class.border-black]="selectedBundle()?.id === bundle.id"
+                               [class.bg-gray-50]="selectedBundle()?.id === bundle.id"
                                [class.ring-2]="selectedBundle()?.id === bundle.id"
-                               [class.ring-[#c19b6e]]="selectedBundle()?.id === bundle.id"
+                               [class.ring-black]="selectedBundle()?.id === bundle.id"
                                [class.ring-offset-2]="selectedBundle()?.id === bundle.id"
                                [class.border-gray-200]="selectedBundle()?.id !== bundle.id">
                                
                                <!-- Badge -->
-                               <div class="absolute top-0 left-1/2 -translate-x-1/2 bg-[#c19b6e] text-white text-[10px] font-black px-4 py-1 rounded-b-lg uppercase tracking-widest shadow-md z-10">
+                               <div class="absolute top-0 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] font-black px-4 py-1 rounded-b-lg uppercase tracking-widest shadow-md z-10">
                                   {{ langService.currentLang() === 'ar' ? 'الأكثر مبيعاً' : 'MOST POPULAR' }}
                                </div>
 
@@ -179,20 +179,20 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                               <div class="flex items-start gap-3">
                                   <!-- Radio Button -->
                                   <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300"
-                                       [class.border-[#c19b6e]]="selectedBundle()?.id === bundle.id"
+                                       [class.border-black]="selectedBundle()?.id === bundle.id"
                                        [class.border-gray-200]="selectedBundle()?.id !== bundle.id">
                                        @if (selectedBundle()?.id === bundle.id) { 
-                                         <div class="w-2.5 h-2.5 bg-[#c19b6e] rounded-full shadow-sm animate-in zoom-in-50 duration-300"></div> 
+                                         <div class="w-2.5 h-2.5 bg-black rounded-full shadow-sm animate-in zoom-in-50 duration-300"></div> 
                                        }
                                   </div>
                                    <div>
-                                       <h3 class="font-black text-base uppercase tracking-tight flex items-center gap-2" [class.text-[#c19b6e]]="true">
+                                       <h3 class="font-black text-base uppercase tracking-tight flex items-center gap-2" [class.text-black]="true">
                                            {{ bundle.title }}
                                        </h3>
                                        <p class="text-[10px] font-bold text-gray-500 mt-0.5 flex flex-wrap gap-2 items-center">
                                          <span class="bg-black text-white px-1.5 py-0.5 rounded text-[9px]">{{ bundle.subtitle }}</span>
                                          @if (bundle.id === 'trio') {
-                                           <span class="text-[#c19b6e] flex items-center gap-1">
+                                           <span class="text-black flex items-center gap-1">
                                              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                                              {{ langService.currentLang() === 'ar' ? 'شحن سريع مجاني' : 'FREE EXPRESS SHIPPING' }}
                                            </span>
@@ -207,7 +207,7 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                                               <select (change)="updateBundleItemVariant(bundle.id, i, $any($event.target).value)" 
                                                       (click)="$event.stopPropagation()"
                                                       class="bg-white border rounded-md px-2 py-1.5 text-[10px] font-bold min-w-[70px] appearance-none cursor-pointer focus:outline-none transition-all"
-                                                      [class.border-[#c19b6e]]="selectedBundle()?.id === bundle.id"
+                                                      [class.border-black]="selectedBundle()?.id === bundle.id"
                                                       [class.border-gray-200]="selectedBundle()?.id !== bundle.id">
                                                 @for (v of currentProduct.variants; track v.id) {
                                                   <option [value]="v.id" [selected]="bundleItemsVariants()[bundle.id]?.[i]?.id === v.id">
@@ -225,8 +225,8 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                                   </div>
                               </div>
                               <div class="text-right flex flex-col items-end">
-                                  <span class="text-[11px] font-bold text-[#c19b6e] uppercase leading-none mb-1">{{ currencyService.selectedCurrency().symbol }}</span>
-                                  <div class="font-bold text-lg text-[#c19b6e] tracking-tighter leading-none">{{ bundle.price }}</div>
+                                  <span class="text-[11px] font-bold text-black uppercase leading-none mb-1">{{ currencyService.selectedCurrency().symbol }}</span>
+                                  <div class="font-bold text-lg text-black tracking-tighter leading-none">{{ bundle.price }}</div>
                                   @if (bundle.compareAtPrice > bundle.price) {
                                     <div class="text-[10px] text-gray-900 line-through font-medium mt-1 opacity-80">{{ currencyService.selectedCurrency().symbol }} {{ bundle.compareAtPrice }}</div>
                                   }
@@ -251,7 +251,7 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                        } @else {
                          <div (click)="selectBundle(bundle)" 
                               class="relative p-4 md:p-5 rounded-[1.5rem] cursor-pointer transition-all duration-300 border-2 overflow-hidden group shadow-sm bg-white"
-                              [class.border-[#c19b6e]]="selectedBundle()?.id === bundle.id"
+                              [class.border-black]="selectedBundle()?.id === bundle.id"
                               [class.border-gray-100]="selectedBundle()?.id !== bundle.id"
                               [class.shadow-lg]="selectedBundle()?.id === bundle.id">
                            
@@ -259,14 +259,14 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                               <div class="flex items-start gap-3">
                                   <!-- Radio Button -->
                                   <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300"
-                                       [class.border-[#c19b6e]]="selectedBundle()?.id === bundle.id"
+                                       [class.border-black]="selectedBundle()?.id === bundle.id"
                                        [class.border-gray-200]="selectedBundle()?.id !== bundle.id">
                                        @if (selectedBundle()?.id === bundle.id) { 
-                                         <div class="w-2.5 h-2.5 bg-[#c19b6e] rounded-full shadow-sm animate-in zoom-in-50 duration-300"></div> 
+                                         <div class="w-2.5 h-2.5 bg-black rounded-full shadow-sm animate-in zoom-in-50 duration-300"></div> 
                                        }
                                   </div>
                                   <div>
-                                      <h3 class="font-bold text-sm uppercase tracking-tight" [class.text-[#c19b6e]]="true">
+                                      <h3 class="font-bold text-sm uppercase tracking-tight" [class.text-black]="true">
                                           {{ bundle.title }}
                                       </h3>
                                       <p class="text-[10px] font-medium text-gray-500 mt-0.5">{{ bundle.subtitle }}</p>
@@ -279,7 +279,7 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                                               <select (change)="updateBundleItemVariant(bundle.id, i, $any($event.target).value)" 
                                                       (click)="$event.stopPropagation()"
                                                       class="bg-white border rounded-md px-2 py-1.5 text-[10px] font-bold min-w-[70px] appearance-none cursor-pointer focus:outline-none transition-all"
-                                                      [class.border-[#c19b6e]]="selectedBundle()?.id === bundle.id"
+                                                      [class.border-black]="selectedBundle()?.id === bundle.id"
                                                       [class.border-gray-200]="selectedBundle()?.id !== bundle.id">
                                                 @for (v of currentProduct.variants; track v.id) {
                                                   <option [value]="v.id" [selected]="bundleItemsVariants()[bundle.id]?.[i]?.id === v.id">
@@ -297,8 +297,8 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                                   </div>
                               </div>
                               <div class="text-right flex flex-col items-end">
-                                  <span class="text-[11px] font-bold text-[#c19b6e] uppercase leading-none mb-1">{{ currencyService.selectedCurrency().symbol }}</span>
-                                  <div class="font-bold text-lg text-[#c19b6e] tracking-tighter leading-none">{{ bundle.price }}</div>
+                                  <span class="text-[11px] font-bold text-black uppercase leading-none mb-1">{{ currencyService.selectedCurrency().symbol }}</span>
+                                  <div class="font-bold text-lg text-black tracking-tighter leading-none">{{ bundle.price }}</div>
                                   @if (bundle.compareAtPrice > bundle.price) {
                                     <div class="text-[10px] text-gray-900 line-through font-medium mt-1 opacity-80">{{ currencyService.selectedCurrency().symbol }} {{ bundle.compareAtPrice }}</div>
                                   }
@@ -334,12 +334,12 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                <!-- Desktop Add To Cart -->
                <div class="hidden lg:flex flex-col gap-4 mt-auto">
                   <div class="flex gap-3">
-                     <button (click)="addToCart()" class="flex-1 py-5 bg-black text-white rounded-xl font-bold text-base uppercase tracking-widest hover:bg-gray-900 transition-all shadow-lg hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-3">
+                     <button (click)="addToCart()" class="flex-1 py-5 bg-white text-black border-2 border-black rounded-xl font-bold text-base uppercase tracking-widest hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-3">
                        <span>{{ langService.currentLang() === 'ar' ? 'أضيفي للحقيبة' : 'Add to bag' }}</span>
-                       <span class="w-1.5 h-1.5 bg-white rounded-full opacity-30"></span>
+                       <span class="w-1.5 h-1.5 bg-black rounded-full opacity-30"></span>
                        <span>{{ currencyService.formatPrice(selectedBundle() ? selectedBundle()!.price : currentProduct.price) }}</span>
                      </button>
-                     <button (click)="buyNow()" [disabled]="isCheckingOut()" class="flex-1 py-5 bg-[#c19b6e] text-white rounded-xl font-bold text-base uppercase tracking-widest hover:bg-[#b08d62] transition-all shadow-lg hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                     <button (click)="buyNow()" [disabled]="isCheckingOut()" class="flex-1 py-5 bg-black text-white rounded-xl font-bold text-base uppercase tracking-widest hover:bg-gray-900 transition-all shadow-lg hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
                        @if (isCheckingOut()) { <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> }
                        {{ langService.currentLang() === 'ar' ? 'شراء الآن' : 'Buy Now' }}
                      </button>
