@@ -3,14 +3,16 @@
 
 <head>
   <meta charset="utf-8" />
-  <title>Noreva™</title>
+  <title>Noreva™ | Luxury Magnetic Lashes</title>
   <base href="/" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description"
+    content="Noreva - Premium magnetic eyelashes for the modern woman. Effortless elegance in seconds.">
   <link rel="icon" href="/assets/final favicon.png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Manrope:wght@200;300;400;500;600;700;800&family=Alexandria:wght@100..900&family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700;1,900&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Manrope:wght@200;300;400;500;600;700;800&family=Alexandria:wght@100..900&display=swap"
     rel="stylesheet">
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
@@ -19,21 +21,29 @@
         extend: {
           fontFamily: {
             sans: ['Manrope', 'Alexandria', 'sans-serif'],
-            serif: ['Playfair Display', 'Alexandria', 'serif'],
+            serif: ['Cormorant Garamond', 'Alexandria', 'serif'],
             arabic: ['Alexandria', 'sans-serif']
           },
           colors: {
             noreva: {
-              black: '#000000',
+              black: '#1a1a1a',
+              charcoal: '#2d2d2d',
               white: '#FFFFFF',
-              bone: '#e3e1dc',
-              gray: {
-                50: '#F9F9F9',
-                100: '#F3F3F3',
-                400: '#999999',
-                900: '#111111'
-              }
+              cream: '#FAF9F7',
+              ivory: '#F5F4F0',
+              champagne: '#E8E4DD',
+              gold: '#C9A962',
+              goldLight: '#D4B978',
+              goldDark: '#A88A45',
+              taupe: '#8A8279',
+              warmGray: '#6B6560'
             }
+          },
+          boxShadow: {
+            'luxury': '0 4px 30px rgba(0, 0, 0, 0.04)',
+            'luxury-lg': '0 10px 50px rgba(0, 0, 0, 0.06)',
+            'luxury-xl': '0 20px 80px rgba(0, 0, 0, 0.08)',
+            'glow': '0 0 40px rgba(201, 169, 98, 0.15)',
           }
         },
       },
@@ -68,6 +78,17 @@
   </script>
   <!-- End TikTok Pixel Code -->
   <style>
+    :root {
+      --noreva-black: #1a1a1a;
+      --noreva-charcoal: #2d2d2d;
+      --noreva-cream: #FAF9F7;
+      --noreva-ivory: #F5F4F0;
+      --noreva-champagne: #E8E4DD;
+      --noreva-gold: #C9A962;
+      --noreva-gold-light: #D4B978;
+      --noreva-taupe: #8A8279;
+    }
+
     * {
       -webkit-user-select: none;
       -moz-user-select: none;
@@ -83,11 +104,17 @@
       user-select: text;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       font-family: 'Manrope', 'Alexandria', sans-serif;
-      background-color: #FFFFFF;
-      color: #000000;
+      background-color: var(--noreva-cream);
+      color: var(--noreva-black);
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      letter-spacing: -0.01em;
     }
 
     [dir="rtl"],
@@ -95,35 +122,88 @@
       font-family: 'Alexandria', sans-serif;
     }
 
-    /* Scaling factor for Arabic text to ensure visual parity with English */
-    [dir="rtl"] p,
-    [dir="rtl"] span,
-    [dir="rtl"] button,
-    [dir="rtl"] a,
+    /* Typography refinements */
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6 {
+      font-family: 'Cormorant Garamond', 'Alexandria', serif;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+    }
+
     [dir="rtl"] h1,
     [dir="rtl"] h2,
     [dir="rtl"] h3,
     [dir="rtl"] h4,
-    [dir="rtl"] h5 {
-      line-height: 1.6;
+    [dir="rtl"] h5,
+    [dir="rtl"] h6 {
+      font-family: 'Alexandria', sans-serif;
+      letter-spacing: 0;
+    }
+
+    /* RTL text refinements */
+    [dir="rtl"] p,
+    [dir="rtl"] span,
+    [dir="rtl"] button,
+    [dir="rtl"] a {
+      line-height: 1.7;
       letter-spacing: 0 !important;
     }
 
-    /* Preserve letter-spacing only for uppercase English text in RTL */
     [dir="rtl"] .tracking-widest,
     [dir="rtl"] .tracking-wider,
     [dir="rtl"] .uppercase {
       letter-spacing: 0 !important;
     }
 
+    /* Scrollbar styling */
     .no-scrollbar::-webkit-scrollbar {
       display: none;
     }
 
+    .no-scrollbar {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
+    }
+
+    /* Premium button styles */
+    .btn-luxury {
+      background: linear-gradient(135deg, var(--noreva-black) 0%, var(--noreva-charcoal) 100%);
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-luxury:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.15);
+    }
+
+    .btn-luxury-outline {
+      border: 1.5px solid var(--noreva-black);
+      background: transparent;
+      transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .btn-luxury-outline:hover {
+      background: var(--noreva-black);
+      color: white;
+    }
+
+    /* Gold accent */
+    .gold-accent {
+      background: linear-gradient(135deg, var(--noreva-gold) 0%, var(--noreva-gold-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Animations */
     @keyframes fade-up {
       from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
       }
 
       to {
@@ -164,20 +244,81 @@
       }
     }
 
+    @keyframes gentle-float {
+
+      0%,
+      100% {
+        transform: translateY(0);
+      }
+
+      50% {
+        transform: translateY(-8px);
+      }
+    }
+
+    @keyframes shimmer {
+      0% {
+        background-position: -200% 0;
+      }
+
+      100% {
+        background-position: 200% 0;
+      }
+    }
+
     .animate-fade-up {
-      animation: fade-up 0.8s ease-out forwards;
+      animation: fade-up 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .animate-slide-down {
-      animation: slide-down 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: slide-down 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .animate-slide-up {
-      animation: slide-up 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+      animation: slide-up 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     .animate-fade-in {
-      animation: fade-in 0.3s ease-out forwards;
+      animation: fade-in 0.4s ease-out forwards;
+    }
+
+    .animate-float {
+      animation: gentle-float 4s ease-in-out infinite;
+    }
+
+    .animate-shimmer {
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
+      background-size: 200% 100%;
+      animation: shimmer 2s infinite;
+    }
+
+    /* Luxury card hover effect */
+    .luxury-card {
+      transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .luxury-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+    }
+
+    /* Image reveal effect */
+    .img-reveal {
+      overflow: hidden;
+    }
+
+    .img-reveal img {
+      transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .img-reveal:hover img {
+      transform: scale(1.05);
+    }
+
+    /* Selection styling */
+    ::selection {
+      background: var(--noreva-champagne);
+      color: var(--noreva-black);
     }
   </style>
   <script type="importmap">

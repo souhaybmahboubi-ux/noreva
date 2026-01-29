@@ -1,5 +1,5 @@
 
-import { Injectable, signal, computed } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 
 export interface Currency {
   code: string;
@@ -7,6 +7,7 @@ export interface Currency {
   symbol: string;
   rate: number; // Rate relative to SAR (Base)
   flag: string;
+  country: string; // Country code for matching
 }
 
 @Injectable({
@@ -14,12 +15,12 @@ export interface Currency {
 })
 export class CurrencyService {
   readonly currencies: Currency[] = [
-    { code: 'SAR', name: 'السعودية', symbol: 'ر.س', rate: 1, flag: '🇸🇦' },
-    { code: 'AED', name: 'الإمارات', symbol: 'د.إ', rate: 0.98, flag: '🇦🇪' },
-    { code: 'KWD', name: 'الكويت', symbol: 'د.ك', rate: 0.08, flag: '🇰🇼' },
-    { code: 'BHD', name: 'البحرين', symbol: 'د.ب', rate: 0.10, flag: '🇧🇭' },
-    { code: 'OMR', name: 'عمان', symbol: 'ر.ع', rate: 0.10, flag: '🇴🇲' },
-    { code: 'QAR', name: 'قطر', symbol: 'ر.ق', rate: 0.97, flag: '🇶🇦' }
+    { code: 'SAR', name: 'السعودية', symbol: 'ر.س', rate: 1, flag: '🇸🇦', country: 'SA' },
+    { code: 'AED', name: 'الإمارات', symbol: 'د.إ', rate: 0.98, flag: '🇦🇪', country: 'AE' },
+    { code: 'KWD', name: 'الكويت', symbol: 'د.ك', rate: 0.08, flag: '🇰🇼', country: 'KW' },
+    { code: 'BHD', name: 'البحرين', symbol: 'د.ب', rate: 0.10, flag: '🇧🇭', country: 'BH' },
+    { code: 'OMR', name: 'عمان', symbol: 'ر.ع', rate: 0.10, flag: '🇴🇲', country: 'OM' },
+    { code: 'QAR', name: 'قطر', symbol: 'ر.ق', rate: 0.97, flag: '🇶🇦', country: 'QA' }
   ];
 
   selectedCurrency = signal<Currency>(this.currencies[0]);
@@ -37,43 +38,31 @@ export class CurrencyService {
   }
 
   /**
-   * Automatically detects the user's country using timezone and browser locale
+   * Detects user's country via IP geolocation and sets currency
    */
-  detectAndSetCurrency() {
+  async detectAndSetCurrency() {
     try {
-      // 1. Check by Timezone (Most reliable for GCC)
-      const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone;
-      const tzMap: Record<string, string> = {
-        'Asia/Riyadh': 'SAR',
-        'Asia/Dubai': 'AED',
-        'Asia/Kuwait': 'KWD',
-        'Asia/Bahrain': 'BHD',
-        'Asia/Muscat': 'OMR',
-        'Asia/Qatar': 'QAR',
-        'Asia/Aden': 'SAR' // Often maps to SAR for commerce
-      };
+      // Use free IP geolocation API
+      const response = await fetch('https://ipapi.co/json/');
+      const data = await response.json();
 
-      if (tzMap[timezone]) {
-        this.setCurrency(tzMap[timezone]);
-        return;
-      }
+      if (data && data.country_code) {
+        const countryCode = data.country_code.toUpperCase();
 
-      // 2. Check by Browser Locale Fallback
-      const locales = navigator.languages || [navigator.language];
-      for (const locale of locales) {
-        const upperLocale = locale.toUpperCase();
-        if (upperLocale.includes('SA')) { this.setCurrency('SAR'); return; }
-        if (upperLocale.includes('AE')) { this.setCurrency('AED'); return; }
-        if (upperLocale.includes('KW')) { this.setCurrency('KWD'); return; }
-        if (upperLocale.includes('BH')) { this.setCurrency('BHD'); return; }
-        if (upperLocale.includes('OM')) { this.setCurrency('OMR'); return; }
-        if (upperLocale.includes('QA')) { this.setCurrency('QAR'); return; }
+        // Find matching currency for the country
+        const currency = this.currencies.find(c => c.country === countryCode);
+
+        if (currency) {
+          this.setCurrency(currency.code);
+          console.log(`Currency set to ${currency.code} based on location: ${countryCode}`);
+          return;
+        }
       }
-    } catch (e) {
-      console.warn('Currency detection failed, defaulting to SAR');
+    } catch (error) {
+      console.warn('IP geolocation failed, using default currency');
     }
 
-    // Default to SAR
+    // Default to SAR if detection fails or country not in list
     this.setCurrency('SAR');
   }
 

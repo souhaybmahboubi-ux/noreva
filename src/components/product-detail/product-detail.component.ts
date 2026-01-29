@@ -18,16 +18,18 @@ import { ReviewsComponent } from '../reviews/reviews.component';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [CommonModule, NgOptimizedImage, RouterLink, FormsModule, ReviewsComponent],
   template: `
-    <div class="bg-white min-h-screen pt-32 md:pt-44 pb-32 lg:pb-20 selection:bg-noreva-bone selection:text-black font-sans">
-      <!-- Marquee Bar - Refined -->
-      <div class="bg-black py-3 overflow-hidden border-y border-white/5 mb-8">
+    <div class="bg-noreva-cream min-h-screen pt-28 md:pt-36 pb-32 lg:pb-20 selection:bg-noreva-champagne selection:text-noreva-black font-sans">
+      <!-- Marquee Bar - Premium Styling -->
+      <div class="bg-noreva-black py-3 overflow-hidden mb-8">
         <div class="flex whitespace-nowrap gap-16 animate-marquee items-center text-white">
            @for(i of [1,2,3,4,5]; track i) {
-             <div class="flex items-center gap-4">
-                <span class="text-sm font-bold uppercase tracking-[0.25em]">{{ langService.currentLang() === 'ar' ? 'تركيب في 3 ثواني' : 'APPLY IN 3 SECONDS' }}</span>
-                <span class="w-1 h-1 bg-white/20 rounded-full"></span>
-                <span class="text-sm font-bold uppercase tracking-[0.25em]">{{ langService.currentLang() === 'ar' ? 'بدون صمغ ولا فوضى' : 'NO GLUE, NO MESS' }}</span>
-                <span class="w-1 h-1 bg-white/20 rounded-full"></span>
+             <div class="flex items-center gap-6">
+                <span class="text-xs font-medium uppercase tracking-[0.2em] opacity-80">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثواني' : 'APPLY IN 3 SECONDS' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+                <span class="text-xs font-medium uppercase tracking-[0.2em] opacity-80">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'GLUE FREE' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+                <span class="text-xs font-medium uppercase tracking-[0.2em] opacity-80">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ USES' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
              </div>
            }
         </div>
@@ -39,13 +41,13 @@ import { ReviewsComponent } from '../reviews/reviews.component';
           <div class="grid lg:grid-cols-12 gap-8 lg:gap-16">
               
             <!-- Gallery (Sticky on Desktop) -->
-            <div class="lg:col-span-5 lg:sticky lg:top-32 h-fit">
+            <div class="lg:col-span-5 lg:sticky lg:top-28 h-fit">
                 <div class="grid gap-4">
                     <!-- Main Image -->
-                    <div class="relative aspect-square rounded-[2.5rem] overflow-hidden bg-gray-50 border border-gray-100 shadow-sm group">
+                    <div class="relative aspect-square rounded-3xl overflow-hidden bg-noreva-ivory border border-noreva-champagne/50 shadow-luxury group">
                        <div #mainImageContainer class="flex overflow-x-auto snap-x snap-mandatory no-scrollbar h-full scroll-smooth" (scroll)="onMainScroll()">
                           @for (img of currentProduct.images; track img; let i = $index) {
-                            <div class="min-w-full h-full snap-center flex items-center justify-center relative bg-[#f8f8f8]">
+                            <div class="min-w-full h-full snap-center flex items-center justify-center relative bg-noreva-ivory">
                               <img [ngSrc]="img" width="1000" height="1000" [priority]="i === 0" class="object-cover w-full h-full transition-transform duration-700 group-hover:scale-105" alt="{{ currentProduct.title }}">
                             </div>
                           }
@@ -65,8 +67,8 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                         <div class="absolute bottom-4 left-0 right-0 flex justify-center gap-2 lg:hidden">
                            @for (img of currentProduct.images; track img; let i = $index) {
                              <div class="h-1.5 rounded-full transition-all duration-300 backdrop-blur-md" 
-                                  [class.w-6]="selectedImageIndex() === i" [class.bg-black]="selectedImageIndex() === i"
-                                  [class.w-1.5]="selectedImageIndex() !== i" [class.bg-black/20]="selectedImageIndex() !== i"></div>
+                                  [class.w-6]="selectedImageIndex() === i" [class.bg-noreva-black]="selectedImageIndex() === i"
+                                  [class.w-1.5]="selectedImageIndex() !== i" [class.bg-noreva-black/20]="selectedImageIndex() !== i"></div>
                            }
                         </div>
                     </div>
@@ -75,10 +77,10 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                     <div class="hidden lg:grid grid-cols-5 gap-3 max-w-md mx-auto">
                         @for (img of currentProduct.images; track img; let i = $index) {
                            <button (click)="scrollToIndex(i)" 
-                                   class="relative aspect-square rounded-2xl overflow-hidden border transition-all duration-300"
-                                   [class.border-black]="selectedImageIndex() === i"
-                                   [class.border-transparent]="selectedImageIndex() !== i"
-                                   [class.opacity-50]="selectedImageIndex() !== i"
+                                   class="relative aspect-square rounded-xl overflow-hidden border transition-all duration-300"
+                                   [class.border-noreva-gold]="selectedImageIndex() === i"
+                                   [class.border-noreva-champagne]="selectedImageIndex() !== i"
+                                   [class.opacity-60]="selectedImageIndex() !== i"
                                    [class.opacity-100]="selectedImageIndex() === i">
                                <img [ngSrc]="img" width="200" height="200" class="object-cover w-full h-full">
                            </button>
@@ -90,50 +92,49 @@ import { ReviewsComponent } from '../reviews/reviews.component';
             <!-- Product Info -->
             <div class="lg:col-span-7 text-start flex flex-col pt-2">
                <!-- Header -->
-               <div class="mb-6 border-b border-gray-100 pb-6">
+               <div class="mb-6 border-b border-noreva-champagne/50 pb-6">
                    <!-- Review Widget -->
                    <div class="flex items-center gap-2 mb-4">
                        <div class="flex items-center gap-0.5">
                            @for (star of [1,2,3,4,5]; track star) {
-                               <svg class="w-4 h-4 text-[#c19b6e] fill-current" viewBox="0 0 20 20">
+                               <svg class="w-4 h-4 text-noreva-gold fill-current" viewBox="0 0 20 20">
                                    <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
                                </svg>
                            }
                        </div>
-                       <span class="text-sm font-bold text-gray-700">
+                       <span class="text-sm font-medium text-noreva-taupe">
                            {{ langService.currentLang() === 'ar' ? 'تقييم 4.9/5 (328 تقييم)' : 'Rated 4.9/5 (328 Reviews)' }}
                        </span>
                    </div>
 
                    <!-- Mobile Shipping Info (Between Rating and Title) -->
-                   <div class="lg:hidden mb-4 flex items-center gap-3 p-3 bg-[#faf9f6] rounded-xl border border-gray-100 text-gray-800">
-                       <div class="bg-white p-2 rounded-full shadow-sm text-gray-900">
+                   <div class="lg:hidden mb-4 flex items-center gap-3 p-3 bg-noreva-ivory rounded-xl border border-noreva-champagne/30 text-noreva-black">
+                       <div class="bg-white p-2 rounded-full shadow-luxury text-noreva-gold">
                            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
                        </div>
                        <div class="flex-1">
-                           <p class="text-[10px] font-black uppercase tracking-widest mb-0.5">
+                           <p class="text-[10px] font-medium uppercase tracking-widest mb-0.5 text-noreva-black">
                                {{ langService.currentLang() === 'ar' ? 'شحن سريع لدول الخليج' : 'FAST GCC SHIPPING' }}
                            </p>
-                           <p class="text-[9px] font-medium leading-tight opacity-60">
+                           <p class="text-[9px] font-normal leading-tight text-noreva-taupe">
                                {{ langService.currentLang() === 'ar' ? 'السعودية، الإمارات، قطر، البحرين، الكويت، عمان (4-12 يوم)' : 'Saudi Arabia, UAE, Qatar, Bahrain, Kuwait, Oman (4-12 Days)' }}
                            </p>
                        </div>
                    </div>
 
                    <div class="flex items-start justify-between gap-4 mb-3">
-                       <h1 class="text-3xl lg:text-4xl font-bold text-gray-900 leading-tight tracking-tight">
-                         {{ langService.currentLang() === 'ar' && currentProduct.title === 'Magic Lashes' ? 'رموش نوريڤا السحرية' : currentProduct.title }}
+                       <h1 class="text-2xl md:text-3xl lg:text-4xl font-serif text-noreva-black leading-tight">
+                         {{ langService.currentLang() === 'ar' && currentProduct.title === 'Magic Lashes' ? 'رموش نوريڤا المغناطيسية' : currentProduct.title }}
                        </h1>
-                       <!-- Share/Wishlist placeholders could go here -->
                    </div>
                    
                      <div class="flex items-center gap-3">
-                      <div class="flex items-baseline gap-2 text-black">
-                         <span class="text-2xl font-bold">{{ currencyService.formatPrice((selectedBundle() ? selectedBundle()!.price : currentProduct.price) / (selectedBundle() ? selectedBundle()!.quantity : 1)) }}</span>
-                         <span class="text-sm font-bold text-gray-400 mx-1 uppercase">{{ langService.currentLang() === 'ar' ? 'للزوج' : 'pair' }}</span>
+                      <div class="flex items-baseline gap-2 text-noreva-black">
+                         <span class="text-2xl font-serif">{{ currencyService.formatPrice((selectedBundle() ? selectedBundle()!.price : currentProduct.price) / (selectedBundle() ? selectedBundle()!.quantity : 1)) }}</span>
+                         <span class="text-sm font-medium text-noreva-taupe mx-1">{{ langService.currentLang() === 'ar' ? 'للزوج' : '/ pair' }}</span>
                          @if (selectedBundle() && selectedBundle()!.compareAtPrice > selectedBundle()!.price) {
-                           <span class="text-gray-400 line-through text-sm">{{ currencyService.formatPrice(selectedBundle()!.compareAtPrice / selectedBundle()!.quantity) }}</span>
-                           <span class="bg-black text-white text-xs font-bold px-2 py-0.5 rounded-sm uppercase tracking-wider">
+                           <span class="text-noreva-taupe line-through text-sm">{{ currencyService.formatPrice(selectedBundle()!.compareAtPrice / selectedBundle()!.quantity) }}</span>
+                           <span class="bg-noreva-gold text-white text-[10px] font-medium px-2 py-0.5 rounded-full">
                                {{ langService.currentLang() === 'ar' ? 'خصم' : 'Save' }} {{ selectedBundle()!.id === 'trio' ? '15%' : (((selectedBundle()!.compareAtPrice - selectedBundle()!.price) / selectedBundle()!.compareAtPrice) | percent:'1.0-0') }}
                            </span>
                         }
@@ -146,14 +147,13 @@ import { ReviewsComponent } from '../reviews/reviews.component';
 
 
 
-
-               <!-- Bundle Selection (Noreva Premium Design with individual variant pickers) -->
+               <!-- Bundle Selection - Premium Styling -->
                @if (product(); as currentProduct) {
                  @if (currentProduct.bundles && currentProduct.bundles.length > 0) {
                    <div class="space-y-4 mb-10">
-                     <div class="flex items-center justify-between mb-3 px-1">
-                       <span class="text-xs font-black uppercase tracking-[0.2em] text-black block">{{ langService.currentLang() === 'ar' ? 'اختاري عرضكِ المثالي' : 'SELECT YOUR BUNDLE' }}</span>
-                       <span class="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{{ langService.currentLang() === 'ar' ? 'تخصيص الألوان متاح' : 'COLOR CUSTOMIZATION' }}</span>
+                     <div class="flex items-center justify-between mb-4 px-1">
+                       <span class="text-xs font-medium uppercase tracking-[0.2em] text-noreva-black">{{ langService.currentLang() === 'ar' ? 'اختاري عرضكِ' : 'SELECT YOUR BUNDLE' }}</span>
+                       <span class="text-[10px] font-normal text-noreva-taupe tracking-wide">{{ langService.currentLang() === 'ar' ? 'تخصيص الألوان متاح' : 'Customize colors' }}</span>
                      </div>
                      
                       <div class="grid gap-4">
@@ -161,17 +161,14 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                           <!-- Ultimate Pack Special Design -->
                           @if (bundle.id === 'trio') {
                             <div (click)="selectBundle(bundle)" 
-                               class="relative p-5 rounded-[1.8rem] cursor-pointer transition-all duration-300 border-2 overflow-hidden group shadow-lg"
-                               [class.border-black]="selectedBundle()?.id === bundle.id"
-                               [class.bg-gray-50]="selectedBundle()?.id === bundle.id"
-                               [class.ring-2]="selectedBundle()?.id === bundle.id"
-                               [class.ring-black]="selectedBundle()?.id === bundle.id"
-                               [class.ring-offset-2]="selectedBundle()?.id === bundle.id"
-                               [class.border-gray-200]="selectedBundle()?.id !== bundle.id">
+                               class="relative p-5 rounded-2xl cursor-pointer transition-all duration-500 border-2 overflow-hidden group shadow-luxury bg-white"
+                               [class.border-noreva-gold]="selectedBundle()?.id === bundle.id"
+                               [class.shadow-glow]="selectedBundle()?.id === bundle.id"
+                               [class.border-noreva-champagne]="selectedBundle()?.id !== bundle.id">
                                
                                <!-- Badge -->
-                               <div class="absolute top-0 left-1/2 -translate-x-1/2 bg-black text-white text-[10px] font-black px-4 py-1 rounded-b-lg uppercase tracking-widest shadow-md z-10">
-                                  {{ langService.currentLang() === 'ar' ? 'الأكثر مبيعاً' : 'MOST POPULAR' }}
+                               <div class="absolute top-0 left-1/2 -translate-x-1/2 bg-noreva-gold text-white text-[10px] font-medium px-4 py-1 rounded-b-lg tracking-wide z-10">
+                                  {{ langService.currentLang() === 'ar' ? 'الأكثر مبيعاً' : 'BESTSELLER' }}
                                </div>
 
                                <div class="flex items-start justify-between mb-3 mt-2">
@@ -334,52 +331,51 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                <!-- Desktop Add To Cart -->
                <div class="hidden lg:flex flex-col gap-4 mt-auto">
                   <div class="flex gap-3">
-                     <button (click)="addToCart()" class="flex-1 py-5 bg-white text-black border-2 border-black rounded-xl font-bold text-base uppercase tracking-widest hover:bg-gray-50 transition-all shadow-lg hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-3">
-                       <span>{{ langService.currentLang() === 'ar' ? 'أضيفي للحقيبة' : 'Add to bag' }}</span>
-                       <span class="w-1.5 h-1.5 bg-black rounded-full opacity-30"></span>
+                     <button (click)="addToCart()" class="flex-1 py-4 bg-white text-noreva-black border-2 border-noreva-black rounded-xl font-medium text-sm tracking-wide hover:bg-noreva-ivory transition-all shadow-luxury hover:shadow-luxury-lg active:scale-[0.99] flex items-center justify-center gap-3">
+                       <span>{{ langService.currentLang() === 'ar' ? 'أضيفي للحقيبة' : 'Add to Bag' }}</span>
+                       <span class="text-noreva-taupe">|</span>
                        <span>{{ currencyService.formatPrice(selectedBundle() ? selectedBundle()!.price : currentProduct.price) }}</span>
                      </button>
-                     <button (click)="buyNow()" [disabled]="isCheckingOut()" class="flex-1 py-5 bg-black text-white rounded-xl font-bold text-base uppercase tracking-widest hover:bg-gray-900 transition-all shadow-lg hover:shadow-xl active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
+                     <button (click)="buyNow()" [disabled]="isCheckingOut()" class="btn-luxury flex-1 py-4 text-white rounded-xl font-medium text-sm tracking-wide active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
                        @if (isCheckingOut()) { <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> }
                        {{ langService.currentLang() === 'ar' ? 'شراء الآن' : 'Buy Now' }}
                      </button>
                   </div>
                   
-                  <!-- Shipping Info (GCC Focused) -->
-                  <!-- Shipping Info (GCC Focused) -->
-                  <div class="mt-3 flex items-center gap-3 p-3 bg-[#faf9f6] rounded-xl border border-gray-100 text-gray-800">
-                      <div class="bg-white p-2 rounded-full shadow-sm text-gray-900">
+                  <!-- Shipping Info -->
+                  <div class="mt-4 flex items-center gap-3 p-4 bg-noreva-ivory rounded-xl border border-noreva-champagne/30 text-noreva-black">
+                      <div class="bg-white p-2.5 rounded-full shadow-luxury text-noreva-gold">
                           <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 8h14M5 8a2 2 0 110-4h14a2 2 0 110 4M5 8v10a2 2 0 002 2h10a2 2 0 002-2V8m-9 4h4"/></svg>
                       </div>
                       <div class="flex-1">
-                          <p class="text-[10px] font-black uppercase tracking-widest mb-0.5">
-                              {{ langService.currentLang() === 'ar' ? 'شحن سريع لدول الخليج' : 'FAST GCC SHIPPING' }}
+                          <p class="text-xs font-medium text-noreva-black mb-0.5">
+                              {{ langService.currentLang() === 'ar' ? 'شحن مجاني لدول الخليج' : 'Complimentary GCC Shipping' }}
                           </p>
-                          <p class="text-[9px] font-medium leading-tight opacity-60">
+                          <p class="text-[10px] text-noreva-taupe leading-tight">
                               {{ langService.currentLang() === 'ar' ? 'السعودية، الإمارات، قطر، البحرين، الكويت، عمان (4-12 يوم)' : 'Saudi Arabia, UAE, Qatar, Bahrain, Kuwait, Oman (4-12 Days)' }}
                           </p>
                       </div>
                   </div>
 
-                  <!-- Trust Badges (Noreva Specific) -->
-                  <div class="grid grid-cols-2 md:grid-cols-3 gap-3 text-center mt-6">
-                       <div class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-gray-50 border border-gray-100/50 hover:bg-gray-100 transition-colors">
-                           <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
-                              <svg class="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2v20m10-10H2"/></svg>
+                  <!-- Trust Badges -->
+                  <div class="grid grid-cols-3 gap-3 text-center mt-6">
+                       <div class="flex flex-col items-center gap-2 p-4 rounded-xl bg-white border border-noreva-champagne/30 shadow-luxury">
+                           <div class="w-10 h-10 rounded-full bg-noreva-ivory flex items-center justify-center">
+                              <svg class="w-5 h-5 text-noreva-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                            </div>
-                           <span class="text-[9px] uppercase font-black text-gray-900 tracking-widest">{{ langService.currentLang() === 'ar' ? 'تركيب في 3 ثوانٍ' : '3s Application' }}</span>
+                           <span class="text-[10px] font-medium text-noreva-black">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثوانٍ' : '3s Application' }}</span>
                        </div>
-                       <div class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-gray-50 border border-gray-100/50 hover:bg-gray-100 transition-colors">
-                           <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
-                              <svg class="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16v16H4z"/></svg>
+                       <div class="flex flex-col items-center gap-2 p-4 rounded-xl bg-white border border-noreva-champagne/30 shadow-luxury">
+                           <div class="w-10 h-10 rounded-full bg-noreva-ivory flex items-center justify-center">
+                              <svg class="w-5 h-5 text-noreva-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
                            </div>
-                           <span class="text-[9px] uppercase font-black text-gray-900 tracking-widest">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'Glue Free' }}</span>
+                           <span class="text-[10px] font-medium text-noreva-black">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'Glue Free' }}</span>
                        </div>
-                       <div class="flex flex-col items-center gap-2 p-4 rounded-2xl bg-gray-50 border border-gray-100/50 hover:bg-gray-100 transition-colors">
-                           <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-sm">
-                              <svg class="w-5 h-5 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0"/></svg>
+                       <div class="flex flex-col items-center gap-2 p-4 rounded-xl bg-white border border-noreva-champagne/30 shadow-luxury">
+                           <div class="w-10 h-10 rounded-full bg-noreva-ivory flex items-center justify-center">
+                              <svg class="w-5 h-5 text-noreva-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5"><path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/></svg>
                            </div>
-                           <span class="text-[9px] uppercase font-black text-gray-900 tracking-widest">{{ langService.currentLang() === 'ar' ? '100+ استخدام' : '100+ Uses' }}</span>
+                           <span class="text-[10px] font-medium text-noreva-black">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ Uses' }}</span>
                        </div>
                   </div>
                </div>
@@ -390,27 +386,30 @@ import { ReviewsComponent } from '../reviews/reviews.component';
           </div>
           
           <!-- Sticky Mobile Cart Bar -->
-          <div class="fixed bottom-0 left-0 right-0 bg-white border-t border-gray-100 p-4 lg:hidden z-50 safe-area-bottom shadow-[0_-5px_20px_rgba(0,0,0,0.05)]">
+          <div class="fixed bottom-0 left-0 right-0 bg-white/98 backdrop-blur-xl border-t border-noreva-champagne/30 p-4 lg:hidden z-50 safe-area-bottom shadow-luxury-xl">
                <div class="grid grid-cols-2 gap-3">
-                   <button (click)="addToCart()" class="w-full py-4 bg-white text-black border-2 border-black rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-gray-50 transition-all flex items-center justify-center">
-                        {{ langService.currentLang() === 'ar' ? 'أضيفي للحقيبة' : 'Add to bag' }}
+                   <button (click)="addToCart()" class="w-full py-3.5 bg-white text-noreva-black border-2 border-noreva-black rounded-xl font-medium text-sm tracking-wide flex items-center justify-center">
+                        {{ langService.currentLang() === 'ar' ? 'أضيفي للحقيبة' : 'Add to Bag' }}
                    </button>
-                   <button (click)="buyNow()" [disabled]="isCheckingOut()" class="w-full py-4 bg-black text-white rounded-xl font-bold text-sm uppercase tracking-widest hover:bg-gray-900 transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-70 disabled:cursor-not-allowed">
+                   <button (click)="buyNow()" [disabled]="isCheckingOut()" class="btn-luxury w-full py-3.5 text-white rounded-xl font-medium text-sm tracking-wide flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
                         @if (isCheckingOut()) { <div class="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> }
-                        <span>{{ langService.currentLang() === 'ar' ? 'شراء الآن' : 'Buy Now' }}</span>
-                        <span class="w-1 h-1 bg-white rounded-full opacity-30"></span>
+                        <span>{{ langService.currentLang() === 'ar' ? 'شراء' : 'Buy' }}</span>
+                        <span class="opacity-50">|</span>
                         <span>{{ currencyService.formatPrice(selectedBundle() ? selectedBundle()!.price : currentProduct.price) }}</span>
                    </button>
                </div>
           </div>
 
           <!-- Comparison VS Section -->
-          <div class="mt-8 pt-8 border-t border-gray-100 max-w-6xl mx-auto px-6 relative">
+          <div class="mt-16 pt-16 border-t border-noreva-champagne/30 max-w-6xl mx-auto px-6 relative">
             <div class="text-center mb-16">
-              <h3 class="text-3xl md:text-5xl font-serif text-black mb-4">
+              <span class="inline-block text-[10px] md:text-xs font-medium tracking-[0.3em] text-noreva-gold uppercase mb-4">
+                {{ langService.currentLang() === 'ar' ? 'المقارنة' : 'THE COMPARISON' }}
+              </span>
+              <h3 class="text-3xl md:text-5xl font-serif text-noreva-black mb-4">
                 {{ langService.currentLang() === 'ar' ? 'اختراع يوفر عليكِ الآلاف' : 'One Box, Infinite Glow' }}
               </h3>
-              <p class="text-gray-500 uppercase tracking-widest text-[10px] font-black">
+              <p class="text-noreva-taupe text-sm max-w-md mx-auto">
                 {{ langService.currentLang() === 'ar' ? 'وداعاً للتبذير.. استثمار في جمالك وراحتك' : 'Stop the waste cycle. The smarter way to lash.' }}
               </p>
             </div>

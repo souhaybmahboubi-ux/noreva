@@ -2,192 +2,299 @@
 import { Component, inject, signal, OnInit, OnDestroy } from '@angular/core';
 import { CommonModule, NgOptimizedImage } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { LanguageService } from '../../services/language.service';
 
 @Component({
   selector: 'app-landing',
   standalone: true,
   imports: [CommonModule, NgOptimizedImage, RouterLink],
   template: `
-    <div class="bg-white min-h-screen text-right pt-16 md:pt-20">
-      <!-- العنوان الرئيسي الجذاب -->
-      <section class="container mx-auto max-w-2xl px-6 mb-20 text-center">
-        <div class="inline-block bg-black text-white text-xs font-black px-4 py-1 rounded-full uppercase tracking-widest mb-6">NOREVA BEAUTY</div>
-        <h1 class="text-4xl md:text-5xl font-black text-gray-900 leading-tight mb-8">
-          5 أسباب تخلي النساء يفضلون <span class="bg-noreva-bone px-2">رموش نوريڤا</span> على الرموش التقليدية
-        </h1>
-        
-        <p class="text-gray-600 text-lg leading-relaxed font-medium">
-          السؤال الحقيقي مو "هل هي فعلاً سهلة؟"، السؤال هو "هل بقدر أركبها في ثواني؟". رموش نوريڤا نجحت لأنكِ بتستخدمينها فعلاً: سريعة بما يكفي للدوام، سهلة جداً للمناسبات، وبدون فوضى الصمغ المزعجة.
-        </p>
-        <p class="text-gray-900 font-black mt-6 text-xl">
-          النساء اللي عشقوا نوريڤا ما كانوا يدورون على تعقيد، هم لقوا شيء يناسب حياتهم الواقعية ويعطي مظهر جذاب في ثوانٍ.
-        </p>
-      </section>
-
-      <!-- السبب الأول -->
-      <section class="container mx-auto max-w-2xl px-6 mb-24">
-        <div class="rounded-[3rem] overflow-hidden shadow-2xl mb-10 border-4 border-white relative group bg-gray-50">
-           <img src="https://ae01.alicdn.com/kf/Ab4481cf4142b47daa7b3f81fb10fdac7f.jpg" class="w-full aspect-[4/5] object-cover">
-           <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
-           <div class="absolute bottom-8 right-8 left-8 text-white text-end">
-              <span class="text-noreva-bone font-black text-sm uppercase tracking-widest mb-2 block">التركيب في 3 ثواني</span>
-              <p class="text-xl font-bold italic leading-relaxed">"أخيراً لقيت رموش تعطيني لوك فخم بدون حوسة الصمغ اللي تدمع عيني."</p>
-           </div>
+    <div class="bg-noreva-cream min-h-screen pt-14 md:pt-16">
+      
+      <!-- Hero Section - Minimal & Elegant -->
+      <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden">
+        <!-- Background Image with Overlay -->
+        <div class="absolute inset-0 bg-noreva-ivory">
+          <img src="https://ae01.alicdn.com/kf/Ab4481cf4142b47daa7b3f81fb10fdac7f.jpg" 
+               class="w-full h-full object-cover opacity-90">
+          <div class="absolute inset-0 bg-gradient-to-b from-noreva-cream/80 via-noreva-cream/40 to-noreva-cream"></div>
         </div>
 
-        <h2 class="text-3xl font-black mb-6 leading-tight">1. هي مصممة "لراحتكِ" مو لتعقيدكِ</h2>
-        <div class="prose prose-lg text-gray-600 leading-loose space-y-6">
-          <p>
-            إليكِ السر: أغلب الرموش في السوق تتطلب صمغاً كيميائياً يضر رموشكِ الطبيعية ويسبب تهيجاً لجفونكِ. نوريڤا غيرت القواعد.
+        <!-- Hero Content -->
+        <div class="relative z-10 text-center px-6 max-w-4xl mx-auto">
+          <span class="inline-block text-[10px] md:text-xs font-medium tracking-[0.3em] text-noreva-gold uppercase mb-6 animate-fade-up">
+            NOREVA BEAUTY
+          </span>
+          
+          <h1 class="text-4xl md:text-7xl font-serif text-noreva-black leading-[1.1] mb-8 animate-fade-up" style="animation-delay: 0.1s">
+            {{ langService.currentLang() === 'ar' 
+              ? 'أناقة عيونكِ في ثوانٍ'
+              : 'Effortless Elegance' }}
+          </h1>
+          
+          <p class="text-noreva-taupe text-base md:text-xl max-w-2xl mx-auto mb-12 leading-relaxed animate-fade-up" style="animation-delay: 0.2s">
+            {{ langService.currentLang() === 'ar'
+              ? 'رموش مغناطيسية فاخرة. بدون صمغ، بدون فوضى. جمال طبيعي في لحظات.'
+              : 'Luxury magnetic lashes. No glue, no mess. Natural beauty in moments.' }}
           </p>
-          <p class="text-gray-900 font-bold">
-            تقنية المغناطيس الذكي هي البديل الصحي.
-          </p>
-          <p>
-            مغناطيساتنا "مايكرو" يعني صغيرة جداً وغير مرئية للعين المجردة، لكنها قوية بما يكفي للصمود طوال اليوم. لا صمغ، لا مواد كيميائية، ولا سحب لرموشكِ الطبيعية عند الإزالة.
-          </p>
+          
+          <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up" style="animation-delay: 0.3s">
+            <a [routerLink]="['/products']" 
+               class="btn-luxury px-10 py-4 text-white rounded-full font-medium tracking-wide text-sm">
+              {{ langService.currentLang() === 'ar' ? 'تسوقي الآن' : 'Shop Now' }}
+            </a>
+            <a [routerLink]="['/product', 'effortless-magnetic-lashes-set']" 
+               class="btn-luxury-outline px-10 py-4 text-noreva-black rounded-full font-medium tracking-wide text-sm">
+              {{ langService.currentLang() === 'ar' ? 'اكتشفي المزيد' : 'Discover More' }}
+            </a>
+          </div>
         </div>
-      </section>
 
-      <!-- السبب الثاني -->
-      <section class="container mx-auto max-w-2xl px-6 mb-24">
-        <div class="aspect-video rounded-[3rem] overflow-hidden mb-10 border shadow-xl bg-gray-50">
-           <img src="https://ae01.alicdn.com/kf/A39b78ba5557d48188d1c1cc6ef6feba4Y.jpg" class="w-full h-full object-cover">
-        </div>
-        <h2 class="text-3xl font-black mb-6 leading-tight">2. عيون جذابة في ثانية واحدة</h2>
-        <div class="prose prose-lg text-gray-600 leading-loose space-y-6">
-          <p>
-            خلونا نكون صريحين: وقتكِ ثمين جداً. ليش تضيعين 15 دقيقة تحاولين تضبطين الرموش العادية؟
-          </p>
-          <p class="text-gray-900 font-bold">
-            نوريڤا تعطيكِ اللوك المثالي في وقت قياسي.
-          </p>
-          <p>
-            ضعي الرمش العلوي، ثم السفلي، والتقنية المغناطيسية ستتكفل بالباقي. الأمر بهذه البساطة. مثالية للصباحات المزدحمة أو لما تكونين مستعجلة لمناسبة مهمة.
-          </p>
+        <!-- Scroll Indicator -->
+        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
+          <div class="w-6 h-10 border-2 border-noreva-black/20 rounded-full flex items-start justify-center p-2">
+            <div class="w-1 h-2 bg-noreva-black/40 rounded-full animate-bounce"></div>
+          </div>
         </div>
       </section>
 
-      <!-- السبب الثالث -->
-      <section class="container mx-auto max-w-2xl px-6 mb-24 text-center">
-        <div class="bg-noreva-gray-50 rounded-[3rem] p-10 mb-10 border border-gray-100">
-           <img [src]="'https://ae01.alicdn.com/kf/A275861ba51844d65a73afd4a0392ab40c.jpg'" class="w-48 h-48 mx-auto mb-8 rounded-full shadow-lg border-4 border-white object-cover">
-           <h2 class="text-3xl font-black mb-6 leading-tight">3. لا صمغ، لا فوضى، لا دموع</h2>
-           <p class="text-gray-600 leading-relaxed mb-6 font-medium">
-             تذكرين الصمغ اللي كان يدخل في عينكِ ويخرب المكياج؟ أو التكتلات السوداء اللي تبقى على جفنكِ بعد الإزالة؟
-           </p>
-           <p class="text-gray-900 font-bold text-xl leading-relaxed">
-             رموش نوريڤا تنهي هذه المأساة تماماً.
-           </p>
-        </div>
-        <p class="text-gray-600 leading-loose text-lg mb-8">
-          إزالتها أسهل من تركيبها؛ في ثانية واحدة بدون الحاجة لأي مزيل مكياج زيتي. رموشكِ الطبيعية ستبقى بأمان، ومظهركِ سيبقى نظيفاً طوال اليوم.
-        </p>
-      </section>
-
-      <!-- السبب الرابع -->
-      <section class="container mx-auto max-w-2xl px-6 mb-24">
-        <div class="grid grid-cols-2 gap-4 mb-10">
-           <div class="bg-gray-50 rounded-3xl p-6 text-center border">
-              <span class="text-gray-400 font-bold text-xs uppercase block mb-2">الرموش التقليدية</span>
-              <span class="text-2xl font-black text-gray-900 leading-none">تكلفة مستمرة</span>
-              <p class="text-xs mt-2 text-gray-400">تستخدم لمرة واحدة أو مرتين</p>
-           </div>
-           <div class="bg-black rounded-3xl p-6 text-center border border-black shadow-xl">
-              <span class="text-white font-black text-xs uppercase block mb-2">رموش نوريڤا</span>
-              <span class="text-2xl font-black text-noreva-bone leading-none">161 ريال</span>
-              <p class="text-xs mt-2 text-noreva-bone font-bold">قابلة للاستخدام 100+ مرة</p>
-           </div>
-        </div>
-        <h2 class="text-3xl font-black mb-6 leading-tight">4. استثمار يدوم لأشهر</h2>
-        <div class="prose prose-lg text-gray-600 leading-loose space-y-6">
-          <p>
-            بدلاً من شراء علب رموش جديدة وصمغ كل أسبوع، احصلي على زوج واحد من نوريڤا يدوم معكِ لأكثر من 100 مرة من الاستخدام.
-          </p>
-          <p class="text-gray-900 font-bold">
-            جودة عالية، مظهر طبيعي، وتوفير ذكي.
-          </p>
-          <p>
-            تخيلي التوفير الذي ستحققينه سنوياً، مع الحفاظ على مظهركِ المتألق والراقي في كل مرة.
-          </p>
+      <!-- Features Strip -->
+      <section class="bg-noreva-black py-6 overflow-hidden">
+        <div class="flex whitespace-nowrap gap-16 animate-marquee items-center text-white">
+          @for(i of [1,2,3,4]; track i) {
+            <div class="flex items-center gap-8">
+              <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثواني' : '3 Second Application' }}</span>
+              <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+              <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'Glue Free' }}</span>
+              <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+              <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ Uses' }}</span>
+              <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+            </div>
+          }
         </div>
       </section>
 
-      <!-- السبب الخامس -->
-      <section class="container mx-auto max-w-2xl px-6 mb-32">
-        <div class="aspect-square rounded-[3rem] overflow-hidden mb-10 border shadow-2xl relative">
-           <img src="https://ae01.alicdn.com/kf/A74daed21421d4460994c516b23c435d0X.jpg" class="w-full h-full object-cover">
-        </div>
-        <h2 class="text-3xl font-black mb-6 leading-tight">5. مظهر طبيعي يمنحكِ الثقة</h2>
-        <div class="prose prose-lg text-gray-600 leading-loose space-y-6">
-          <p>
-            الموضوع مو بس رموش. الموضوع هو كيف تشعرين تجاه نفسكِ. الرموش المغناطيسية تعطي "رفعة" فورية للعين (Eye Lift) وتخفي علامات التعب. بتشوفين وجهكِ منتعش ومستقر، بدون القلق من سقوط الرمش في منتصف الحديث.
-          </p>
-        </div>
-      </section>
+      <!-- Why Noreva Section -->
+      <section class="py-24 md:py-32 px-6">
+        <div class="container mx-auto max-w-6xl">
+          <div class="text-center mb-16">
+            <span class="inline-block text-[10px] md:text-xs font-medium tracking-[0.3em] text-noreva-gold uppercase mb-4">
+              {{ langService.currentLang() === 'ar' ? 'لماذا نوريڤا' : 'WHY NOREVA' }}
+            </span>
+            <h2 class="text-3xl md:text-5xl font-serif text-noreva-black mb-6">
+              {{ langService.currentLang() === 'ar' 
+                ? 'صُممت لحياتكِ'
+                : 'Designed For Your Life' }}
+            </h2>
+            <p class="text-noreva-taupe text-base md:text-lg max-w-2xl mx-auto leading-relaxed">
+              {{ langService.currentLang() === 'ar'
+                ? 'رموش تناسب إيقاع حياتكِ السريع. من الدوام للمناسبات في ثوانٍ معدودة.'
+                : 'Lashes that match your fast-paced life. From work to events in seconds.' }}
+            </p>
+          </div>
 
-      <!-- صندوق العرض الحصري -->
-      <section class="container mx-auto max-w-2xl px-4 mb-40">
-        <div class="bg-gray-50 rounded-[3rem] border-2 border-dashed border-black p-8 md:p-12 relative shadow-2xl overflow-hidden">
-           <div class="absolute -top-10 -left-10 w-40 h-40 bg-black/5 rounded-full blur-3xl"></div>
-           
-           <div class="relative z-10 text-center">
-              <h3 class="text-3xl font-black mb-4 leading-tight italic">عرض الـ ٢ زوج (١+١ مجاناً) 🌟</h3>
-              <div class="flex items-center justify-center gap-4 mb-8">
-                 <span class="text-gray-400 font-bold">ينتهي العرض خلال:</span>
-                 <div class="flex gap-2 font-mono text-xl font-black text-red-600 bg-white px-4 py-2 rounded-xl shadow-sm">
-                    <span>{{ timeLeft() }}</span>
-                 </div>
+          <div class="grid md:grid-cols-3 gap-6 md:gap-8">
+            <!-- Feature 1 -->
+            <div class="luxury-card bg-white rounded-3xl p-8 text-center shadow-luxury border border-noreva-champagne/30">
+              <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-noreva-ivory flex items-center justify-center">
+                <svg class="w-7 h-7 text-noreva-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
               </div>
-
-              <div class="bg-white rounded-[2rem] p-6 mb-10 shadow-sm border border-gray-100">
-                 <img [src]="'https://ae01.alicdn.com/kf/Ab4481cf4142b47daa7b3f81fb10fdac7f.jpg'" class="w-full aspect-square object-cover rounded-2xl mb-8">
-                 <ul class="space-y-4 text-right mb-10">
-                    <li class="flex items-center justify-end gap-3">
-                       <span class="font-bold text-gray-800">أداة تطبيق احترافية مجانية</span>
-                       <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center text-white text-xs">✓</div>
-                    </li>
-                    <li class="flex items-center justify-end gap-3">
-                       <span class="font-bold text-gray-800">حقيبة حفظ فاخرة مجانية</span>
-                       <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center text-white text-xs">✓</div>
-                    </li>
-                    <li class="flex items-center justify-end gap-3">
-                       <span class="font-bold text-gray-800">شحن سريع ومجاني</span>
-                       <div class="w-6 h-6 bg-black rounded-full flex items-center justify-center text-white text-xs">✓</div>
-                    </li>
-                 </ul>
-                 
-                 <div class="flex flex-col gap-4">
-                    <a [routerLink]="['/product', 'effortless-magnetic-lashes-set']" class="w-full py-6 bg-black text-white rounded-2xl font-black text-2xl uppercase tracking-widest hover:bg-gray-900 active:scale-95 transition-all shadow-xl">
-                       تسوقي الآن
-                    </a>
-                    <div class="flex items-center justify-center gap-2">
-                       <span class="text-xs font-black uppercase text-gray-400 tracking-[0.2em]">خطر نفاذ الكمية:</span>
-                       <span class="text-xs font-black uppercase text-red-600 tracking-[0.2em] animate-pulse">عالٍ جداً 🔥</span>
-                    </div>
-                 </div>
-              </div>
-
-              <p class="text-xs text-gray-400 font-bold leading-relaxed px-10">
-                ملاحظة: متوفر فقط عبر موقعنا الرسمي، احذري المنتجات المقلدة التي قد تستخدم مغناطيسات ثقيلة أو مواد رديئة.
+              <h3 class="text-xl font-serif text-noreva-black mb-3">
+                {{ langService.currentLang() === 'ar' ? 'سريعة' : 'Quick' }}
+              </h3>
+              <p class="text-noreva-taupe text-sm leading-relaxed">
+                {{ langService.currentLang() === 'ar'
+                  ? 'تركيب في ٣ ثوانٍ فقط. مثالية للصباحات المزدحمة.'
+                  : 'Apply in just 3 seconds. Perfect for busy mornings.' }}
               </p>
-           </div>
+            </div>
+
+            <!-- Feature 2 -->
+            <div class="luxury-card bg-white rounded-3xl p-8 text-center shadow-luxury border border-noreva-champagne/30">
+              <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-noreva-ivory flex items-center justify-center">
+                <svg class="w-7 h-7 text-noreva-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+              </div>
+              <h3 class="text-xl font-serif text-noreva-black mb-3">
+                {{ langService.currentLang() === 'ar' ? 'آمنة' : 'Safe' }}
+              </h3>
+              <p class="text-noreva-taupe text-sm leading-relaxed">
+                {{ langService.currentLang() === 'ar'
+                  ? 'بدون صمغ أو مواد كيميائية. لطيفة على العيون الحساسة.'
+                  : 'No glue or chemicals. Gentle on sensitive eyes.' }}
+              </p>
+            </div>
+
+            <!-- Feature 3 -->
+            <div class="luxury-card bg-white rounded-3xl p-8 text-center shadow-luxury border border-noreva-champagne/30">
+              <div class="w-16 h-16 mx-auto mb-6 rounded-2xl bg-noreva-ivory flex items-center justify-center">
+                <svg class="w-7 h-7 text-noreva-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                </svg>
+              </div>
+              <h3 class="text-xl font-serif text-noreva-black mb-3">
+                {{ langService.currentLang() === 'ar' ? 'اقتصادية' : 'Economical' }}
+              </h3>
+              <p class="text-noreva-taupe text-sm leading-relaxed">
+                {{ langService.currentLang() === 'ar'
+                  ? 'قابلة للاستخدام أكثر من ١٠٠ مرة. استثمار ذكي.'
+                  : 'Reusable over 100 times. A smart investment.' }}
+              </p>
+            </div>
+          </div>
         </div>
       </section>
 
-      <!-- تذييل الصفحة -->
-      <section class="container mx-auto max-w-2xl px-6 mb-40 text-center">
-         <div class="aspect-square w-64 h-64 mx-auto mb-10 rounded-full overflow-hidden border-8 border-gray-50 shadow-2xl">
-            <img src="https://api.dicebear.com/9.x/micah/svg?seed=EyelashExpert" class="w-full h-full object-cover">
-         </div>
-         <h4 class="text-3xl font-black italic mb-6 leading-tight">"ما كنت أصدق إن الرموش تقدر تغير شكلي وتريحني كذا.. وداعاً للصالونات!"</h4>
-         <p class="text-gray-400 font-bold text-sm tracking-widest uppercase">نورة أ. - عميلة نوريڤا الفخورة</p>
-      </section>
-    </div>
+      <!-- Featured Product Section -->
+      <section class="py-16 md:py-24 bg-white">
+        <div class="container mx-auto max-w-6xl px-6">
+          <div class="grid lg:grid-cols-2 gap-12 items-center">
+            <!-- Image Side -->
+            <div class="relative">
+              <div class="aspect-[4/5] rounded-3xl overflow-hidden shadow-luxury-xl img-reveal">
+                <img src="https://ae01.alicdn.com/kf/A39b78ba5557d48188d1c1cc6ef6feba4Y.jpg" 
+                     class="w-full h-full object-cover">
+              </div>
+              <!-- Floating Badge -->
+              <div class="absolute -bottom-6 -right-6 md:bottom-8 md:right-8 bg-noreva-gold text-white px-6 py-4 rounded-2xl shadow-glow">
+                <span class="text-2xl font-serif">100+</span>
+                <span class="text-xs block opacity-90">{{ langService.currentLang() === 'ar' ? 'استخدام' : 'Uses' }}</span>
+              </div>
+            </div>
 
-  `
+            <!-- Content Side -->
+            <div class="text-start">
+              <span class="inline-block text-[10px] md:text-xs font-medium tracking-[0.3em] text-noreva-gold uppercase mb-4">
+                {{ langService.currentLang() === 'ar' ? 'الأكثر مبيعاً' : 'BESTSELLER' }}
+              </span>
+              <h2 class="text-3xl md:text-4xl font-serif text-noreva-black mb-6 leading-tight">
+                {{ langService.currentLang() === 'ar' 
+                  ? 'رموش نوريڤا المغناطيسية'
+                  : 'Noreva Magnetic Lashes' }}
+              </h2>
+              <p class="text-noreva-taupe text-base leading-relaxed mb-8">
+                {{ langService.currentLang() === 'ar'
+                  ? 'تقنية مغناطيسية متطورة تمنحكِ عيوناً جذابة في ثوانٍ. مصممة للاستخدام المتكرر مع الحفاظ على جودتها الفاخرة.'
+                  : 'Advanced magnetic technology gives you captivating eyes in seconds. Designed for repeated use while maintaining premium quality.' }}
+              </p>
+
+              <ul class="space-y-4 mb-10">
+                <li class="flex items-center gap-3">
+                  <div class="w-5 h-5 rounded-full bg-noreva-gold/20 flex items-center justify-center">
+                    <svg class="w-3 h-3 text-noreva-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span class="text-noreva-black text-sm">{{ langService.currentLang() === 'ar' ? 'تركيب وإزالة في ثوانٍ' : 'Apply & remove in seconds' }}</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <div class="w-5 h-5 rounded-full bg-noreva-gold/20 flex items-center justify-center">
+                    <svg class="w-3 h-3 text-noreva-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span class="text-noreva-black text-sm">{{ langService.currentLang() === 'ar' ? 'آمنة للعيون الحساسة' : 'Safe for sensitive eyes' }}</span>
+                </li>
+                <li class="flex items-center gap-3">
+                  <div class="w-5 h-5 rounded-full bg-noreva-gold/20 flex items-center justify-center">
+                    <svg class="w-3 h-3 text-noreva-gold" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3">
+                      <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                    </svg>
+                  </div>
+                  <span class="text-noreva-black text-sm">{{ langService.currentLang() === 'ar' ? 'شحن مجاني لجميع الخليج' : 'Free shipping across GCC' }}</span>
+                </li>
+              </ul>
+
+              <a [routerLink]="['/product', 'effortless-magnetic-lashes-set']" 
+                 class="btn-luxury inline-flex items-center gap-3 px-8 py-4 text-white rounded-full font-medium tracking-wide text-sm">
+                {{ langService.currentLang() === 'ar' ? 'تسوقي الآن' : 'Shop Now' }}
+                <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Testimonial Section -->
+      <section class="py-24 md:py-32 px-6 bg-noreva-ivory">
+        <div class="container mx-auto max-w-4xl text-center">
+          <div class="mb-8">
+            <div class="flex items-center justify-center gap-1 mb-4">
+              @for (star of [1,2,3,4,5]; track star) {
+                <svg class="w-5 h-5 text-noreva-gold fill-current" viewBox="0 0 20 20">
+                  <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                </svg>
+              }
+            </div>
+            <span class="text-sm text-noreva-taupe">{{ langService.currentLang() === 'ar' ? 'تقييم 4.9/5 من أكثر من 300 عميلة' : 'Rated 4.9/5 from 300+ customers' }}</span>
+          </div>
+
+          <blockquote class="text-2xl md:text-4xl font-serif text-noreva-black leading-relaxed mb-8 italic">
+            "{{ langService.currentLang() === 'ar' 
+              ? 'أخيراً وجدت رموش تناسب حياتي المزدحمة. سهلة، سريعة، وفخمة!'
+              : 'Finally found lashes that fit my busy life. Easy, quick, and luxurious!' }}"
+          </blockquote>
+
+          <div class="flex items-center justify-center gap-4">
+            <div class="w-12 h-12 rounded-full bg-noreva-champagne overflow-hidden">
+              <img src="https://api.dicebear.com/9.x/micah/svg?seed=Sarah" class="w-full h-full object-cover">
+            </div>
+            <div class="text-start">
+              <p class="text-sm font-medium text-noreva-black">{{ langService.currentLang() === 'ar' ? 'سارة أ.' : 'Sarah A.' }}</p>
+              <p class="text-xs text-noreva-taupe">{{ langService.currentLang() === 'ar' ? 'عميلة موثقة' : 'Verified Customer' }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- CTA Section -->
+      <section class="py-24 md:py-32 bg-noreva-black text-white text-center px-6">
+        <div class="container mx-auto max-w-3xl">
+          <h2 class="text-3xl md:text-5xl font-serif mb-6 leading-tight">
+            {{ langService.currentLang() === 'ar' 
+              ? 'جربي الفرق بنفسكِ'
+              : 'Experience The Difference' }}
+          </h2>
+          <p class="text-white/60 text-base md:text-lg mb-10 max-w-xl mx-auto leading-relaxed">
+            {{ langService.currentLang() === 'ar'
+              ? 'انضمي لآلاف النساء اللواتي اختارن أناقة بلا جهد.'
+              : 'Join thousands of women who chose effortless elegance.' }}
+          </p>
+          <a [routerLink]="['/products']" 
+             class="inline-flex items-center gap-3 px-10 py-4 bg-noreva-gold text-noreva-black rounded-full font-medium tracking-wide text-sm hover:bg-noreva-goldLight transition-colors">
+            {{ langService.currentLang() === 'ar' ? 'تسوقي المجموعة' : 'Shop The Collection' }}
+            <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+            </svg>
+          </a>
+        </div>
+      </section>
+
+    </div>
+  `,
+  styles: [`
+    @keyframes marquee { 
+      0% { transform: translateX(0); } 
+      100% { transform: translateX(50%); } 
+    }
+    .animate-marquee { 
+      display: inline-flex; 
+      animation: marquee 25s linear infinite; 
+    }
+    :host { 
+      display: block; 
+      overflow-x: hidden; 
+    }
+  `]
 })
 export class LandingComponent implements OnInit, OnDestroy {
+  langService = inject(LanguageService);
+
   timeLeft = signal('23:55:43');
   private interval: any;
 
