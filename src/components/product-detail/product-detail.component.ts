@@ -331,11 +331,7 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                <!-- Desktop Add To Cart -->
                <div class="hidden lg:flex flex-col gap-4 mt-auto">
                   <div class="flex gap-3">
-                     <button (click)="addToCart()" class="flex-1 py-4 bg-white text-noreva-black border-2 border-noreva-black rounded-xl font-medium text-sm tracking-wide hover:bg-noreva-ivory transition-all shadow-luxury hover:shadow-luxury-lg active:scale-[0.99] flex items-center justify-center gap-3">
-                       <span>{{ langService.currentLang() === 'ar' ? 'أضيفي للحقيبة' : 'Add to Bag' }}</span>
-                       <span class="text-noreva-taupe">|</span>
-                       <span>{{ currencyService.formatPrice(selectedBundle() ? selectedBundle()!.price : currentProduct.price) }}</span>
-                     </button>
+
                      <button (click)="buyNow()" [disabled]="isCheckingOut()" class="btn-luxury flex-1 py-4 text-white rounded-xl font-medium text-sm tracking-wide active:scale-[0.99] flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
                        @if (isCheckingOut()) { <div class="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> }
                        {{ langService.currentLang() === 'ar' ? 'شراء الآن' : 'Buy Now' }}
@@ -387,10 +383,8 @@ import { ReviewsComponent } from '../reviews/reviews.component';
           
           <!-- Sticky Mobile Cart Bar -->
           <div class="fixed bottom-0 left-0 right-0 bg-white/98 backdrop-blur-xl border-t border-noreva-champagne/30 p-4 lg:hidden z-50 safe-area-bottom shadow-luxury-xl">
-               <div class="grid grid-cols-2 gap-3">
-                   <button (click)="addToCart()" class="w-full py-3.5 bg-white text-noreva-black border-2 border-noreva-black rounded-xl font-medium text-sm tracking-wide flex items-center justify-center">
-                        {{ langService.currentLang() === 'ar' ? 'أضيفي للحقيبة' : 'Add to Bag' }}
-                   </button>
+               <div class="grid grid-cols-1 gap-3">
+
                    <button (click)="buyNow()" [disabled]="isCheckingOut()" class="btn-luxury w-full py-3.5 text-white rounded-xl font-medium text-sm tracking-wide flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed">
                         @if (isCheckingOut()) { <div class="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin"></div> }
                         <span>{{ langService.currentLang() === 'ar' ? 'شراء' : 'Buy' }}</span>
