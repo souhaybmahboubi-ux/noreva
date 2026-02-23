@@ -8,7 +8,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description"
     content="Noreva - Premium magnetic eyelashes for the modern woman. Effortless elegance in seconds.">
-  <link rel="icon" href="/assets/final favicon.png">
+  <link rel="icon" href="/assets/luciana(2).png">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
@@ -55,7 +55,7 @@
     !function (f, b, e, v, n, t, s) {
       if (f.fbq) return; n = f.fbq = function () {
         n.callMethod ?
-        n.callMethod.apply(n, arguments) : n.queue.push(arguments)
+          n.callMethod.apply(n, arguments) : n.queue.push(arguments)
       };
       if (!f._fbq) f._fbq = n; n.push = n; n.loaded = !0; n.version = '2.0';
       n.queue = []; t = b.createElement(e); t.async = !0;
@@ -292,6 +292,21 @@
       background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
       background-size: 200% 100%;
       animation: shimmer 2s infinite;
+    }
+
+    /* Infinite Marquee Animation */
+    @keyframes marquee {
+      0% {
+        transform: translateX(0);
+      }
+
+      100% {
+        transform: translateX(-50%);
+      }
+    }
+
+    .animate-marquee {
+      animation: marquee 30s linear infinite;
     }
 
     /* Luxury card hover effect */

@@ -19,68 +19,76 @@ interface Review {
   standalone: true,
   imports: [CommonModule, NgOptimizedImage],
   template: `
-    <div class="space-y-24">
+    <div class="space-y-16">
       
       <!-- Minimalist Header -->
       <div class="text-center max-w-xl mx-auto">
-        <span class="text-gray-400 font-black tracking-[0.5em] uppercase text-[10px] mb-8 block">
-          {{ langService.currentLang() === 'ar' ? 'آراء العميلات' : 'Customer Reviews' }}
+        <span class="inline-block text-[10px] md:text-xs font-medium tracking-[0.3em] text-noreva-gold uppercase mb-4">
+          {{ langService.currentLang() === 'ar' ? 'آراء العميلات' : 'TESTIMONIALS' }}
         </span>
-        <h2 class="text-4xl font-black text-black tracking-tighter mb-6 italic">
-          {{ langService.currentLang() === 'ar' ? 'تجارب عميلات نوريڤا' : 'Why Girls Love Noreva' }}
+        <h2 class="text-3xl md:text-5xl font-serif text-noreva-black mb-6">
+          {{ langService.currentLang() === 'ar' ? 'تجارب عميلات نوريڤا' : 'Why Women Love Noreva' }}
         </h2>
-        <div class="flex items-center justify-center gap-4">
-           <div class="flex text-yellow-500 text-lg">★★★★★</div>
-           <span class="text-gray-400 font-bold uppercase text-[9px] tracking-widest">
-             {{ langService.currentLang() === 'ar' ? '4.9 تقييم عام' : '4.9 Overall Rating' }}
+        <div class="flex items-center justify-center gap-3">
+           <div class="flex items-center gap-0.5">
+             @for (star of [1,2,3,4,5]; track star) {
+               <svg class="w-4 h-4 text-noreva-gold fill-current" viewBox="0 0 20 20">
+                 <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+               </svg>
+             }
+           </div>
+           <span class="text-sm text-noreva-taupe">
+             {{ langService.currentLang() === 'ar' ? '4.9/5 من أكثر من 300 عميلة' : '4.9/5 from 300+ customers' }}
            </span>
         </div>
       </div>
 
-      <!-- Reviews Grid (Updated to 2 cols on mobile and thinner style) -->
-      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
+      <!-- Reviews Grid -->
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-5">
         @for (review of displayedReviews(); track review.id) {
-          <div class="flex flex-col bg-white p-3 md:p-6 rounded-[1rem] md:rounded-[1.5rem] border border-gray-100 hover:border-black/20 hover:shadow-lg transition-all duration-300 break-inside-avoid">
+          <div class="flex flex-col bg-white p-3 md:p-5 rounded-2xl md:rounded-3xl border border-noreva-champagne/30 hover:shadow-luxury transition-all duration-500 break-inside-avoid">
             
             <div class="flex justify-between items-start mb-2 md:mb-4">
                 <div class="flex gap-2 md:gap-3 items-center">
-                   <div class="w-6 h-6 md:w-8 md:h-8 rounded-full bg-gray-100 flex items-center justify-center text-[8px] md:text-[10px] font-black">
+                   <div class="w-7 h-7 md:w-8 md:h-8 rounded-full bg-noreva-ivory flex items-center justify-center text-[9px] md:text-[10px] font-medium text-noreva-black">
                       {{ review.name.charAt(0) }}
                    </div>
                    <div>
-                      <h5 class="font-bold text-black text-[10px] md:text-xs leading-tight">{{ review.name }}</h5>
-                      <p class="text-gray-400 text-[8px] md:text-[9px] font-bold uppercase tracking-widest leading-none">{{ review.city }}</p>
+                      <h5 class="font-medium text-noreva-black text-[10px] md:text-xs leading-tight">{{ review.name }}</h5>
+                      <p class="text-noreva-taupe text-[8px] md:text-[9px] font-medium uppercase tracking-wider leading-none mt-0.5">{{ review.city }}</p>
                    </div>
                 </div>
-                <div class="flex text-yellow-500 text-[8px] md:text-[10px] gap-0.5">
+                <div class="flex items-center gap-0.5">
                   @for (star of [1,2,3,4,5]; track star) {
-                    <span [class.opacity-30]="star > review.rating">★</span>
+                    <svg class="w-2.5 h-2.5 md:w-3 md:h-3 fill-current" [class.text-noreva-gold]="star <= review.rating" [class.text-noreva-champagne]="star > review.rating" viewBox="0 0 20 20">
+                      <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+                    </svg>
                   }
                 </div>
             </div>
 
-            <!-- Review Image from CSV -->
+            <!-- Review Image -->
             @if (review.image) {
-              <div class="mb-2 md:mb-4 rounded-lg md:rounded-xl overflow-hidden border border-gray-100 aspect-video relative bg-gray-50">
-                <img [ngSrc]="review.image" width="300" height="200" referrerpolicy="no-referrer" class="object-cover w-full h-full hover:scale-105 transition-transform duration-500">
+              <div class="mb-2 md:mb-4 rounded-xl md:rounded-2xl overflow-hidden border border-noreva-champagne/20 aspect-video relative bg-noreva-ivory img-reveal">
+                <img [ngSrc]="review.image" width="300" height="200" referrerpolicy="no-referrer" class="object-cover w-full h-full">
               </div>
             }
 
-            <p class="text-gray-600 text-[10px] md:text-sm leading-relaxed font-medium mb-2 md:mb-4 text-right line-clamp-4" dir="rtl">
+            <p class="text-noreva-taupe text-[10px] md:text-sm leading-relaxed mb-2 md:mb-4 text-right line-clamp-4" dir="rtl">
               {{ review.comment }}
             </p>
             
-            <div class="mt-auto pt-2 md:pt-4 border-t border-gray-50 flex items-center justify-between">
-               <span class="text-[8px] text-gray-300 font-mono">{{ review.date }}</span>
+            <div class="mt-auto pt-2 md:pt-3 border-t border-noreva-champagne/20 flex items-center justify-between">
+               <span class="text-[8px] text-noreva-taupe/40 font-mono">{{ review.date }}</span>
             </div>
           </div>
         }
       </div>
 
       @if (hasMoreReviews()) {
-        <div class="text-center pt-2">
-          <button (click)="loadMore()" class="px-16 py-5 border border-black text-black rounded-full font-bold uppercase tracking-widest text-xs hover:bg-black hover:text-white transition-all shadow-xl">
-            {{ langService.currentLang() === 'ar' ? 'عرض المزيد من التجارب' : 'Show More Reviews' }}
+        <div class="text-center pt-4">
+          <button (click)="loadMore()" class="btn-luxury-outline px-12 py-4 text-noreva-black rounded-full font-medium tracking-wide text-xs hover:bg-noreva-black hover:text-white transition-all duration-400">
+            {{ langService.currentLang() === 'ar' ? 'عرض المزيد' : 'Load More Reviews' }}
           </button>
         </div>
       }
@@ -210,206 +218,6 @@ export class ReviewsComponent {
       id: 24, name: 'مياسه العبدالله', city: 'الشارقة', country: 'UAE', rating: 5, date: 'منذ 4 أشهر',
       image: 'https://ae01.alicdn.com/kf/A174331a6f5ba43f2bad5d7e0a236741bK.jpg',
       comment: 'وايد روعة، المغناطيس دقيق وما يبين كلش. أنصح فيها لكل البنات.'
-    },
-    {
-      id: 25, name: 'بدور القاسمي', city: 'رأس الخيمة', country: 'UAE', rating: 5, date: 'منذ 4 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A6cc779c6c4254000857899ae014e2efaB.jpg',
-      comment: 'منتج ممتاز ويستاهل سعره. الرموش تعيش معاك فترة طويلة اذا حافظتي عليها.'
-    },
-    {
-      id: 26, name: 'فوزية الغامدي', city: 'الباحة', country: 'KSA', rating: 5, date: 'منذ 4 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A749181e1b2ec47ec84e5217070c4508eM.jpg',
-      comment: 'ريحتني من هم تركيب الرموش، الحين بدقيقتين أخلص وأطلع. شكراً نوريڤا.'
-    },
-    {
-      id: 27, name: 'أميرة الطويل', city: 'الرياض', country: 'KSA', rating: 5, date: 'منذ 4 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Ae5fa57a3594144cab9aa97b4b1321f39U.jpg',
-      comment: 'جودة وتغليف يفتح النفس، والرموش نفسها خفيفة وسوادها حلو.'
-    },
-    {
-      id: 28, name: 'نجلاء الكواري', city: 'الخور', country: 'QA', rating: 5, date: 'منذ 4 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A6cc0ad161efb4cd0b045fa4626e84114z.jpg',
-      comment: 'وايد ارتحت عليهم، ماكو حساسية ولا دموع نفس الصمغ. فكرة عبقرية.'
-    },
-    {
-      id: 29, name: 'سناء العوضي', city: 'حولي', country: 'KW', rating: 5, date: 'منذ 5 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A66b1cacf1a104576beb4fe18bcc64511c.jpg',
-      comment: 'صج فرق، شكل العين يصير مسحوب وجذاب. والتركيب ولا أسهل.'
-    },
-    {
-      id: 30, name: 'روان الصالح', city: 'الرياض', country: 'KSA', rating: 5, date: 'منذ 5 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A8e401c4fdaf9440a9b82bc6fd4ba7f39x.jpg',
-      comment: 'اعتمدتها للمناسبات والزواجات، تثبت وما تتحرك حتى مع الرقص والحر.'
-    },
-    {
-      id: 31, name: 'تهاني الشمري', city: 'رفحاء', country: 'KSA', rating: 5, date: 'منذ 5 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A5e3b2f7c402e409881ba88a0b455f793q.jpg',
-      comment: 'روعة يا بنات، خفيفة مرة ولا كأنك مركبة شي، بس الشكل يفرق 180 درجة.'
-    },
-    {
-      id: 32, name: 'هيا السبيعي', city: 'الخرمة', country: 'KSA', rating: 5, date: 'منذ 5 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Af3cd3c8ecc57420f8ce54fd9ca580ef9v.jpg',
-      comment: 'حبيت إنها تجي مع علبة ومراية، عملية جداً للشنطة والسفر.'
-    },
-    {
-      id: 33, name: 'دلال المطيري', city: 'المجمعة', country: 'KSA', rating: 5, date: 'منذ 6 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Abd636784a72d4f9baf584ba7f554dbc2N.jpg',
-      comment: 'ما أستغني عنها، غيرت نظرتي للرموش الصناعية تماماً. سهولة ونظافة.'
-    },
-    {
-      id: 34, name: 'أفنان الزهراني', city: 'مكة', country: 'KSA', rating: 4, date: 'منذ 6 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A40e27c2caeeb4175b957570919216990E.jpg',
-      comment: 'حلوة بس يبي لك تضبطين مكان المغناطيس صح عشان تثبت زين من الزوايا.'
-    },
-    {
-      id: 35, name: 'نوال الكويتية', city: 'الكويت', country: 'KW', rating: 5, date: 'منذ 6 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A13257667c2e4465cab69955557609b6fn.jpg',
-      comment: 'تهبل! تعطي لوك فخم للعين بدون مبالغة. وايد حبيتهم.'
-    },
-    {
-      id: 36, name: 'ملاك الحسيني', city: 'الرياض', country: 'KSA', rating: 4, date: 'منذ 6 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Aed9a2a5d995c468591cd9f640d099a8eX.jpg',
-      comment: 'جيدة جداً، وفكرة المغناطيس مريحة، بس تمنيت لو فيه أشكال أكثر كثافة.'
-    },
-    {
-      id: 37, name: 'رغد الدوسري', city: 'وادي الدواسر', country: 'KSA', rating: 5, date: 'منذ 7 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A08fa6098be7e42a7b42829daa44bf94eS.jpg',
-      comment: 'تجنن يا بنات، تكبر العين وتحلي المكياج بشكل مو طبيعي.'
-    },
-    {
-      id: 38, name: 'جميلة البلوشي', city: 'الرفاع', country: 'BH', rating: 5, date: 'منذ 7 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A785f5c8509b049b8ac72c1fd32d32e4bG.jpg',
-      comment: 'خدمة العملاء ذوق والمنتج ولا غلطة. الرموش ناعمة وما تلمع كأنها بلاستيك.'
-    },
-    {
-      id: 39, name: 'ليان الشهري', city: 'النماص', country: 'KSA', rating: 5, date: 'منذ 7 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A988da4a9e2104fc5a20a70b0f1152df8Z.jpg',
-      comment: 'والله تستاهل كل ريال، توفر عليك قيمة الصمغ والرموش اللي تنرمى كل مرة.'
-    },
-    {
-      id: 40, name: 'مضاوي العتيبي', city: 'الدوادمي', country: 'KSA', rating: 5, date: 'منذ 7 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Ac7ce2e82d2674a798ebed9ec963909fef.jpg',
-      comment: 'اللي تبي عينها تصير واسعة وجذابة لا تتردد تطلبها. خيااال.'
-    },
-    {
-      id: 41, name: 'سمر الخالدي', city: 'سكاكا', country: 'KSA', rating: 4, date: 'منذ 8 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A7d630a24780a42de84787ff16528a0dbo.jpg',
-      comment: 'حلوة وعملية، بس انتبهوا لا تفركون عينكم بقوة عشان ما تتحرك.'
-    },
-    {
-      id: 42, name: 'علياء الشمسي', city: 'عجمان', country: 'UAE', rating: 5, date: 'منذ 8 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Af00331178772484ba65182454209670f0.jpg',
-      comment: 'Amazing lashes! So easy to use and look very natural. I recommend it.'
-    },
-    {
-      id: 43, name: 'بسمة السعيد', city: 'الرياض', country: 'KSA', rating: 5, date: 'منذ 8 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A5bfb7bb2fc954cb4a5f9439fef3802f2m.jpg',
-      comment: 'يا زينها زيناه، تفك أزمات اذا كنتي مستعجلة وتبين كشخة سريعة.'
-    },
-    {
-      id: 44, name: 'وجدان القحطاني', city: 'خميس مشيط', country: 'KSA', rating: 5, date: 'منذ 8 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A93ab0131b6b2493a9d7c6fc23c4cff6cA.jpg',
-      comment: 'خيااالية، ما توقعت بتثبت كذا بدون صمغ. اختراع بطل.'
-    },
-    {
-      id: 45, name: 'مرام الصيعري', city: 'شرورة', country: 'KSA', rating: 5, date: 'منذ 9 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A65a9b8955e3e4e13a15696fc5e410eaaf.jpg',
-      comment: 'بنات تراها ادمان، اذا جربتوا المغناطيس مستحيل ترجعون للصمغ.'
-    },
-    {
-      id: 46, name: 'نرجس العوامي', city: 'القطيف', country: 'KSA', rating: 5, date: 'منذ 9 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Af990fdb821b6478db60efe7b8b3c5130Q.jpg',
-      comment: 'ريحت عيوني من الحساسية والاحمرار، وفوقها شكلها يجنن.'
-    },
-    {
-      id: 47, name: 'لجين الهذلول', city: 'الرياض', country: 'KSA', rating: 5, date: 'منذ 9 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Ad662f40bae3d4a088a4e291b0880b98bT.jpg',
-      comment: 'منتج بطل وسعره فيه، توفير للكوافير والوقت والجهد.'
-    },
-    {
-      id: 48, name: 'فرح البابطين', city: 'مبارك الكبير', country: 'KW', rating: 4, date: 'منذ 9 أشهر',
-      image: 'https://ae01.alicdn.com/kf/A95f122f3a48d48e4b24700467f89ca5ft.jpg',
-      comment: 'زينة وتنفع للهدايا، بس الشحن تأخر يوم عن الموعد.'
-    },
-    {
-      id: 49, name: 'عهود الرشيد', city: 'الرياض', country: 'KSA', rating: 5, date: 'منذ 10 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Afba3d0a5957946bc9b75b97b16d12a68j.jpg',
-      comment: 'اللي تبي نظرة ساحرة ورموش كثيفة تاخذها وهي مغمضة.'
-    },
-    {
-      id: 50, name: 'زينب الموسوي', city: 'سترة', country: 'BH', rating: 5, date: 'منذ 10 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Acf83e0ec328e4537b87ccd004552b5be6.jpg',
-      comment: 'استخدمها كل يوم للدوام، سريعة وشكلها ناعم مو مبالغ فيه.'
-    },
-    {
-      id: 51, name: 'حنان العمري', city: 'النماص', country: 'KSA', rating: 4, date: 'منذ 10 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Afe6bf455b2c84814b41b309f42fcbc06L.jpg',
-      comment: 'حلوة بس يبي لها ممارسة عشان تضبطين الوزنية صح.'
-    },
-    {
-      id: 52, name: 'سديم التركي', city: 'جدة', country: 'KSA', rating: 5, date: 'منذ 10 أشهر',
-      image: 'https://ae01.alicdn.com/kf/Aaaace99688334cdd8a541e9aecff6557W.jpg',
-      comment: 'واووو من قلب، الرمش يندمج مع رموشك الطبيعية بشكل رهيب.'
-    },
-    {
-      id: 53, name: 'ريما العبدالله', city: 'تبوك', country: 'KSA', rating: 5, date: 'منذ 11 شهر',
-      image: 'https://ae01.alicdn.com/kf/A629f9a7ae0d74889ad2ba6f0b092eb18R.jpg',
-      comment: 'ما صدقت المدح لين جربت، فعلاً أسهل تركيب رموش بالتاريخ.'
-    },
-    {
-      id: 54, name: 'منال الشريف', city: 'ينبع', country: 'KSA', rating: 5, date: 'منذ 11 شهر',
-      image: 'https://ae01.alicdn.com/kf/A0a708ae0712449cab50b4342691c25dcg.jpg',
-      comment: 'طلبتها لي ولأمي، أمي حبتها مرة لأنها سهلة وما تغلبها.'
-    },
-    {
-      id: 55, name: 'أروى العمران', city: 'الرياض', country: 'KSA', rating: 5, date: 'منذ 11 شهر',
-      image: 'https://ae01.alicdn.com/kf/Ad3b459e356034686ad5cd985d96d83c5O.jpg',
-      comment: 'بنات اللي تبي كشخة بدون تعب لا تتعداها. خيااال.'
-    },
-    {
-      id: 56, name: 'مشاعل العتيبي', city: 'عفيف', country: 'KSA', rating: 5, date: 'منذ سنة',
-      image: 'https://ae01.alicdn.com/kf/Aa6266e8eced04627a90d4acd751c8a9eW.jpg',
-      comment: 'رهيبة رهيبة، صارت ركن أساسي بمكياجي اليومي.'
-    },
-    {
-      id: 57, name: 'فدوى المالكي', city: 'الطائف', country: 'KSA', rating: 5, date: 'منذ سنة',
-      image: 'https://ae01.alicdn.com/kf/Ab9158f6b99cb4ec08c408131f881ddb8J.jpg',
-      comment: 'جودة ممتازة وسرعة بالتوصيل، والأهم النتيجة اللي تفتح النفس.'
-    },
-    {
-      id: 58, name: 'عفاف المطيري', city: 'المجمعة', country: 'KSA', rating: 5, date: 'منذ سنة',
-      image: 'https://ae01.alicdn.com/kf/Acf5b80ada8994727b5de9a62ad227d24Q.jpg',
-      comment: 'أحلى اختراع، يفك أزمة الصمغ اللي يخرب الميك اب.'
-    },
-    {
-      id: 59, name: 'لمياء السلطان', city: 'الرياض', country: 'KSA', rating: 5, date: 'منذ سنة',
-      image: 'https://ae01.alicdn.com/kf/A322ff9e6bb814f87a10848d5099a6829F.jpg',
-      comment: 'حبيتها مرة، أنيقة وفعالة، وتجي معها حافظة مرتبة.'
-    },
-    {
-      id: 60, name: 'نوره الحارثي', city: 'بيشة', country: 'KSA', rating: 4, date: 'منذ سنة',
-      image: 'https://ae01.alicdn.com/kf/A19a3f6c0f8714fd98869f551fee711b0q.jpg',
-      comment: 'كويسة، بس انتبهوا للمغناطيس لا يطيح منكم وانتوا تنظفونها.'
-    },
-    {
-      id: 61, name: 'سوسن الفهد', city: 'الأحمدي', country: 'KW', rating: 5, date: 'منذ سنة',
-      image: 'https://ae01.alicdn.com/kf/S4d694cfea2a04a669f7a53b9b9331658M.jpg',
-      comment: 'قوية ونتايجها قوية، برافو نوريڤا على هالمنتج.'
-    },
-    {
-      id: 62, name: 'مها السبيعي', city: 'رنية', country: 'KSA', rating: 5, date: 'منذ سنة',
-      image: 'https://ae01.alicdn.com/kf/Ab4481cf4142b47daa7b3f81fb10fdac7f.jpg',
-      comment: 'رجعت طلبتها مرة ثانية هدية لصديقتي، من كثر ما عجبتني.'
-    },
-    {
-      id: 63, name: 'تهاني القحطاني', city: 'أبها', country: 'KSA', rating: 5, date: 'منذ سنة',
-      image: 'https://ae01.alicdn.com/kf/A39b78ba5557d48188d1c1cc6ef6feba4Y.jpg',
-      comment: 'تجنن يا بنات، تحلي العين بشكل مو طبيعي.'
-    },
-    {
-      id: 64, name: 'ريناد العتيبي', city: 'الرياض', country: 'KSA', rating: 5, date: 'منذ سنة',
-      image: 'https://ae01.alicdn.com/kf/A275861ba51844d65a73afd4a0392ab40c.jpg',
-      comment: 'ما أطلع من البيت إلا فيها، تعطي نظرة وثقة بالنفس.'
     }
   ];
 

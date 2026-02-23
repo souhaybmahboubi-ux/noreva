@@ -50,27 +50,37 @@ import { LanguageService } from '../../services/language.service';
           </div>
         </div>
 
-        <!-- Scroll Indicator -->
-        <div class="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-          <div class="w-6 h-10 border-2 border-noreva-black/20 rounded-full flex items-start justify-center p-2">
-            <div class="w-1 h-2 bg-noreva-black/40 rounded-full animate-bounce"></div>
-          </div>
-        </div>
       </section>
 
       <!-- Features Strip -->
-      <section class="bg-noreva-black py-6 overflow-hidden">
-        <div class="flex whitespace-nowrap gap-16 animate-marquee items-center text-white">
-          @for(i of [1,2,3,4]; track i) {
-            <div class="flex items-center gap-8">
-              <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثواني' : '3 Second Application' }}</span>
-              <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
-              <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'Glue Free' }}</span>
-              <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
-              <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ Uses' }}</span>
-              <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
-            </div>
-          }
+      <section class="bg-noreva-black py-6 overflow-hidden" dir="ltr">
+        <div class="flex whitespace-nowrap animate-marquee items-center text-white">
+          <!-- First Half -->
+          <div class="flex items-center gap-12 pr-12">
+            @for(i of [1,2,3,4,5,6]; track i) {
+              <div class="flex items-center gap-6">
+                <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثواني' : '3 Second Application' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+                <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'Glue Free' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+                <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ Uses' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+              </div>
+            }
+          </div>
+          <!-- Second Half -->
+          <div class="flex items-center gap-12 pr-12">
+            @for(i of [1,2,3,4,5,6]; track i) {
+              <div class="flex items-center gap-6">
+                <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثواني' : '3 Second Application' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+                <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'Glue Free' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+                <span class="text-xs font-medium tracking-[0.2em] uppercase opacity-80">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ Uses' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+              </div>
+            }
+          </div>
         </div>
       </section>
 
@@ -278,14 +288,8 @@ import { LanguageService } from '../../services/language.service';
     </div>
   `,
   styles: [`
-    @keyframes marquee { 
-      0% { transform: translateX(0); } 
-      100% { transform: translateX(50%); } 
-    }
-    .animate-marquee { 
-      display: inline-flex; 
-      animation: marquee 25s linear infinite; 
-    }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .animate-marquee { display: inline-flex; animation: marquee 40s linear infinite; }
     :host { 
       display: block; 
       overflow-x: hidden; 

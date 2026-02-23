@@ -13,14 +13,14 @@ import { CommonModule } from '@angular/common';
   standalone: true,
   imports: [RouterLink, RouterLinkActive, CommonModule],
   template: `
-    <!-- Minimal Luxury Announcement Bar -->
+    <!-- Refined Luxury Announcement Bar -->
     <div class="bg-noreva-black text-white px-4 fixed top-0 left-0 right-0 z-[110] text-center py-2.5 md:py-3">
-      <p class="font-medium tracking-wide flex items-center justify-center gap-3 text-[11px] md:text-[12px]">
-        <span class="opacity-80">{{ langService.currentLang() === 'ar' ? 'شحن مجاني على جميع الطلبات' : 'COMPLIMENTARY SHIPPING ON ALL ORDERS' }}</span>
-        <span class="hidden md:inline opacity-30">|</span> 
+      <p class="font-medium tracking-wide flex items-center justify-center gap-3 text-[10px] md:text-[11px]">
+        <span class="opacity-75 uppercase tracking-[0.2em]">{{ langService.currentLang() === 'ar' ? 'شحن مجاني على جميع الطلبات' : 'Complimentary Shipping on All Orders' }}</span>
+        <span class="hidden md:inline opacity-20">|</span> 
         <span class="hidden md:flex items-center gap-2 opacity-60">
-          <span class="text-noreva-gold">{{ langService.currentLang() === 'ar' ? 'ينتهي:' : 'Ends:' }}</span>
-          <span class="font-mono font-semibold text-noreva-gold">{{ timeLeft() }}</span>
+          <span class="text-noreva-gold uppercase tracking-[0.15em]">{{ langService.currentLang() === 'ar' ? 'ينتهي:' : 'Ends:' }}</span>
+          <span class="font-mono text-noreva-gold/90">{{ timeLeft() }}</span>
         </span>
       </p>
     </div>
@@ -37,14 +37,14 @@ import { CommonModule } from '@angular/common';
             </svg>
           </button>
 
-          <button (click)="langService.toggleLanguage()" class="flex p-2 text-[10px] md:text-xs font-medium tracking-widest text-noreva-taupe hover:text-noreva-black transition-colors" aria-label="Toggle Language">
+          <button (click)="langService.toggleLanguage()" class="flex p-2 text-[10px] md:text-xs font-medium tracking-widest text-noreva-black hover:text-noreva-gold transition-colors" aria-label="Toggle Language">
             {{ langService.currentLang() === 'ar' ? 'EN' : 'عربي' }}
           </button>
         </div>
 
         <!-- Logo (Centered - Elegant Typography) -->
         <a routerLink="/" class="absolute left-1/2 -translate-x-1/2 flex items-center justify-center h-full">
-           <img src="/assets/noreva-logo.webp" alt="NOREVA" class="h-5 md:h-6 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity">
+           <img src="/assets/luciana.png" alt="NOREVA" class="h-4 md:h-5 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity">
         </a>
 
         <!-- Right Actions -->

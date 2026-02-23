@@ -20,18 +20,34 @@ import { ReviewsComponent } from '../reviews/reviews.component';
   template: `
     <div class="bg-noreva-cream min-h-screen pt-28 md:pt-36 pb-32 lg:pb-20 selection:bg-noreva-champagne selection:text-noreva-black font-sans">
       <!-- Marquee Bar - Premium Styling -->
-      <div class="bg-noreva-black py-3 overflow-hidden mb-8">
-        <div class="flex whitespace-nowrap gap-16 animate-marquee items-center text-white">
-           @for(i of [1,2,3,4,5]; track i) {
-             <div class="flex items-center gap-6">
+      <div class="bg-noreva-black py-3 overflow-hidden mb-8" dir="ltr">
+        <div class="flex whitespace-nowrap animate-marquee items-center text-white">
+          <!-- First Half -->
+          <div class="flex items-center gap-12 pr-12">
+            @for(i of [1,2,3,4,5,6]; track i) {
+              <div class="flex items-center gap-6">
                 <span class="text-xs font-medium uppercase tracking-[0.2em] opacity-80">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثواني' : 'APPLY IN 3 SECONDS' }}</span>
                 <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
                 <span class="text-xs font-medium uppercase tracking-[0.2em] opacity-80">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'GLUE FREE' }}</span>
                 <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
                 <span class="text-xs font-medium uppercase tracking-[0.2em] opacity-80">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ USES' }}</span>
                 <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
-             </div>
-           }
+              </div>
+            }
+          </div>
+          <!-- Second Half -->
+          <div class="flex items-center gap-12 pr-12">
+            @for(i of [1,2,3,4,5,6]; track i) {
+              <div class="flex items-center gap-6">
+                <span class="text-xs font-medium uppercase tracking-[0.2em] opacity-80">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثواني' : 'APPLY IN 3 SECONDS' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+                <span class="text-xs font-medium uppercase tracking-[0.2em] opacity-80">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'GLUE FREE' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+                <span class="text-xs font-medium uppercase tracking-[0.2em] opacity-80">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ USES' }}</span>
+                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full"></span>
+              </div>
+            }
+          </div>
         </div>
       </div>
 
@@ -183,13 +199,13 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                                        }
                                   </div>
                                    <div>
-                                       <h3 class="font-black text-base uppercase tracking-tight flex items-center gap-2" [class.text-black]="true">
+                                       <h3 class="font-medium text-base uppercase tracking-tight flex items-center gap-2 text-noreva-black">
                                            {{ bundle.title }}
                                        </h3>
-                                       <p class="text-[10px] font-bold text-gray-500 mt-0.5 flex flex-wrap gap-2 items-center">
-                                         <span class="bg-black text-white px-1.5 py-0.5 rounded text-[9px]">{{ bundle.subtitle }}</span>
+                                       <p class="text-[10px] font-medium text-noreva-taupe mt-0.5 flex flex-wrap gap-2 items-center">
+                                         <span class="bg-noreva-black text-white px-1.5 py-0.5 rounded text-[9px]">{{ bundle.subtitle }}</span>
                                          @if (bundle.id === 'trio') {
-                                           <span class="text-black flex items-center gap-1">
+                                           <span class="text-noreva-black flex items-center gap-1">
                                              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
                                              {{ langService.currentLang() === 'ar' ? 'شحن سريع مجاني' : 'FREE EXPRESS SHIPPING' }}
                                            </span>
@@ -203,16 +219,16 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                                             <div class="relative">
                                               <select (change)="updateBundleItemVariant(bundle.id, i, $any($event.target).value)" 
                                                       (click)="$event.stopPropagation()"
-                                                      class="bg-white border rounded-md px-2 py-1.5 text-[10px] font-bold min-w-[70px] appearance-none cursor-pointer focus:outline-none transition-all"
-                                                      [class.border-black]="selectedBundle()?.id === bundle.id"
-                                                      [class.border-gray-200]="selectedBundle()?.id !== bundle.id">
+                                                      class="bg-white border rounded-md px-2 py-1.5 text-[10px] font-medium min-w-[70px] appearance-none cursor-pointer focus:outline-none transition-all"
+                                                      [class.border-noreva-black]="selectedBundle()?.id === bundle.id"
+                                                      [class.border-noreva-champagne]="selectedBundle()?.id !== bundle.id">
                                                 @for (v of currentProduct.variants; track v.id) {
                                                   <option [value]="v.id" [selected]="bundleItemsVariants()[bundle.id]?.[i]?.id === v.id">
                                                     {{ getVariantTranslation(v) }}
                                                   </option>
                                                 }
                                               </select>
-                                              <div class="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                                              <div class="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-noreva-taupe">
                                                 <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/></svg>
                                               </div>
                                             </div>
@@ -222,24 +238,24 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                                   </div>
                               </div>
                               <div class="text-right flex flex-col items-end">
-                                  <span class="text-[11px] font-bold text-black uppercase leading-none mb-1">{{ currencyService.selectedCurrency().symbol }}</span>
-                                  <div class="font-bold text-lg text-black tracking-tighter leading-none">{{ bundle.price }}</div>
+                                  <span class="text-[11px] font-medium text-noreva-black uppercase leading-none mb-1">{{ currencyService.selectedCurrency().symbol }}</span>
+                                  <div class="font-serif text-lg text-noreva-black tracking-tighter leading-none">{{ bundle.price }}</div>
                                   @if (bundle.compareAtPrice > bundle.price) {
-                                    <div class="text-[10px] text-gray-900 line-through font-medium mt-1 opacity-80">{{ currencyService.selectedCurrency().symbol }} {{ bundle.compareAtPrice }}</div>
+                                    <div class="text-[10px] text-noreva-taupe line-through font-medium mt-1">{{ currencyService.selectedCurrency().symbol }} {{ bundle.compareAtPrice }}</div>
                                   }
                               </div>
                            </div>
 
                            <!-- Gift Section -->
                             @if (bundle.hasGift) {
-                              <div class="mt-4 -mx-6 -mb-6 bg-[#fdf2e9] border-t border-[#f7e8da] px-4 py-2 flex items-center justify-between">
+                              <div class="mt-4 -mx-6 -mb-6 bg-noreva-ivory border-t border-noreva-champagne/30 px-4 py-2 flex items-center justify-between">
                                  <div class="flex items-center gap-2">
-                                    <div class="w-7 h-7 rounded border border-[#f7e8da] bg-white overflow-hidden">
+                                    <div class="w-7 h-7 rounded border border-noreva-champagne/30 bg-white overflow-hidden">
                                        <img [src]="giftImage()" class="w-full h-full object-cover" alt="Free Gift">
                                     </div>
-                                    <span class="text-[10px] font-bold text-gray-900">+ {{ langService.currentLang() === 'ar' ? 'هدية مجانية: مكبس رموش' : 'FREE gift: Eyelash Curler' }}</span>
+                                    <span class="text-[10px] font-medium text-noreva-black">+ {{ langService.currentLang() === 'ar' ? 'هدية مجانية: مكبس رموش' : 'FREE gift: Eyelash Curler' }}</span>
                                  </div>
-                                 <div class="text-[10px] font-bold text-gray-900 line-through opacity-80">
+                                 <div class="text-[10px] font-medium text-noreva-taupe line-through">
                                     {{ currencyService.selectedCurrency().symbol }} {{ bundle.giftValue }}
                                  </div>
                               </div>
@@ -247,26 +263,26 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                          </div>
                        } @else {
                          <div (click)="selectBundle(bundle)" 
-                              class="relative p-4 md:p-5 rounded-[1.5rem] cursor-pointer transition-all duration-300 border-2 overflow-hidden group shadow-sm bg-white"
-                              [class.border-black]="selectedBundle()?.id === bundle.id"
-                              [class.border-gray-100]="selectedBundle()?.id !== bundle.id"
-                              [class.shadow-lg]="selectedBundle()?.id === bundle.id">
+                              class="relative p-4 md:p-5 rounded-2xl cursor-pointer transition-all duration-300 border-2 overflow-hidden group shadow-luxury bg-white"
+                              [class.border-noreva-black]="selectedBundle()?.id === bundle.id"
+                              [class.border-noreva-champagne/30]="selectedBundle()?.id !== bundle.id"
+                              [class.shadow-luxury-lg]="selectedBundle()?.id === bundle.id">
                            
                            <div class="flex items-start justify-between mb-3">
                               <div class="flex items-start gap-3">
                                   <!-- Radio Button -->
                                   <div class="w-5 h-5 rounded-full border-2 flex items-center justify-center flex-shrink-0 mt-0.5 transition-all duration-300"
-                                       [class.border-black]="selectedBundle()?.id === bundle.id"
-                                       [class.border-gray-200]="selectedBundle()?.id !== bundle.id">
+                                       [class.border-noreva-black]="selectedBundle()?.id === bundle.id"
+                                       [class.border-noreva-champagne]="selectedBundle()?.id !== bundle.id">
                                        @if (selectedBundle()?.id === bundle.id) { 
-                                         <div class="w-2.5 h-2.5 bg-black rounded-full shadow-sm animate-in zoom-in-50 duration-300"></div> 
+                                         <div class="w-2.5 h-2.5 bg-noreva-black rounded-full shadow-sm animate-in zoom-in-50 duration-300"></div> 
                                        }
                                   </div>
                                   <div>
-                                      <h3 class="font-bold text-sm uppercase tracking-tight" [class.text-black]="true">
+                                      <h3 class="font-medium text-sm uppercase tracking-tight text-noreva-black">
                                           {{ bundle.title }}
                                       </h3>
-                                      <p class="text-[10px] font-medium text-gray-500 mt-0.5">{{ bundle.subtitle }}</p>
+                                      <p class="text-[10px] font-medium text-noreva-taupe mt-0.5">{{ bundle.subtitle }}</p>
                                       
                                       <!-- Variant Selectors (Duo/Trio) -->
                                       @if (bundle.quantity > 1) {
@@ -275,16 +291,16 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                                             <div class="relative">
                                               <select (change)="updateBundleItemVariant(bundle.id, i, $any($event.target).value)" 
                                                       (click)="$event.stopPropagation()"
-                                                      class="bg-white border rounded-md px-2 py-1.5 text-[10px] font-bold min-w-[70px] appearance-none cursor-pointer focus:outline-none transition-all"
-                                                      [class.border-black]="selectedBundle()?.id === bundle.id"
-                                                      [class.border-gray-200]="selectedBundle()?.id !== bundle.id">
+                                                      class="bg-white border rounded-md px-2 py-1.5 text-[10px] font-medium min-w-[70px] appearance-none cursor-pointer focus:outline-none transition-all"
+                                                      [class.border-noreva-black]="selectedBundle()?.id === bundle.id"
+                                                      [class.border-noreva-champagne]="selectedBundle()?.id !== bundle.id">
                                                 @for (v of currentProduct.variants; track v.id) {
                                                   <option [value]="v.id" [selected]="bundleItemsVariants()[bundle.id]?.[i]?.id === v.id">
                                                     {{ getVariantTranslation(v) }}
                                                   </option>
                                                 }
                                               </select>
-                                              <div class="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-gray-400">
+                                              <div class="absolute right-1.5 top-1/2 -translate-y-1/2 pointer-events-none text-noreva-taupe">
                                                 <svg class="w-2.5 h-2.5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 9l-7 7-7-7"/></svg>
                                               </div>
                                             </div>
@@ -294,24 +310,24 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                                   </div>
                               </div>
                               <div class="text-right flex flex-col items-end">
-                                  <span class="text-[11px] font-bold text-black uppercase leading-none mb-1">{{ currencyService.selectedCurrency().symbol }}</span>
-                                  <div class="font-bold text-lg text-black tracking-tighter leading-none">{{ bundle.price }}</div>
+                                  <span class="text-[11px] font-medium text-noreva-black uppercase leading-none mb-1">{{ currencyService.selectedCurrency().symbol }}</span>
+                                  <div class="font-serif text-lg text-noreva-black tracking-tighter leading-none">{{ bundle.price }}</div>
                                   @if (bundle.compareAtPrice > bundle.price) {
-                                    <div class="text-[10px] text-gray-900 line-through font-medium mt-1 opacity-80">{{ currencyService.selectedCurrency().symbol }} {{ bundle.compareAtPrice }}</div>
+                                    <div class="text-[10px] text-noreva-taupe line-through font-medium mt-1">{{ currencyService.selectedCurrency().symbol }} {{ bundle.compareAtPrice }}</div>
                                   }
                               </div>
                            </div>
 
                            <!-- Gift Section -->
                             @if (bundle.hasGift) {
-                              <div class="mt-4 -mx-6 -mb-6 bg-[#fdf2e9] border-t border-[#f7e8da] px-4 py-2 flex items-center justify-between">
+                              <div class="mt-4 -mx-6 -mb-6 bg-noreva-ivory border-t border-noreva-champagne/30 px-4 py-2 flex items-center justify-between">
                                  <div class="flex items-center gap-2">
-                                    <div class="w-7 h-7 rounded border border-[#f7e8da] bg-white overflow-hidden">
+                                    <div class="w-7 h-7 rounded border border-noreva-champagne/30 bg-white overflow-hidden">
                                        <img [src]="giftImage()" class="w-full h-full object-cover" alt="Free Gift">
                                     </div>
-                                    <span class="text-[10px] font-bold text-gray-900">+ {{ langService.currentLang() === 'ar' ? 'هدية مجانية: مكبس رموش' : 'FREE gift: Eyelash Curler' }}</span>
+                                    <span class="text-[10px] font-medium text-noreva-black">+ {{ langService.currentLang() === 'ar' ? 'هدية مجانية: مكبس رموش' : 'FREE gift: Eyelash Curler' }}</span>
                                  </div>
-                                 <div class="text-[10px] font-bold text-gray-900 line-through opacity-80">
+                                 <div class="text-[10px] font-medium text-noreva-taupe line-through">
                                     {{ currencyService.selectedCurrency().symbol }} {{ bundle.giftValue }}
                                  </div>
                               </div>
@@ -418,7 +434,7 @@ import { ReviewsComponent } from '../reviews/reviews.component';
               </div>
               
               <!-- Expensive Side -->
-              <div class="bg-[#F8F9FA] rounded-[2rem] md:rounded-[3rem] overflow-hidden flex flex-col items-center shadow-lg border border-gray-100">
+              <div class="bg-noreva-ivory rounded-[2rem] md:rounded-[3rem] overflow-hidden flex flex-col items-center shadow-lg border border-noreva-champagne/30">
                 <div class="relative aspect-square w-full">
                     <img src="/assets/exp lash.png" class="absolute inset-0 w-full h-full object-cover">
                   
@@ -429,39 +445,39 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                   </div>
                 </div>
                 <!-- Text Below Image -->
-                <div class="p-6 md:p-8 text-center bg-white w-full border-t border-gray-50 flex-1 flex items-center justify-center">
-                    <p class="text-gray-900 font-bold text-lg md:text-2xl tracking-tight">
+                <div class="p-6 md:p-8 text-center bg-white w-full border-t border-noreva-champagne/20 flex-1 flex items-center justify-center">
+                    <p class="text-noreva-black font-medium text-lg md:text-2xl tracking-tight">
                         {{ langService.currentLang() === 'ar' ? 'جبل من المصاريف' : 'Mountain of Expenses' }}
                     </p>
                 </div>
               </div>
 
               <!-- Noreva Side -->
-              <div class="bg-[#F8F9FA] rounded-[2rem] md:rounded-[3rem] overflow-hidden flex flex-col items-center shadow-lg border border-gray-100">
+              <div class="bg-noreva-ivory rounded-[2rem] md:rounded-[3rem] overflow-hidden flex flex-col items-center shadow-lg border border-noreva-champagne/30">
                 <div class="relative aspect-square w-full">
                     <img src="/assets/magic lasher.png" class="absolute inset-0 w-full h-full object-cover">
                 </div>
                 <!-- Text Below Image -->
-                <div class="p-6 md:p-8 text-center bg-white w-full border-t border-gray-50 flex-1 flex items-center justify-center">
-                    <p class="text-gray-900 font-bold text-lg md:text-2xl tracking-tight">
+                <div class="p-6 md:p-8 text-center bg-white w-full border-t border-noreva-champagne/20 flex-1 flex items-center justify-center">
+                    <p class="text-noreva-black font-medium text-lg md:text-2xl tracking-tight">
                         {{ langService.currentLang() === 'ar' ? 'قابلة للاستخدام أكثر من 100 مرة' : 'Reusable Over 100+ Times' }}
                     </p>
                 </div>
               </div>
             </div>
           </div>
-          <div class="mt-8 pt-8 border-t border-gray-100 max-w-4xl mx-auto px-6">
+          <div class="mt-8 pt-8 border-t border-noreva-champagne/30 max-w-4xl mx-auto px-6">
             <div class="text-center mb-12">
-              <h3 class="text-3xl md:text-5xl font-serif text-black mb-4">
+              <h3 class="text-3xl md:text-5xl font-serif text-noreva-black mb-4">
                 {{ langService.currentLang() === 'ar' ? 'التحول المذهل مع نوريڤا' : 'The Noreva Transformation' }}
               </h3>
-              <p class="text-gray-500 uppercase tracking-widest text-[10px] font-black">
+              <p class="text-noreva-taupe uppercase tracking-[0.2em] text-[10px] font-medium">
                 {{ langService.currentLang() === 'ar' ? 'نتائج فورية وطبيعية 100٪' : 'Instant & 100% natural results' }}
               </p>
             </div>
 
             <!-- Slider Container (Forced LTR to prevent inversion in RTL mode) -->
-            <div class="relative aspect-[4/3] md:aspect-video rounded-[1.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-[4px] md:border-[12px] border-white select-none bg-gray-100" dir="ltr">
+            <div class="relative aspect-[4/3] md:aspect-video rounded-[1.5rem] md:rounded-[3rem] overflow-hidden shadow-2xl border-[4px] md:border-[12px] border-white select-none bg-noreva-ivory" dir="ltr">
               <!-- After Image (Background Layer) -->
               <div class="absolute inset-0 w-full h-full overflow-hidden pointer-events-none" 
                    [style.clip-path]="'inset(0px 0px 0px ' + sliderPosition() + '%)'">
@@ -485,7 +501,7 @@ import { ReviewsComponent } from '../reviews/reviews.component';
               <!-- Slider Handle -->
               <div class="absolute inset-y-0 pointer-events-none z-20" [style.left.%]="sliderPosition()">
                 <div class="absolute inset-y-0 w-0.5 bg-white shadow-lg"></div>
-                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 bg-white rounded-full shadow-2xl flex items-center justify-center border-2 border-gray-100">
+                <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-8 md:w-12 md:h-12 bg-white rounded-full shadow-2xl flex items-center justify-center border-2 border-noreva-champagne/30">
                    <svg class="w-4 h-4 md:w-6 md:h-6 text-black" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
                       <path d="M18 12L13 7M18 12L13 17M6 12L11 7M6 12L11 17M18 12H6" stroke-linecap="round" stroke-linejoin="round"/>
                    </svg>
@@ -500,17 +516,17 @@ import { ReviewsComponent } from '../reviews/reviews.component';
           </div>
 
           <!-- Speed Section (Why Us) -->
-          <div class="mt-8 pt-8 border-t border-gray-100 max-w-4xl mx-auto px-6">
+          <div class="mt-8 pt-8 border-t border-noreva-champagne/30 max-w-4xl mx-auto px-6">
              <div class="text-center mb-12">
-                <h3 class="text-3xl md:text-5xl font-serif text-black mb-4">
+                <h3 class="text-3xl md:text-5xl font-serif text-noreva-black mb-4">
                   {{ langService.currentLang() === 'ar' ? 'جاهزة في ثوانٍ' : 'Ready in Seconds' }}
                 </h3>
-                <p class="text-gray-500 uppercase tracking-widest text-[10px] font-black">
+                <p class="text-noreva-taupe uppercase tracking-[0.2em] text-[10px] font-medium">
                   {{ langService.currentLang() === 'ar' ? 'توفير وقتك هو أولويتنا' : 'Saving your time is our priority' }}
                 </p>
              </div>
              
-             <div class="rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100 bg-black">
+             <div class="rounded-[2.5rem] overflow-hidden shadow-luxury-xl border border-noreva-champagne/30 bg-noreva-black">
                 <div class="relative w-full aspect-[3/4]">
                    <img src="/assets/noreva-why-us-2.gif" class="absolute inset-0 w-full h-full object-cover">
                 </div>
@@ -518,17 +534,17 @@ import { ReviewsComponent } from '../reviews/reviews.component';
           </div>
 
           <!-- Explanation Section (How to Apply) -->
-          <div class="mt-8 pt-8 border-t border-gray-100 max-w-4xl mx-auto px-6">
+          <div class="mt-8 pt-8 border-t border-noreva-champagne/30 max-w-4xl mx-auto px-6">
              <div class="text-center mb-12">
-                <h3 class="text-3xl md:text-5xl font-serif text-black mb-4">
+                <h3 class="text-3xl md:text-5xl font-serif text-noreva-black mb-4">
                   {{ langService.currentLang() === 'ar' ? 'طريقة التركيب' : 'How It Works' }}
                 </h3>
-                <p class="text-gray-500 uppercase tracking-widest text-[10px] font-black">
+                <p class="text-noreva-taupe uppercase tracking-[0.2em] text-[10px] font-medium">
                   {{ langService.currentLang() === 'ar' ? 'سهولة في ٣ خطوات بسيطة' : 'Simple 3-Step Application' }}
                 </p>
              </div>
              
-             <div class="rounded-[2.5rem] overflow-hidden shadow-2xl border border-gray-100 bg-black">
+             <div class="rounded-[2.5rem] overflow-hidden shadow-luxury-xl border border-noreva-champagne/30 bg-noreva-black">
                 <!-- "Cut the top" achieved by object positioning or wrapper -->
                 <div class="relative w-full aspect-[3/4]">
                    <img src="/assets/explanation vid.gif" class="absolute w-full h-[115%] -top-[15%] left-0 object-cover" alt="Explanation">
@@ -540,31 +556,31 @@ import { ReviewsComponent } from '../reviews/reviews.component';
 
 
           <!-- FAQ Section -->
-          <div class="mt-16 pt-16 border-t border-gray-100 max-w-4xl mx-auto px-6">
+          <div class="mt-16 pt-16 border-t border-noreva-champagne/30 max-w-4xl mx-auto px-6">
              <div class="text-center mb-12">
-                <h3 class="text-3xl md:text-5xl font-serif text-black mb-4">
+                <h3 class="text-3xl md:text-5xl font-serif text-noreva-black mb-4">
                   {{ langService.currentLang() === 'ar' ? 'الأسئلة الشائعة' : 'Questions & Answers' }}
                 </h3>
-                <p class="text-gray-500 uppercase tracking-widest text-[10px] font-black">
+                <p class="text-noreva-taupe uppercase tracking-[0.2em] text-[10px] font-medium">
                   {{ langService.currentLang() === 'ar' ? 'كل ما تودين معرفته عن نوريڤا' : 'Everything you need to know about Noreva' }}
                 </p>
              </div>
 
              <div class="space-y-4">
                 @for (faq of (langService.currentLang() === 'ar' ? faqsAr : faqsEn); track faq.q) {
-                  <div class="border border-gray-100 rounded-3xl overflow-hidden bg-white shadow-sm hover:shadow-md transition-shadow">
+                  <div class="border border-noreva-champagne/30 rounded-3xl overflow-hidden bg-white shadow-luxury hover:shadow-luxury-lg transition-shadow">
                     <button (click)="faq.open = !faq.open" 
                             class="w-full p-6 text-start flex items-center justify-between gap-4 focus:outline-none">
-                      <span class="text-sm md:text-base font-bold text-gray-900">{{ faq.q }}</span>
-                      <div class="w-8 h-8 rounded-full bg-gray-50 flex items-center justify-center flex-shrink-0 transition-transform duration-300"
+                      <span class="text-sm md:text-base font-medium text-noreva-black">{{ faq.q }}</span>
+                      <div class="w-8 h-8 rounded-full bg-noreva-ivory flex items-center justify-center flex-shrink-0 transition-transform duration-300"
                            [class.rotate-180]="faq.open">
-                        <svg class="w-4 h-4 text-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
+                        <svg class="w-4 h-4 text-noreva-black" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M19 9l-7 7-7-7"/></svg>
                       </div>
                     </button>
                     @if (faq.open) {
                       <div class="px-6 pb-6 animate-in fade-in slide-in-from-top-2 duration-300">
-                        <div class="h-px bg-gray-50 mb-6"></div>
-                        <p class="text-sm text-gray-500 leading-relaxed">{{ faq.a }}</p>
+                        <div class="h-px bg-noreva-champagne/20 mb-6"></div>
+                        <p class="text-sm text-noreva-taupe leading-relaxed">{{ faq.a }}</p>
                       </div>
                     }
                   </div>
@@ -573,7 +589,7 @@ import { ReviewsComponent } from '../reviews/reviews.component';
           </div>
 
           <!-- Reviews Integration -->
-          <div class="mt-16 pt-16 border-t border-gray-100">
+          <div class="mt-16 pt-16 border-t border-noreva-champagne/30">
              <app-reviews></app-reviews>
           </div>
         }
@@ -594,30 +610,30 @@ import { ReviewsComponent } from '../reviews/reviews.component';
                 </button>
   
                 <!-- Image Side (Left - 35% on Mobile) -->
-                <div class="w-[35%] md:w-1/2 bg-[#f5f5f5] relative shrink-0">
+                <div class="w-[35%] md:w-1/2 bg-noreva-ivory relative shrink-0">
                    <img src="/assets/noreva-models-popup.png" alt="Models" class="absolute inset-0 w-full h-full object-cover">
                 </div>
   
                 <!-- Content Side (Right - 65% on Mobile) -->
                 <div class="w-[65%] md:w-1/2 p-4 md:p-20 flex flex-col items-center justify-center text-center bg-white" [dir]="langService.isRtl() ? 'rtl' : 'ltr'">
                    
-                   <h3 class="text-sm md:text-2xl font-serif italic text-gray-900 mb-2 md:mb-8 tracking-wide whitespace-nowrap">
+                   <h3 class="text-sm md:text-2xl font-serif italic text-noreva-black mb-2 md:mb-8 tracking-wide whitespace-nowrap">
                      {{ langService.currentLang() === 'ar' ? 'أهلاً بك في نوريڤا!' : 'Welcome to Noreva !' }}
                    </h3>
                    
                    <h2 class="text-3xl md:text-8xl font-serif text-black leading-[0.9] mb-4 md:mb-12">
                      {{ langService.currentLang() === 'ar' ? 'خصم ١٠٪' : 'Enjoy 10% Off' }}
-                     <span class="text-sm md:text-3xl block mt-2 md:mt-4 font-sans font-normal text-gray-600 uppercase tracking-widest leading-normal">{{ langService.currentLang() === 'ar' ? 'على طلبك الأول' : 'YOUR FIRST ORDER' }}</span>
+                     <span class="text-sm md:text-3xl block mt-2 md:mt-4 font-sans font-normal text-noreva-taupe uppercase tracking-widest leading-normal">{{ langService.currentLang() === 'ar' ? 'على طلبك الأول' : 'YOUR FIRST ORDER' }}</span>
                    </h2>
   
                    <div class="w-full max-w-[90%] md:max-w-md space-y-4 md:space-y-8">
                       <a routerLink="/login" (click)="closeNewsletter()" 
-                         class="flex items-center justify-center w-full h-12 md:h-16 bg-[#ebeae6] hover:bg-[#dedcd6] text-black font-serif font-bold tracking-[0.2em] uppercase transition-colors text-sm md:text-2xl whitespace-nowrap cursor-pointer shadow-sm">
+                         class="flex items-center justify-center w-full h-12 md:h-16 bg-noreva-champagne hover:bg-noreva-champagne/80 text-black font-serif font-bold tracking-[0.2em] uppercase transition-colors text-sm md:text-2xl whitespace-nowrap cursor-pointer shadow-sm">
                         {{ langService.currentLang() === 'ar' ? 'تسجيل الدخول' : 'SIGN IN & REGISTER' }}
                       </a>
                    </div>
   
-                   <button (click)="closeNewsletter()" class="mt-4 md:mt-12 text-gray-400 hover:text-black transition-colors font-medium text-[10px] md:text-base border-b border-gray-200 hover:border-black pb-0.5 leading-tight">
+                   <button (click)="closeNewsletter()" class="mt-4 md:mt-12 text-noreva-taupe hover:text-noreva-black transition-colors font-medium text-[10px] md:text-base border-b border-noreva-champagne hover:border-noreva-black pb-0.5 leading-tight">
                      {{ langService.currentLang() === 'ar' ? 'شكراً، سأدفع السعر الكامل' : 'No thanks, I will pay the full price' }}
                    </button>
   
@@ -655,8 +671,8 @@ import { ReviewsComponent } from '../reviews/reviews.component';
     </div>
   `,
   styles: [`
-    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(50%); } }
-    .animate-marquee { display: inline-flex; animation: marquee 20s linear infinite; }
+    @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
+    .animate-marquee { display: inline-flex; animation: marquee 40s linear infinite; }
     :host { display: block; overflow-x: hidden; }
     
     @keyframes zoom-in { from { opacity: 0; transform: scale(0.95); } to { opacity: 1; transform: scale(1); } }
