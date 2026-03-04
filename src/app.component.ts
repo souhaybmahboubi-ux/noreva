@@ -6,13 +6,15 @@ import { FooterComponent } from './components/footer/footer.component';
 import { CurrencyDrawerComponent } from './components/currency-selector/currency-drawer.component';
 import { CurrencyService } from './services/currency.service';
 import { LanguageService } from './services/language.service';
+import { VideoIntroComponent } from './components/video-intro/video-intro.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterOutlet, HeaderComponent, FooterComponent, CurrencyDrawerComponent],
+  imports: [RouterOutlet, HeaderComponent, FooterComponent, CurrencyDrawerComponent, VideoIntroComponent],
   template: `
+    <app-video-intro></app-video-intro>
     <app-header></app-header>
     <main>
       <router-outlet></router-outlet>

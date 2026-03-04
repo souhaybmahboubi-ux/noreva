@@ -165,11 +165,35 @@ import { CurrencyService } from '../../services/currency.service';
             }}
           </p>
 
-          <!-- Payment Icons - Actual Logo Images -->
-          <div class="inline-flex items-center gap-4 bg-white/5 backdrop-blur-sm rounded-full px-6 py-3">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d6/Visa_2021.svg/200px-Visa_2021.svg.png" alt="Visa" class="h-5 w-auto opacity-90 brightness-0 invert">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/MasterCard_Logo.svg/200px-MasterCard_Logo.svg.png" alt="Mastercard" class="h-6 w-auto opacity-90 brightness-0 invert">
-            <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/b/b0/Apple_Pay_logo.svg/200px-Apple_Pay_logo.svg.png" alt="Apple Pay" class="h-6 w-auto opacity-90 brightness-0 invert">
+          <!-- Payment Icons - Inline SVG Logos -->
+          <div class="inline-flex items-center gap-3 bg-white/5 backdrop-blur-sm rounded-full px-4 py-2">
+            <!-- Visa -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 780 500" class="h-4 w-auto opacity-70" fill="white">
+              <path d="M293.2 348.7l33.4-195.7h53.4l-33.4 195.7h-53.4zm246.7-191.3c-10.6-3.9-27.2-8.2-47.9-8.2-52.8 0-90 26.5-90.3 64.4-.3 28.1 26.6 43.7 46.9 53 20.8 9.5 27.8 15.6 27.7 24.1-.1 13-16.6 19-32 19-21.4 0-32.8-3-50.4-10.4l-6.9-3.1-7.5 43.7c12.5 5.5 35.5 10.2 59.5 10.4 56.1 0 92.6-26.2 93-66.8.2-22.2-14-39.1-44.8-53.1-18.7-9-30.1-15.1-30-24.3 0-8.1 9.7-16.8 30.6-16.8 17.5-.3 30.1 3.5 40 7.5l4.8 2.2 7.3-42.6zM661.2 153h-41.3c-12.8 0-22.4 3.5-28 16.2l-79.4 179.5h56.1s9.2-24.1 11.2-29.4c6.1 0 60.6.1 68.4.1 1.6 6.9 6.5 29.3 6.5 29.3h49.6L661.2 153zm-65.7 126.7c4.4-11.3 21.3-54.9 21.3-54.9s4.4-11.3 7.1-18.7l3.6 16.9s10.2 46.7 12.4 56.7h-44.4zM230 153l-52.4 133.5-5.6-27.2c-9.7-31.3-40-65.4-73.8-82.4l47.9 171.7 56.6-.1 84.3-195.5H230z"/>
+              <path d="M131.3 153H44.5l-.7 4c67.4 16.2 112 55.4 130.5 102.4l-18.8-89.9c-3.2-12.5-12.6-16.2-24.2-16.5z" fill="white" opacity=".7"/>
+            </svg>
+
+            <!-- Divider -->
+            <span class="w-px h-4 bg-white/15"></span>
+
+            <!-- Mastercard -->
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 152.4 108" class="h-4 w-auto opacity-70">
+              <circle cx="55.9" cy="54" r="45.9" fill="#ffffff" opacity="0.5"/>
+              <circle cx="96.5" cy="54" r="45.9" fill="#ffffff" opacity="0.5"/>
+              <path d="M76.2 20.1a45.8 45.8 0 0 1 20.3 33.9 45.8 45.8 0 0 1-20.3 33.9A45.8 45.8 0 0 1 55.9 54a45.8 45.8 0 0 1 20.3-33.9z" fill="#ffffff" opacity="0.8"/>
+            </svg>
+
+            <!-- Divider -->
+            <span class="w-px h-4 bg-white/15"></span>
+
+            <!-- Apple Pay -->
+            <span class="flex items-center gap-1 opacity-70 text-white" style="font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Helvetica Neue', sans-serif; font-size: 13px; font-weight: 500; letter-spacing: -0.01em; line-height: 1;">
+              <!-- Apple logo silhouette SVG -->
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 814 1000" height="14" width="auto" fill="white">
+                <path d="M788.1 340.9c-5.8 4.5-108.2 62.2-108.2 190.5 0 148.4 130.3 200.9 134.2 202.2-.6 3.2-20.7 71.9-68.7 141.9-42.8 61.6-87.5 123.1-155.5 123.1s-85.5-39.5-164-39.5c-76 0-103.7 40.8-165.9 40.8s-105-57.8-155.5-127.4C46 790.4 0 663.6 0 540.8c0-207.7 131.4-317.9 260.8-317.9 70.2 0 128.4 45.8 172.2 45.8 41.5 0 106.7-48.3 185.7-48.3 29.4 0 133.7 2.6 198.3 99.2zm-234-181.5c31.1-36.9 53.1-88.1 53.1-139.3 0-7.1-.6-14.3-1.9-20.1-50.6 1.9-110.8 33.7-147.1 75.8-28.5 32.4-55.1 83.6-55.1 135.5 0 7.8 1.3 15.6 1.9 18.1 3.2.6 8.4 1.3 13.6 1.3 45.4 0 102.5-30.4 135.5-71.3z"/>
+              </svg>
+              Pay
+            </span>
           </div>
         </div>
       </div>
