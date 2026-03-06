@@ -8,7 +8,7 @@ import { CurrencyService } from '../../services/currency.service';
   standalone: true,
   imports: [RouterLink],
   template: `
-    <footer class="relative bg-noreva-black text-white pb-24 font-sans z-10 mt-32">
+    <footer class="relative bg-noreva-black text-white pb-24 font-sans z-10 monogram-bg monogram-gold">
       <!-- Elegant Gold Line -->
       <div class="w-full h-px bg-gradient-to-r from-transparent via-noreva-gold/30 to-transparent"></div>
 

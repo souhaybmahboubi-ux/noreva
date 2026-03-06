@@ -332,6 +332,140 @@
       transform: scale(1.05);
     }
 
+    /* ─────────────────────────────────────────────────────────────
+       Noreva Monogram Pattern
+       ONE technique for both light & dark sections:
+       background-attachment:fixed locks the tile grid to viewport
+       coordinates, so every section shares the same icon positions.
+       ───────────────────────────────────────────────────────────── */
+
+    /* Light sections (any section that isn't dark) */
+    .monogram-bg {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .monogram-bg::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background-image:
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png'),
+        url('/assets/luciana(2).png');
+      background-size:
+        22px, 22px, 22px, 22px, 22px,
+        22px, 22px, 22px, 22px, 22px,
+        22px, 22px, 22px, 22px, 22px,
+        22px, 22px, 22px, 22px, 22px,
+        22px, 22px, 22px, 22px, 22px,
+        22px, 22px, 22px, 22px, 22px,
+        22px, 22px, 22px, 22px, 22px,
+        22px, 22px, 22px, 22px, 22px,
+        22px, 22px, 22px, 22px, 22px,
+        22px, 22px, 22px, 22px, 22px,
+        22px, 22px;
+      background-repeat: no-repeat;
+      background-attachment:
+        fixed, fixed, fixed, fixed, fixed,
+        fixed, fixed, fixed, fixed, fixed,
+        fixed, fixed, fixed, fixed, fixed,
+        fixed, fixed, fixed, fixed, fixed,
+        fixed, fixed, fixed, fixed, fixed,
+        fixed, fixed, fixed, fixed, fixed,
+        fixed, fixed, fixed, fixed, fixed,
+        fixed, fixed, fixed, fixed, fixed,
+        fixed, fixed, fixed, fixed, fixed,
+        fixed, fixed, fixed, fixed, fixed,
+        fixed, fixed;
+      background-position:
+        5% 8%, 38% 4%, 76% 12%,
+        92% 38%, 16% 36%, 58% 46%,
+        82% 68%, 7% 64%, 44% 72%,
+        68% 88%, 25% 90%, 52% 18%,
+        30% 52%, 74% 52%, 88% 85%,
+        48% 88%, 12% 18%, 62% 26%,
+        22% 70%, 86% 22%, 45% 34%,
+        8% 45%, 68% 74%, 35% 14%,
+        92% 58%, 18% 82%, 55% 60%,
+        20% 24%, 64% 4%, 42% 56%,
+        80% 42%, 3% 28%, 50% 76%,
+        78% 94%, 14% 54%, 38% 82%,
+        72% 30%, 59% 84%,
+        29% 8%, 55% 30%, 15% 10%,
+        94% 16%, 32% 28%, 70% 40%,
+        26% 44%, 84% 56%, 62% 62%,
+        40% 78%, 9% 92%, 56% 92%,
+        82% 96%, 46% 14%, 2% 72%;
+      opacity: 0.06;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .monogram-bg>* {
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Dark/black sections — same positions, gold-tinted */
+    .monogram-gold::before {
+      filter: brightness(0) invert(1) sepia(1) saturate(1.5) hue-rotate(5deg);
+      opacity: 0.1;
+    }
+
+    /* ─────────────────────────────────────────────────────────────
+       End Monogram Pattern
+       ───────────────────────────────────────────────────────────── */
+
     /* Selection styling */
     ::selection {
       background: var(--noreva-champagne);
@@ -362,7 +496,6 @@
 
 <body oncontextmenu="return false">
   <app-root></app-root>
-
 
 </body>
 

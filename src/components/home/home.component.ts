@@ -12,183 +12,457 @@ import { NgOptimizedImage, CommonModule } from '@angular/common';
   imports: [RouterLink, NgOptimizedImage, CommonModule],
   template: `
     <div class="bg-noreva-cream min-h-screen selection:bg-noreva-champagne selection:text-noreva-black overflow-x-hidden">
-      
-      <!-- Hero Section (Zoom Out Effect) -->
+
+      <!-- ═══════════════════════════════════════════════
+           HERO — Cinematic full-screen with zoom effect
+      ════════════════════════════════════════════════ -->
       <section class="relative h-screen w-full overflow-hidden">
-        <!-- Background Image with Zoom Effect -->
         <div class="absolute inset-0 w-full h-full"
              [style.transform]="'scale(' + zoomScale() + ')'"
              style="transform-origin: center center; transition: transform 0.1s linear; will-change: transform;">
-           <img src="/assets/hero-zoom.png" class="w-full h-full object-cover">
-        </div>
-        
-        <!-- Gradient Overlay -->
-        <div class="absolute inset-0 bg-gradient-to-b from-noreva-black/40 via-noreva-black/20 to-noreva-black/50 flex items-center justify-center">
-            <div class="container mx-auto max-w-4xl text-center px-6 pt-20">
-               <span class="inline-block text-[10px] md:text-xs font-medium tracking-[0.3em] text-noreva-gold uppercase mb-6 animate-fade-up opacity-90">
-                 NOREVA™ BEAUTY
-               </span>
-               
-               <h1 class="text-4xl md:text-7xl font-serif text-white mb-8 leading-[1.05] tracking-tight animate-fade-up" style="animation-delay: 0.1s">
-                  {{ langService.currentLang() === 'ar' ? 'رموش أحلامكِ' : 'Dream Lashes.' }} <br/>
-                  {{ langService.currentLang() === 'ar' ? 'بدون صمغ، بدون فوضى' : 'No Glue, No Mess.' }}
-               </h1>
-               
-               <p class="text-base md:text-xl text-white/80 font-normal leading-relaxed mb-12 max-w-2xl mx-auto animate-fade-up" style="animation-delay: 0.2s">
-                  {{ langService.currentLang() === 'ar' 
-                    ? 'وداعاً للصمغ والفوضى. نوريڤا تقدم لكِ التقنية المغناطيسية لرموش تركب بثوانٍ وتثبت طول اليوم.' 
-                    : 'Say goodbye to sticky glue. Noreva brings you magnetic technology for lashes that apply in seconds and stay all day.' }}
-               </p>
-
-               <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-fade-up" style="animation-delay: 0.3s">
-                  <a [routerLink]="['/products']" class="btn-luxury px-12 py-4 text-white rounded-full font-medium tracking-wide text-sm">
-                     {{ langService.currentLang() === 'ar' ? 'تسوقي الآن' : 'Shop Now' }}
-                  </a>
-                  <a [routerLink]="['/why-us']" 
-                     class="px-12 py-4 text-white/90 rounded-full font-medium tracking-wide text-sm border border-white/30 hover:bg-white/10 transition-all duration-400">
-                     {{ langService.currentLang() === 'ar' ? 'لماذا نوريڤا' : 'Why Noreva' }}
-                  </a>
-               </div>
-            </div>
+          <img src="/assets/hero-zoom.png" class="w-full h-full object-cover" alt="Noreva Magnetic Lashes">
         </div>
 
-      </section>
+        <!-- Multi-layer overlay for depth -->
+        <div class="absolute inset-0 bg-gradient-to-b from-noreva-black/50 via-noreva-black/10 to-noreva-black/70"></div>
 
-      <!-- Features Strip -->
-      <section class="bg-noreva-black py-6 overflow-hidden" dir="ltr">
-        <div class="flex whitespace-nowrap animate-marquee items-center text-white">
-          <!-- First Half -->
-          <div class="flex items-center gap-12 pr-12">
-            @for(i of [1,2,3,4,5,6,7,8]; track i) {
-              <div class="flex items-center gap-6">
-                <span class="text-xs font-medium tracking-[0.3em] uppercase opacity-70">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثواني' : '3 Second Application' }}</span>
-                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full shrink-0"></span>
-                <span class="text-xs font-medium tracking-[0.3em] uppercase opacity-70">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'Glue Free' }}</span>
-                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full shrink-0"></span>
-                <span class="text-xs font-medium tracking-[0.3em] uppercase opacity-70">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ Uses' }}</span>
-                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full shrink-0"></span>
-              </div>
-            }
-          </div>
-          <!-- Second Half (Identical) -->
-          <div class="flex items-center gap-12 pr-12">
-            @for(i of [1,2,3,4,5,6,7,8]; track i) {
-              <div class="flex items-center gap-6">
-                <span class="text-xs font-medium tracking-[0.3em] uppercase opacity-70">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثواني' : '3 Second Application' }}</span>
-                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full shrink-0"></span>
-                <span class="text-xs font-medium tracking-[0.3em] uppercase opacity-70">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'Glue Free' }}</span>
-                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full shrink-0"></span>
-                <span class="text-xs font-medium tracking-[0.3em] uppercase opacity-70">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ Uses' }}</span>
-                <span class="w-1.5 h-1.5 bg-noreva-gold rounded-full shrink-0"></span>
-              </div>
-            }
-          </div>
-        </div>
-      </section>
-
-      <!-- Featured Collection -->
-      <section class="py-24 md:py-32 px-6">
-        <div class="container mx-auto max-w-7xl">
-          <div class="text-center mb-16 md:mb-20">
-            <span class="inline-block text-[10px] md:text-xs font-medium tracking-[0.3em] text-noreva-gold uppercase mb-4">
-              {{ langService.currentLang() === 'ar' ? 'مجموعة مختارة' : 'CURATED COLLECTION' }}
+        <!-- Hero content -->
+        <div class="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
+          <div class="max-w-4xl mx-auto pt-16">
+            <span class="hero-eyebrow inline-block text-[10px] md:text-[11px] font-medium tracking-[0.4em] text-noreva-gold uppercase mb-8">
+              NOREVA™ MAGNETIC LASHES
             </span>
-            <h2 class="text-3xl md:text-5xl font-serif text-noreva-black mb-6">
-              {{ langService.currentLang() === 'ar' ? 'الأكثر مبيعاً' : 'Featured Collection' }}
-            </h2>
-            <p class="text-noreva-taupe max-w-xl mx-auto text-base md:text-lg leading-relaxed">
-              {{ langService.currentLang() === 'ar' ? 'اكتشفي أسرار العيون الجذابة. رموش صُممت لتمنحكِ الأناقة في ثوانٍ.' : 'Discover the secret to captivating eyes. Lashes designed for effortless elegance.' }}
+
+            <h1 class="hero-heading text-5xl md:text-8xl font-serif text-white leading-[1.0] tracking-tight mb-8">
+              {{ langService.currentLang() === 'ar'
+                ? 'رموش تستحقها,'
+                : 'The Lashes' }}<br>
+              <em class="italic font-serif">
+                {{ langService.currentLang() === 'ar'
+                  ? 'بدون صمغ'
+                  : 'You Deserve.' }}
+              </em>
+            </h1>
+
+            <p class="hero-sub text-base md:text-xl text-white/75 max-w-xl mx-auto leading-relaxed mb-14">
+              {{ langService.currentLang() === 'ar'
+                ? 'تقنية مغناطيسية فاخرة. تركيب في ٣ ثوانٍ. بدون صمغ، بدون فوضى، بدون تنازلات.'
+                : 'Premium magnetic technology. On in 3 seconds. No glue, no mess, no compromise.' }}
             </p>
-          </div>
 
-          <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 md:gap-8">
-            @for (product of featuredProducts(); track product.id) {
-              <a [routerLink]="['/product', product.handle]" class="group block luxury-card bg-white rounded-2xl md:rounded-3xl overflow-hidden shadow-luxury border border-noreva-champagne/30">
-                <div class="aspect-[4/5] bg-noreva-ivory relative overflow-hidden img-reveal">
-                  <img [src]="product.imageUrl" class="w-full h-full object-cover">
-                  <div class="absolute inset-0 bg-noreva-black/0 group-hover:bg-noreva-black/5 transition-all duration-500"></div>
-                  
-                  <!-- Quick View (Desktop) -->
-                  <div class="hidden md:flex absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 translate-y-2 group-hover:translate-y-0 transition-all duration-500">
-                    <div class="w-full py-3 bg-white/95 backdrop-blur-sm rounded-xl text-center text-xs font-medium text-noreva-black tracking-wide">
-                      {{ langService.currentLang() === 'ar' ? 'عرض التفاصيل' : 'View Details' }}
-                    </div>
-                  </div>
-                </div>
-                <div class="p-4 md:p-6 text-start">
-                  <h4 class="text-sm md:text-base font-medium text-noreva-black group-hover:text-noreva-gold transition-colors duration-300 mb-2 line-clamp-1">{{ product.title }}</h4>
-                  <span class="text-base md:text-lg font-serif text-noreva-black">{{ product.price }} {{ product.currency }}</span>
-                </div>
+            <!-- Dual CTA — the two primary paths -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a [routerLink]="['/products']"
+                 id="hero-shop-cta"
+                 class="hero-cta-primary group flex items-center gap-3 px-10 py-4 rounded-full font-medium tracking-wide text-sm transition-all duration-300">
+                {{ langService.currentLang() === 'ar' ? 'تسوقي الآن' : 'Shop Collection' }}
+                <svg class="w-4 h-4 rtl:rotate-180 group-hover:translate-x-1 transition-transform duration-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
               </a>
-            }
-          </div>
+              <a [routerLink]="['/why-us']"
+                 id="hero-whyus-cta"
+                 class="hero-cta-secondary px-10 py-4 rounded-full font-medium tracking-wide text-sm transition-all duration-300">
+                {{ langService.currentLang() === 'ar' ? 'لماذا نوريڤا؟' : 'Why Noreva?' }}
+              </a>
+            </div>
 
-          <div class="mt-16 text-center">
-            <a [routerLink]="['/products']" class="inline-flex items-center gap-3 text-xs font-medium uppercase tracking-[0.2em] text-noreva-black border-b border-noreva-black pb-1 hover:text-noreva-gold hover:border-noreva-gold transition-colors">
-              {{ langService.currentLang() === 'ar' ? 'تسوقي المجموعة كاملة' : 'SHOP THE FULL COLLECTION' }}
-              <svg class="w-3 h-3 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" /></svg>
-            </a>
+
           </div>
         </div>
       </section>
 
-      <!-- Expert / Story Section -->
-      <section class="py-24 md:py-32 px-6 bg-noreva-ivory">
-        <div class="container mx-auto max-w-3xl">
-           <div class="flex flex-col md:flex-row items-center gap-8 md:gap-12 mb-16">
-              <div class="w-20 h-20 md:w-24 md:h-24 rounded-full overflow-hidden border border-noreva-champagne/50 p-0.5 shrink-0">
-                 <img src="https://api.dicebear.com/9.x/micah/svg?seed=Expert" class="w-full h-full rounded-full bg-noreva-champagne/20">
+      <!-- ═══════════════════════════════════════════════
+           MARQUEE STRIP
+      ════════════════════════════════════════════════ -->
+      <section class="bg-noreva-black py-5 overflow-hidden" dir="ltr">
+        <div class="flex whitespace-nowrap animate-marquee items-center text-white">
+          <div class="flex items-center gap-10 pr-10">
+            @for(i of [1,2,3,4,5,6,7,8]; track i) {
+              <div class="flex items-center gap-8">
+                <span class="text-[10px] font-medium tracking-[0.3em] uppercase opacity-60">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثواني' : '3 Second Application' }}</span>
+                <span class="w-1 h-1 bg-noreva-gold rounded-full shrink-0"></span>
+                <span class="text-[10px] font-medium tracking-[0.3em] uppercase opacity-60">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'Glue Free' }}</span>
+                <span class="w-1 h-1 bg-noreva-gold rounded-full shrink-0"></span>
+                <span class="text-[10px] font-medium tracking-[0.3em] uppercase opacity-60">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ Reuses' }}</span>
+                <span class="w-1 h-1 bg-noreva-gold rounded-full shrink-0"></span>
+                <span class="text-[10px] font-medium tracking-[0.3em] uppercase opacity-60">{{ langService.currentLang() === 'ar' ? 'آمنة للعيون الحساسة' : 'Safe For Sensitive Eyes' }}</span>
+                <span class="w-1 h-1 bg-noreva-gold rounded-full shrink-0"></span>
               </div>
-              <div class="flex-1 text-center md:text-start">
-                 <span class="inline-block text-[10px] font-medium uppercase tracking-[0.3em] text-noreva-gold mb-3">
-                   {{ langService.currentLang() === 'ar' ? 'نصيحة خبيرة تجميل' : 'EXPERT BEAUTY ADVICE' }}
-                 </span>
-                 <p class="text-lg md:text-xl font-serif text-noreva-black leading-relaxed italic">
-                   "{{ langService.currentLang() === 'ar' 
-                     ? 'أكثر شيء يضر رموشك الطبيعية هو الصمغ وطريقة إزالته. الرموش المغناطيسية هي الحل الأمثل للحصول على كثافة درامية بدون التضحية بصحة رموشك.' 
-                     : 'The worst thing for natural lashes is glue and removal. Magnetic lashes are the perfect solution for dramatic volume without sacrificing lash health.' }}"
-                 </p>
+            }
+          </div>
+          <div class="flex items-center gap-10 pr-10">
+            @for(i of [1,2,3,4,5,6,7,8]; track i) {
+              <div class="flex items-center gap-8">
+                <span class="text-[10px] font-medium tracking-[0.3em] uppercase opacity-60">{{ langService.currentLang() === 'ar' ? 'تركيب في ٣ ثواني' : '3 Second Application' }}</span>
+                <span class="w-1 h-1 bg-noreva-gold rounded-full shrink-0"></span>
+                <span class="text-[10px] font-medium tracking-[0.3em] uppercase opacity-60">{{ langService.currentLang() === 'ar' ? 'بدون صمغ' : 'Glue Free' }}</span>
+                <span class="w-1 h-1 bg-noreva-gold rounded-full shrink-0"></span>
+                <span class="text-[10px] font-medium tracking-[0.3em] uppercase opacity-60">{{ langService.currentLang() === 'ar' ? '+١٠٠ استخدام' : '100+ Reuses' }}</span>
+                <span class="w-1 h-1 bg-noreva-gold rounded-full shrink-0"></span>
+                <span class="text-[10px] font-medium tracking-[0.3em] uppercase opacity-60">{{ langService.currentLang() === 'ar' ? 'آمنة للعيون الحساسة' : 'Safe For Sensitive Eyes' }}</span>
+                <span class="w-1 h-1 bg-noreva-gold rounded-full shrink-0"></span>
               </div>
-           </div>
+            }
+          </div>
+        </div>
+      </section>
 
-           <div class="space-y-12 text-start">
-              <div>
-                <span class="inline-block text-[10px] md:text-xs font-medium tracking-[0.3em] text-noreva-gold uppercase mb-4">
-                  {{ langService.currentLang() === 'ar' ? 'التقنية' : 'THE TECHNOLOGY' }}
-                </span>
-                <h2 class="text-3xl md:text-5xl font-serif text-noreva-black mb-6">
-                  {{ langService.currentLang() === 'ar' ? 'ليش المغناطيس؟' : 'Why Magnetic?' }}
-                </h2>
+      <!-- ═══════════════════════════════════════════════
+           PRODUCT SPOTLIGHT — Rich editorial section
+      ════════════════════════════════════════════════ -->
+      <section class="py-28 md:py-36 px-6 bg-white monogram-bg">
+        <div class="container mx-auto max-w-6xl">
+          <div class="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+
+            <!-- Image stack -->
+            <div class="relative order-2 lg:order-1">
+              <!-- Main image (Composite) -->
+              <div class="spotlight-main rounded-3xl overflow-hidden shadow-2xl aspect-[3/4]">
+                <img src="/assets/rrf3g.png" class="w-full h-full object-cover" alt="Noreva Magnetic Lash Product">
               </div>
-              <p class="text-noreva-taupe text-base md:text-lg leading-relaxed">
-                {{ langService.currentLang() === 'ar' 
-                  ? 'ببساطة لأن وقتكِ ثمين. بدلاً من قضاء 15 دقيقة في محاولة ضبط الصمغ وانتظاره ليجف، المغناطيس يلتصق فوراً. والأهم؟ ما يسبب حساسية أو دموع تخرب مكياجكِ.' 
-                  : 'Simply because your time is precious. Instead of 15 minutes struggling with glue, magnets snap on instantly. And the best part? No irritation or tears ruining your makeup.' }}
+            </div>
+
+            <!-- Content -->
+            <div class="order-1 lg:order-2 text-start">
+              <span class="inline-block text-[10px] md:text-xs font-medium tracking-[0.35em] text-noreva-gold uppercase mb-5">
+                {{ langService.currentLang() === 'ar' ? 'الأكثر مبيعاً' : 'BESTSELLER' }}
+              </span>
+
+              <h2 class="text-3xl md:text-5xl font-serif text-noreva-black mb-6 leading-tight">
+                {{ langService.currentLang() === 'ar'
+                  ? 'رموش نوريڤا المغناطيسية'
+                  : 'Noreva Magnetic Lash Set' }}
+              </h2>
+
+              <p class="text-noreva-taupe text-base md:text-lg leading-relaxed mb-10">
+                {{ langService.currentLang() === 'ar'
+                  ? 'مصممة بتقنية المغناطيس الدقيق لتمنحكِ عيوناً جذابة في ثوانٍ. خفيفة، طبيعية، وتبقى طوال اليوم بدون أي صمغ أو كيماويات.'
+                  : 'Engineered with precision micro-magnet technology for captivating eyes in seconds. Lightweight, natural-looking, and all-day hold — without a single drop of glue or chemicals.' }}
               </p>
 
-              <div class="bg-noreva-black text-white p-10 md:p-14 rounded-3xl shadow-luxury-xl relative overflow-hidden">
-                 <div class="absolute -top-10 -right-10 w-40 h-40 bg-noreva-gold/5 rounded-full blur-3xl"></div>
-                 <span class="inline-block text-[10px] font-medium tracking-[0.3em] text-noreva-gold uppercase mb-4">
-                   {{ langService.currentLang() === 'ar' ? 'ابتكارنا' : 'OUR INNOVATION' }}
-                 </span>
-                 <h3 class="text-2xl md:text-3xl font-serif mb-6 text-white">
-                   {{ langService.currentLang() === 'ar' ? 'تقنية نوريڤا™ الدقيقة' : 'Noreva™ Precision Tech' }}
-                 </h3>
-                 <p class="text-white/60 leading-relaxed text-base md:text-lg text-start">
-                   {{ langService.currentLang() === 'ar' 
-                     ? 'مغناطيساتنا مايكرو يعني صغيرة جداً وغير مرئية للعين المجردة، لكنها قوية بما يكفي للصمود في أجواءنا الحارة والرطبة. خفيفة كالريشة، ستنسين أنكِ ترتدينها.' 
-                     : 'Our micro-magnets are tiny and invisible to the naked eye, yet strong enough to withstand hot and humid weather. Light as a feather — you will forget you are wearing them.' }}
-                 </p>
+              <!-- Feature pills -->
+              <div class="flex flex-wrap gap-3 mb-10">
+                @for (feat of (langService.currentLang() === 'ar' ? arFeatures : enFeatures); track feat) {
+                  <span class="feature-pill text-xs font-medium px-4 py-2 rounded-full border border-noreva-champagne text-noreva-black bg-noreva-ivory tracking-wide">
+                    {{ feat }}
+                  </span>
+                }
               </div>
-           </div>
+
+              <!-- CTA row -->
+              <div class="flex flex-col sm:flex-row gap-4">
+                <a [routerLink]="['/products']"
+                   class="btn-luxury inline-flex items-center justify-center gap-3 px-8 py-4 text-white rounded-full font-medium tracking-wide text-sm">
+                  {{ langService.currentLang() === 'ar' ? 'تسوقي المجموعة' : 'Shop the Collection' }}
+                  <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                  </svg>
+                </a>
+                <a [routerLink]="['/why-us']"
+                   class="inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full font-medium tracking-wide text-sm border border-noreva-black text-noreva-black hover:bg-noreva-black hover:text-white transition-all duration-300">
+                  {{ langService.currentLang() === 'ar' ? 'اعرفي أكثر' : 'Learn More' }}
+                </a>
+              </div>
+            </div>
+          </div>
         </div>
       </section>
+
+      <!-- ═══════════════════════════════════════════════
+           BEFORE / AFTER TRANSFORMATION
+      ════════════════════════════════════════════════ -->
+      <section class="py-28 md:py-36 px-6 bg-noreva-cream monogram-bg">
+        <div class="container mx-auto max-w-5xl text-center">
+          <span class="inline-block text-[10px] md:text-xs font-medium tracking-[0.35em] text-noreva-gold uppercase mb-5">
+            {{ langService.currentLang() === 'ar' ? 'التحول' : 'THE TRANSFORMATION' }}
+          </span>
+          <h2 class="text-3xl md:text-5xl font-serif text-noreva-black mb-6">
+            {{ langService.currentLang() === 'ar' ? 'قبل وبعد' : 'Before & After' }}
+          </h2>
+          <p class="text-noreva-taupe text-base md:text-lg max-w-xl mx-auto mb-16 leading-relaxed">
+            {{ langService.currentLang() === 'ar'
+              ? 'شاهدي الفرق الذي تصنعه نوريڤا في ثوانٍ — اكتظاظ درامي، نظرة طبيعية.'
+              : 'See the difference Noreva makes in seconds — dramatic volume with a natural, undetectable finish.' }}
+          </p>
+
+          <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+            <!-- Before -->
+            <div class="ba-card group relative overflow-hidden rounded-3xl shadow-luxury border border-noreva-champagne/30">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img src="/assets/4t2t.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="Before Noreva">
+              </div>
+              <div class="absolute top-5 left-5">
+                <span class="ba-label before-label text-[10px] font-bold uppercase tracking-[0.25em] px-4 py-2 rounded-full">
+                  {{ langService.currentLang() === 'ar' ? 'قبل' : 'Before' }}
+                </span>
+              </div>
+            </div>
+            <!-- After -->
+            <div class="ba-card group relative overflow-hidden rounded-3xl shadow-luxury border border-noreva-gold/20">
+              <div class="aspect-[4/3] overflow-hidden">
+                <img src="/assets/trhetetht.png" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" alt="After Noreva">
+              </div>
+              <div class="absolute top-5 left-5">
+                <span class="ba-label after-label text-[10px] font-bold uppercase tracking-[0.25em] px-4 py-2 rounded-full">
+                  {{ langService.currentLang() === 'ar' ? 'بعد نوريڤا' : 'After Noreva' }}
+                </span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════
+           SOCIAL PROOF — Stars & testimonial
+      ════════════════════════════════════════════════ -->
+      <section class="py-24 md:py-28 px-6 bg-noreva-ivory monogram-bg">
+        <div class="container mx-auto max-w-4xl text-center">
+          <!-- Stars -->
+          <div class="flex items-center justify-center gap-1.5 mb-3">
+            @for (star of [1,2,3,4,5]; track star) {
+              <svg class="w-5 h-5 text-noreva-gold fill-current" viewBox="0 0 20 20">
+                <path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/>
+              </svg>
+            }
+          </div>
+          <span class="text-xs text-noreva-taupe tracking-[0.15em] uppercase mb-14 inline-block">
+            {{ langService.currentLang() === 'ar' ? 'تقييم 4.9 من 5 — أكثر من 300 عميلة' : 'Rated 4.9 / 5 — 300+ Verified Customers' }}
+          </span>
+
+          <blockquote class="text-2xl md:text-4xl font-serif text-noreva-black leading-relaxed mb-10 italic">
+            "{{ langService.currentLang() === 'ar'
+              ? 'أخيراً وجدت رموش تناسب حياتي المزدحمة. تركيب في ثوانٍ، تثبت طوال اليوم، ولا أحد يصدق أنها مش طبيعية!'
+              : 'Finally found lashes that fit my busy life. On in seconds, stay all day, and nobody believes they are not real!' }}"
+          </blockquote>
+
+          <div class="flex items-center justify-center gap-4">
+            <div class="w-11 h-11 rounded-full bg-noreva-champagne overflow-hidden border-2 border-noreva-gold/30">
+              <img src="https://api.dicebear.com/9.x/micah/svg?seed=Layla" class="w-full h-full object-cover" alt="Customer">
+            </div>
+            <div class="text-start">
+              <p class="text-sm font-semibold text-noreva-black">{{ langService.currentLang() === 'ar' ? 'ليلى م.' : 'Layla M.' }}</p>
+              <p class="text-xs text-noreva-taupe">{{ langService.currentLang() === 'ar' ? 'عميلة موثقة — الرياض' : 'Verified Customer — Riyadh' }}</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ═══════════════════════════════════════════════
+           DUAL-PATH CTA — The two main choices
+      ════════════════════════════════════════════════ -->
+      <section class="py-28 md:py-36 px-6 bg-noreva-black monogram-bg monogram-gold">
+        <div class="container mx-auto max-w-5xl">
+          <div class="text-center mb-16">
+            <span class="inline-block text-[10px] md:text-xs font-medium tracking-[0.35em] text-noreva-gold uppercase mb-5">
+              {{ langService.currentLang() === 'ar' ? 'اختاري مساركِ' : 'CHOOSE YOUR PATH' }}
+            </span>
+            <h2 class="text-3xl md:text-5xl font-serif text-white leading-tight">
+              {{ langService.currentLang() === 'ar'
+                ? 'مستعدة لتجربة الفرق؟'
+                : 'Ready to Experience' }}<br>
+              <span class="text-noreva-gold italic">{{ langService.currentLang() === 'ar' ? '' : 'The Difference?' }}</span>
+            </h2>
+          </div>
+
+          <!-- Two path cards -->
+          <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- Path 1: Shop -->
+            <a [routerLink]="['/products']"
+               id="cta-shop-products"
+               class="path-card shop-card group relative overflow-hidden rounded-3xl p-8 md:p-12 flex flex-col justify-between min-h-[360px] cursor-pointer">
+              <div>
+                <div class="path-icon-wrap shop-icon mb-8 w-14 h-14 rounded-2xl flex items-center justify-center">
+                  <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium tracking-[0.3em] uppercase opacity-70 mb-3 block">
+                  {{ langService.currentLang() === 'ar' ? 'تسوقي الآن' : 'SHOP NOW' }}
+                </span>
+                <h3 class="text-2xl md:text-3xl font-serif mb-4 leading-tight">
+                  {{ langService.currentLang() === 'ar'
+                    ? 'اكتشفي المجموعة الكاملة'
+                    : 'Explore the\nFull Collection' }}
+                </h3>
+                <p class="text-sm leading-relaxed opacity-70">
+                  {{ langService.currentLang() === 'ar'
+                    ? 'تصفحي جميع أنماط الرموش المغناطيسية. تسليم سريع لجميع دول الخليج.'
+                    : 'Browse all styles of luxury magnetic lashes. Fast delivery across the GCC.' }}
+                </p>
+              </div>
+              <div class="path-arrow flex items-center gap-3 text-sm font-medium tracking-wide mt-10 group-hover:gap-5 transition-all duration-300">
+                {{ langService.currentLang() === 'ar' ? 'تسوقي الآن' : 'Shop Collection' }}
+                <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </div>
+            </a>
+
+            <!-- Path 2: Why Us -->
+            <a [routerLink]="['/why-us']"
+               id="cta-why-noreva"
+               class="path-card whyus-card group relative overflow-hidden rounded-3xl p-8 md:p-12 flex flex-col justify-between min-h-[360px] cursor-pointer">
+              <div>
+                <div class="path-icon-wrap whyus-icon mb-8 w-14 h-14 rounded-2xl flex items-center justify-center">
+                  <svg class="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                  </svg>
+                </div>
+                <span class="text-[10px] font-medium tracking-[0.3em] uppercase opacity-70 mb-3 block">
+                  {{ langService.currentLang() === 'ar' ? 'تعرفي أكثر' : 'LEARN MORE' }}
+                </span>
+                <h3 class="text-2xl md:text-3xl font-serif mb-4 leading-tight">
+                  {{ langService.currentLang() === 'ar'
+                    ? 'لماذا نوريڤا™ مختلفة؟'
+                    : 'Why Noreva\nis Different' }}
+                </h3>
+                <p class="text-sm leading-relaxed opacity-70">
+                  {{ langService.currentLang() === 'ar'
+                    ? 'اكتشفي التكنولوجيا، الجودة، والأسباب التي تجعل آلاف النساء يختارون نوريڤا في كل مرة.'
+                    : 'Discover the science, quality, and reasons why thousands of women choose Noreva every time.' }}
+                </p>
+              </div>
+              <div class="path-arrow flex items-center gap-3 text-sm font-medium tracking-wide mt-10 group-hover:gap-5 transition-all duration-300">
+                {{ langService.currentLang() === 'ar' ? 'اعرفي أكثر' : 'Discover Why' }}
+                <svg class="w-4 h-4 rtl:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                </svg>
+              </div>
+            </a>
+          </div>
+
+          <!-- Bottom tagline -->
+          <p class="text-center text-white/30 text-xs tracking-[0.2em] uppercase mt-14">
+            {{ langService.currentLang() === 'ar'
+              ? 'شحن مجاني • ضمان الجودة • تسليم سريع للخليج'
+              : 'Free Shipping • Quality Guarantee • Fast GCC Delivery' }}
+          </p>
+        </div>
+      </section>
+
     </div>
   `,
   styles: [`
     :host { display: block; }
+
+    /* ── Marquee ────────── */
     @keyframes marquee { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
     .animate-marquee { display: inline-flex; animation: marquee 60s linear infinite; }
+
+
+
+    /* ── Hero typography ─ */
+    .hero-eyebrow  { opacity: 0; animation: fadeSlideUp 0.9s ease 0.2s forwards; }
+    .hero-heading  { opacity: 0; animation: fadeSlideUp 0.9s ease 0.35s forwards; }
+    .hero-sub      { opacity: 0; animation: fadeSlideUp 0.9s ease 0.5s forwards; }
+    .hero-cta-primary, .hero-cta-secondary { opacity: 0; animation: fadeSlideUp 0.9s ease 0.65s forwards; }
+    .hero-scroll-nudge { opacity: 0; animation: fadeSlideUp 1s ease 1.2s forwards; }
+
+    @keyframes fadeSlideUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Hero CTA buttons ─ */
+    .hero-cta-primary {
+      background: var(--color-noreva-gold, #C9A96E);
+      color: #fff;
+      box-shadow: 0 0 0 0 rgba(201,169,110,0);
+      transition: background 0.3s, box-shadow 0.4s, transform 0.3s;
+    }
+    .hero-cta-primary:hover {
+      background: #b8904f;
+      box-shadow: 0 0 30px rgba(201,169,110,0.45);
+      transform: translateY(-1px);
+    }
+    .hero-cta-secondary {
+      color: rgba(255,255,255,0.85);
+      border: 1px solid rgba(255,255,255,0.28);
+      backdrop-filter: blur(6px);
+    }
+    .hero-cta-secondary:hover {
+      background: rgba(255,255,255,0.1);
+      color: #fff;
+      border-color: rgba(255,255,255,0.45);
+    }
+
+
+
+    /* ── Product spotlight ─ */
+    .spotlight-main {
+      transition: box-shadow 0.5s;
+      box-shadow: 0 32px 80px rgba(0,0,0,0.18);
+    }
+    .spotlight-main:hover { box-shadow: 0 40px 100px rgba(0,0,0,0.24); }
+    .spotlight-accent {
+      transition: transform 0.5s ease;
+    }
+    .spotlight-accent:hover { transform: translateY(-4px); }
+
+    /* ── Feature pills ─ */
+    .feature-pill {
+      transition: background 0.25s, border-color 0.25s;
+    }
+    .feature-pill:hover {
+      background: #fff;
+      border-color: var(--color-noreva-gold, #C9A96E);
+    }
+
+    /* ── Before/After ─ */
+    .ba-card { overflow: hidden; }
+    .ba-label {
+      font-family: inherit;
+    }
+    .before-label {
+      background: rgba(255,255,255,0.9);
+      color: #1a1a1a;
+      backdrop-filter: blur(6px);
+    }
+    .after-label {
+      background: var(--color-noreva-gold, #C9A96E);
+      color: #fff;
+    }
+
+    /* ── Dual-path CTA cards ─ */
+    .path-card {
+      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s;
+    }
+    .path-card:hover { transform: translateY(-6px); }
+
+    .shop-card {
+      background: #fff;
+      color: #1a1a1a;
+      box-shadow: 0 24px 64px rgba(255,255,255,0.06);
+    }
+    .shop-card:hover {
+      box-shadow: 0 32px 80px rgba(255,255,255,0.12);
+    }
+    .shop-card .path-icon-wrap.shop-icon {
+      background: #f5f0e8;
+      color: var(--color-noreva-gold, #C9A96E);
+    }
+    .shop-card .path-arrow { color: var(--color-noreva-gold, #C9A96E); }
+
+    .whyus-card {
+      background: transparent;
+      border: 1px solid rgba(255,255,255,0.1);
+      color: #fff;
+      box-shadow: inset 0 0 0 0 rgba(201,169,110,0);
+      transition: transform 0.4s cubic-bezier(0.25,0.46,0.45,0.94), box-shadow 0.4s, border-color 0.4s;
+    }
+    .whyus-card:hover {
+      border-color: rgba(201,169,110,0.4);
+      box-shadow: 0 32px 80px rgba(201,169,110,0.08);
+      transform: translateY(-6px);
+    }
+    .whyus-card .path-icon-wrap.whyus-icon {
+      background: rgba(201,169,110,0.12);
+      color: var(--color-noreva-gold, #C9A96E);
+    }
+    .whyus-card .path-arrow { color: rgba(255,255,255,0.7); }
+    .whyus-card:hover .path-arrow { color: var(--color-noreva-gold, #C9A96E); }
   `]
 })
 export class HomeComponent implements OnInit, OnDestroy {
@@ -198,6 +472,9 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   featuredProducts = signal<any[]>([]);
   zoomScale = signal(1.5);
+
+  enFeatures = ['Glue Free', '3-Sec Application', '200+ Reuses', 'Sensitive Eyes Safe', 'Waterproof Hold'];
+  arFeatures = ['بدون صمغ', 'تركيب في ٣ ثوانٍ', '+٢٠٠ استخدام', 'آمنة للعيون الحساسة', 'ثبات مقاوم للماء'];
 
   private scrollHandler: (() => void) | null = null;
 

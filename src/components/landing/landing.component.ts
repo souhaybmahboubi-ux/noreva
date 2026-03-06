@@ -263,7 +263,7 @@ import { LanguageService } from '../../services/language.service';
       </section>
 
       <!-- CTA Section -->
-      <section class="py-24 md:py-32 bg-noreva-black text-white text-center px-6">
+      <section class="py-24 md:py-32 bg-noreva-black text-white text-center px-6 monogram-bg monogram-gold">
         <div class="container mx-auto max-w-3xl">
           <h2 class="text-3xl md:text-5xl font-serif mb-6 leading-tight">
             {{ langService.currentLang() === 'ar' 
